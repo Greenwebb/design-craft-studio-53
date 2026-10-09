@@ -7,7 +7,7 @@ import { pageHead } from "@/lib/page-head";
 export const Route = createFileRoute("/verify-email")({
   validateSearch: (s: Record<string, unknown>): { email?: string; returnTo?: string } => ({
     ...(typeof s["email"] === "string" ? { email: s["email"] } : {}),
-    ...(safeReturn(s["returnTo"]) ? { returnTo: safeReturn(s["returnTo"]) } : {}),
+    ...(() => { const r = safeReturn(s["returnTo"]); return r ? { returnTo: r } : {}; })(),
   }),
   head: () => pageHead("Check your inbox", "Verify your email address to finish setting up your I Am An Artist account.", true),
   component: VerifyPage,
