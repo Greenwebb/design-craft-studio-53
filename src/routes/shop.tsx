@@ -321,6 +321,60 @@ function ShopPage() {
         )}
       </section>
 
+      {/* Closing editorial — the story now that the work has been seen. */}
+      <section className="container-x border-t border-border pb-24 pt-20 md:pb-32 md:pt-28">
+        <Reveal><p className="eyebrow text-muted-foreground">Shop</p></Reveal>
+        <Reveal delay={0.08}>
+          <h2 className="mt-6 max-w-5xl text-[clamp(48px,15vw,72px)] font-semibold leading-[0.92] tracking-[-0.06em] md:text-[clamp(64px,7vw,112px)] md:leading-[0.9]">
+            Find something worth keeping.
+          </h2>
+        </Reveal>
+        <Reveal delay={0.16}>
+          <div className="mt-8 flex flex-wrap items-end justify-between gap-6">
+            <p className="max-w-[460px] text-[17px] leading-[1.55] text-muted-foreground">
+              Original work, made by artists with something to say.
+            </p>
+            <p className="note">collected with intention</p>
+          </div>
+        </Reveal>
+
+        <div className="mt-20 md:mt-28">
+          <Reveal><p className="eyebrow text-muted-foreground">Curated this week</p></Reveal>
+          <Reveal delay={0.08}>
+            <div className="mt-5 flex flex-wrap items-baseline justify-between gap-4">
+              <h3 className="display-lg">Quiet Places</h3>
+              <TextLink href="#browse">Explore collection</TextLink>
+            </div>
+          </Reveal>
+          <Reveal delay={0.12}><p className="mt-4 max-w-md text-muted-foreground">Works about stillness, memory and spaces that stay with us.</p></Reveal>
+          <div className="mt-12 grid gap-6 md:grid-cols-12">
+            <Reveal className="md:col-span-8">
+              <a href={`/artists/${featuredMain.artist.slug}`} data-cursor className="group block" aria-label={`${featuredMain.title} by ${featuredMain.artist.name}`}>
+                <div className="overflow-hidden rounded-sm">
+                  <img src={featuredMain.image} alt={`${featuredMain.title} by ${featuredMain.artist.name}`} loading="lazy" decoding="async" className="h-[320px] w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.02] md:h-[560px]" />
+                </div>
+                <p className="note-title mt-4">{featuredMain.title}</p>
+                <p className="text-[13px] text-muted-foreground">{featuredMain.artist.name} · {formatPrice(featuredMain.price)}</p>
+              </a>
+            </Reveal>
+            <div className="grid gap-6 md:col-span-4 md:grid-rows-2">
+              {featuredSide.map((w) => (
+                <Reveal key={w.id}>
+                  <a href={`/artists/${w.artist.slug}`} data-cursor className="group block" aria-label={`${w.title} by ${w.artist.name}`}>
+                    <div className="overflow-hidden rounded-sm">
+                      <img src={w.image} alt={`${w.title} by ${w.artist.name}`} loading="lazy" decoding="async" className="h-[220px] w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.02] md:h-[268px]" />
+                    </div>
+                    <p className="note-title mt-3">{w.title}</p>
+                    <p className="text-[13px] text-muted-foreground">{w.artist.name} · {formatPrice(w.price)}</p>
+                  </a>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+
       {/* Filter drawer */}
       <AnimatePresence>
         {filterOpen && (
