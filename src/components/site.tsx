@@ -55,6 +55,56 @@ export function Cursor() {
   );
 }
 
+type ButtonVariant = "primary" | "outline" | "outline-light";
+const buttonVariants: Record<ButtonVariant, string> = {
+  primary: "bg-ink text-ink-foreground transition-opacity hover:opacity-85",
+  outline: "border border-border transition-colors hover:bg-secondary",
+  "outline-light": "border border-ink-foreground/30 transition-colors hover:bg-ink-foreground hover:text-ink",
+};
+
+export function SiteButton({
+  variant = "primary",
+  href,
+  onClick,
+  children,
+  className = "",
+  ariaLabel,
+}: {
+  variant?: ButtonVariant;
+  href?: string;
+  onClick?: () => void;
+  children: ReactNode;
+  className?: string;
+  ariaLabel?: string;
+}) {
+  const cls = `inline-flex w-fit items-center justify-center gap-2 rounded-full px-7 py-4 text-sm font-medium ${buttonVariants[variant]} ${className}`;
+  if (href) return <a href={href} onClick={onClick} aria-label={ariaLabel} className={cls}>{children}</a>;
+  return <button type="button" onClick={onClick} aria-label={ariaLabel} className={cls}>{children}</button>;
+}
+
+export function IconButton({
+  onClick,
+  ariaLabel,
+  children,
+  className = "",
+}: {
+  onClick?: () => void;
+  ariaLabel: string;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={ariaLabel}
+      className={`grid h-11 w-11 place-items-center rounded-full border border-border transition-colors hover:bg-ink hover:text-ink-foreground ${className}`}
+    >
+      {children}
+    </button>
+  );
+}
+
 export function TextLink({ href, children, className = "" }: { href: string; children: ReactNode; className?: string }) {
   return (
     <a href={href} className={`group inline-flex items-center gap-2 text-[15px] font-medium ${className}`}>
