@@ -40,7 +40,7 @@ import { StudioLink } from "./controls";
 import { StudioNotifications } from "./notifications";
 import { StudioCommandSearch } from "./command-search";
 import { ContextSwitch } from "@/components/ecosystem/context-switch";
-import { DashboardTopBar, topBarIcon } from "@/components/ecosystem/top-bar";
+import { DashboardTopBar, SearchButton, NotificationButton } from "@/components/ecosystem/top-bar";
 import { FloatingNav, floatingNavItem, floatingNavAction } from "@/components/ecosystem/floating-nav";
 export function StudioShell({ state }: { state: PreviewState }) {
   const { user, setContext } = useEcosystem();
@@ -150,7 +150,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
           {navBody}
         </aside>
         <div className="lg:ml-[244px]">
-          <DashboardTopBar title={title} eyebrow="Creating" leading={
+          <DashboardTopBar back={{ visible: pathname.split("/").filter(Boolean).length >= 3 }} title={title} eyebrow="Creating" leading={
               <IconButton
                 ariaLabel="Open studio navigation"
                 onClick={() => setDrawer(true)}
@@ -158,28 +158,8 @@ export function StudioShell({ state }: { state: PreviewState }) {
               >
                 <Menu size={20} />
               </IconButton>}>
-              <IconButton
-                ariaLabel="Search studio"
-                title="Search studio"
-                onClick={() => setSearch(true)}
-                className={topBarIcon}
-              >
-                <Search size={20} />
-              </IconButton>
-              <IconButton
-                ariaLabel="Notifications"
-                title="Notifications"
-                onClick={() => {
-                  setNotifications(true);
-                  setRead(true);
-                }}
-                className={`relative ${topBarIcon}`}
-              >
-                <Bell size={20} />
-                {studio.data.attention.length > 0 && !read && (
-                  <span className="absolute right-2 top-1 h-1.5 w-1.5 rounded-full bg-studio-copper" />
-                )}
-              </IconButton>
+              <SearchButton label="Search studio" onClick={() => setSearch(true)} />
+              <NotificationButton unread={studio.data.attention.length > 0 && !read} onClick={() => { setNotifications(true); setRead(true); }} />
               <AccountMenu context="creator" artist={state} />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
