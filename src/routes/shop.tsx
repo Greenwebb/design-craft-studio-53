@@ -216,7 +216,7 @@ function ShopPage() {
 
       {/* Featured collection */}
       <section className="container-x pb-20 md:pb-28">
-        <Reveal><p className="eyebrow text-muted-foreground">Curated this week</Reveal></Reveal>
+        <Reveal><p className="eyebrow text-muted-foreground">Curated this week</p></Reveal>
         <Reveal delay={0.08}>
           <div className="mt-5 flex flex-wrap items-baseline justify-between gap-4">
             <h2 className="display-lg">Quiet Places</h2>
