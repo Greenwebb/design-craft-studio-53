@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as JoinRouteImport } from './routes/join'
+import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ArtistsSlugRouteImport } from './routes/artists.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const JoinRoute = JoinRouteImport.update({
   path: '/join',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShopRoute = ShopRouteImport.update({
+  id: '/shop',
+  path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ArtistsSlugRoute = ArtistsSlugRouteImport.update({
   id: '/artists/$slug',
   path: '/artists/$slug',
@@ -32,30 +38,34 @@ const ArtistsSlugRoute = ArtistsSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/join': typeof JoinRoute
+  '/shop': typeof ShopRoute
   '/artists/$slug': typeof ArtistsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/join': typeof JoinRoute
+  '/shop': typeof ShopRoute
   '/artists/$slug': typeof ArtistsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/join': typeof JoinRoute
+  '/shop': typeof ShopRoute
   '/artists/$slug': typeof ArtistsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/join' | '/artists/$slug'
+  fullPaths: '/' | '/join' | '/shop' | '/artists/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/join' | '/artists/$slug'
-  id: '__root__' | '/' | '/join' | '/artists/$slug'
+  to: '/' | '/join' | '/shop' | '/artists/$slug'
+  id: '__root__' | '/' | '/join' | '/shop' | '/artists/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   JoinRoute: typeof JoinRoute
+  ShopRoute: typeof ShopRoute
   ArtistsSlugRoute: typeof ArtistsSlugRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JoinRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/shop': {
+      id: '/shop'
+      path: '/shop'
+      fullPath: '/shop'
+      preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/artists/$slug': {
       id: '/artists/$slug'
       path: '/artists/$slug'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   JoinRoute: JoinRoute,
+  ShopRoute: ShopRoute,
   ArtistsSlugRoute: ArtistsSlugRoute,
 }
 export const routeTree = rootRouteImport
