@@ -86,15 +86,15 @@ function WorkCard({ w, eager }: { w: Work; eager?: boolean }) {
             {w.curatorsPick && <span className="note shrink-0">curator's pick</span>}
           </div>
           <p className="mt-1 text-sm font-medium">{w.artist.name}</p>
-          <p className="mt-0.5 text-[13px] text-muted-foreground">
+          <p className="mt-0.5 text-[14px] text-muted-foreground">
             {[w.medium, w.year].filter(Boolean).join(" · ")}
             {w.edition?.total ? ` · Edition of ${w.edition.total}` : w.type === "original" ? " · 1 of 1" : ""}
           </p>
           <p className="mt-2 text-sm font-medium">
             {w.availability === "sold" ? (
-              <span className="text-[10px] uppercase tracking-[0.08em] text-muted-foreground">Sold</span>
+              <span className="text-[12px] uppercase tracking-[0.08em] text-muted-foreground">Sold</span>
             ) : w.availability === "reserved" ? (
-              <span className="text-[10px] uppercase tracking-[0.08em] text-muted-foreground">Reserved</span>
+              <span className="text-[12px] uppercase tracking-[0.08em] text-muted-foreground">Reserved</span>
             ) : (
               formatPrice(w.price)
             )}
@@ -126,7 +126,7 @@ function FilterGroup({ title, children, defaultOpen }: { title: string; children
 
 function Option({ label, selected, onClick }: { label: string; selected: boolean; onClick: () => void }) {
   return (
-    <button type="button" onClick={onClick} aria-pressed={selected} className="flex w-full items-center justify-between text-left text-[15px]">
+    <button type="button" onClick={onClick} aria-pressed={selected} className="flex w-full items-center justify-between text-left text-[16px]">
       <span className={selected ? "font-semibold" : "text-muted-foreground"}>{label}</span>
       <span className={`h-2.5 w-2.5 rounded-full border ${selected ? "border-ink bg-ink" : "border-foreground/30"}`} />
     </button>
@@ -204,7 +204,7 @@ function ShopPage() {
           <div className="flex items-center gap-6">
             <button type="button" onClick={() => setSearchOpen(true)} aria-label="Search" className="opacity-80 transition-opacity hover:opacity-100"><Search className="h-[18px] w-[18px]" /></button>
             <button type="button" onClick={() => setFilterOpen(true)} className="inline-flex items-center gap-2 text-sm font-medium">
-              <SlidersHorizontal className="h-4 w-4" />Filter{activeCount > 0 && <span className="grid h-5 w-5 place-items-center rounded-full bg-ink text-[10px] text-ink-foreground">{activeCount}</span>}
+              <SlidersHorizontal className="h-4 w-4" />Filter{activeCount > 0 && <span className="grid h-5 w-5 place-items-center rounded-full bg-ink text-[12px] text-ink-foreground">{activeCount}</span>}
             </button>
             <div className="relative">
               <button type="button" onClick={() => setSortOpen(!sortOpen)} aria-expanded={sortOpen} className="inline-flex items-center gap-1.5 text-sm font-medium">
@@ -305,7 +305,7 @@ function ShopPage() {
                   <img src={featuredMain.image} alt={`${featuredMain.title} by ${featuredMain.artist.name}`} loading="lazy" decoding="async" className="h-[320px] w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.02] md:h-[560px]" />
                 </div>
                 <p className="note-title mt-4">{featuredMain.title}</p>
-                <p className="text-[13px] text-muted-foreground">{featuredMain.artist.name} · {formatPrice(featuredMain.price)}</p>
+                <p className="text-[14px] text-muted-foreground">{featuredMain.artist.name} · {formatPrice(featuredMain.price)}</p>
               </a>
             </Reveal>
             <div className="grid gap-6 md:col-span-4 md:grid-rows-2">
@@ -316,7 +316,7 @@ function ShopPage() {
                       <img src={w.image} alt={`${w.title} by ${w.artist.name}`} loading="lazy" decoding="async" className="h-[220px] w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.02] md:h-[268px]" />
                     </div>
                     <p className="note-title mt-3">{w.title}</p>
-                    <p className="text-[13px] text-muted-foreground">{w.artist.name} · {formatPrice(w.price)}</p>
+                    <p className="text-[14px] text-muted-foreground">{w.artist.name} · {formatPrice(w.price)}</p>
                   </a>
                 </Reveal>
               ))}

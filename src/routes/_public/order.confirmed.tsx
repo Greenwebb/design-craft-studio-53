@@ -75,7 +75,7 @@ function ConfirmedPage() {
                 <p className="eyebrow">What happens next</p>
                 <ol className="mt-6 space-y-5">
                   {NEXT_STEPS.map((s, i) => (
-                    <li key={s} className="flex gap-4 text-[15px] leading-relaxed">
+                    <li key={s} className="flex gap-4 text-[16px] leading-relaxed">
                       <span className="eyebrow mt-0.5 shrink-0 text-muted-foreground">0{i + 1}</span>
                       {s}
                     </li>

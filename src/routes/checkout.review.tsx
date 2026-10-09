@@ -56,14 +56,14 @@ function ReviewStep() {
                     <p className="text-sm text-muted-foreground">{w.artist.name}</p>
                     <p className="mt-1 text-sm text-muted-foreground">{[w.medium, w.year].filter(Boolean).join(" · ")}</p>
                   </div>
-                  <p className="text-[15px]">{formatPrice(w.price)}</p>
+                  <p className="text-[16px]">{formatPrice(w.price)}</p>
                 </div>
               </li>
             ))}
           </ul>
         </section>
 
-        <dl className="space-y-4 border-t border-border pt-8 text-[15px]">
+        <dl className="space-y-4 border-t border-border pt-8 text-[16px]">
           <div className="flex justify-between gap-8">
             <dt className="text-muted-foreground">Contact</dt>
             <dd className="text-right">{draft.email}<br />{draft.phone}</dd>
@@ -81,7 +81,7 @@ function ReviewStep() {
           </div>
         </dl>
 
-        <dl className="space-y-2 border-t border-border pt-6 text-[15px]">
+        <dl className="space-y-2 border-t border-border pt-6 text-[16px]">
           <div className="flex justify-between">
             <dt className="text-muted-foreground">Subtotal</dt>
             <dd>{formatPrice(subtotal)}</dd>
@@ -100,7 +100,7 @@ function ReviewStep() {
           Your purchase includes the work's authenticity documentation where applicable.
         </p>
 
-        <label className="flex w-fit cursor-pointer items-start gap-3 text-[15px]">
+        <label className="flex w-fit cursor-pointer items-start gap-3 text-[16px]">
           <input
             type="checkbox" checked={draft.agreed} onChange={(e) => setDraft({ agreed: e.target.checked })}
             className="mt-0.5 h-4 w-4 accent-ink"

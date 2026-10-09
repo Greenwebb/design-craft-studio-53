@@ -47,14 +47,14 @@ export function AuthShell({ note, title, lede, children, footer, art = true }: {
         <header className="flex h-[84px] items-center justify-between px-[18px] sm:px-8 lg:px-12">
           <Link to="/" aria-label="I Am An Artist home" className={art ? "lg:invisible" : ""}><Logo className="h-11" /></Link>
           <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
-            <ArrowLeft size={16} /> Back to the gallery
+            <ArrowLeft size={18} /> Back to the gallery
           </Link>
         </header>
         <main className="flex flex-1 items-center px-[18px] pb-16 sm:px-8 lg:px-12">
           <div className="mx-auto w-full max-w-[420px]">
             {note && <p className="note text-xl">{note}</p>}
             <h1 className="mt-2 text-4xl font-semibold tracking-tight sm:text-[44px] sm:leading-[1.05]">{title}</h1>
-            {lede && <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">{lede}</p>}
+            {lede && <p className="mt-4 text-[16px] leading-relaxed text-muted-foreground">{lede}</p>}
             <div className="mt-9">{children}</div>
             {footer && <div className="mt-10 text-sm text-muted-foreground">{footer}</div>}
           </div>
@@ -107,7 +107,7 @@ export function PasswordField({ showRules, ...props }: FieldProps & { showRules?
               <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-xs text-muted-foreground">
                 {rules.map((r) => (
                   <li key={r.t} className={`inline-flex items-center gap-1.5 ${r.ok ? "text-foreground" : ""}`}>
-                    <Check size={13} className={r.ok ? "opacity-100" : "opacity-30"} /> {r.t}
+                    <Check size={15} className={r.ok ? "opacity-100" : "opacity-30"} /> {r.t}
                   </li>
                 ))}
               </ul>
@@ -121,7 +121,7 @@ export function PasswordField({ showRules, ...props }: FieldProps & { showRules?
         aria-label={show ? "Hide password" : "Show password"}
         className="absolute right-0 top-[30px] grid h-10 w-10 place-items-center rounded-full text-muted-foreground hover:text-foreground"
       >
-        {show ? <EyeOff size={18} /> : <Eye size={18} />}
+        {show ? <EyeOff size={20} /> : <Eye size={20} />}
       </button>
     </div>
   );

@@ -18,3 +18,6 @@
 - Global radius tokens define surface rounding with a creator-shell surface scale, and shared button controls enforce pill rounding after caller classes, preserving consistency within each experience.
 - Creator workflow modules share accessible tabs, drawers and capability-derived preview fixtures; distinct module layouts keep publishing, commerce, collaboration and earnings purposeful.
 - Complex creator creation uses /creator/new/$kind full-page steps; drawers handle focused contextual actions, avoiding cramped multi-field creation overlays.
+- Global client state lives in Zustand stores (src/stores, plus the bag and account stores); avoid new React context for app state so state handling stays consistent.
+- Workflow state machines (commission, fulfilment, payouts, admin queues) are defined once in src/data/workflows.ts and rendered with the shared StageTracker, so every shell shows the same states.
+- /admin is a fourth, separate operations shell; it must be gated by a server-checked staff role before handling real data.

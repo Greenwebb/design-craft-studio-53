@@ -101,7 +101,7 @@ function PaymentStep() {
                         />
                       </div>
                     </div>
-                    <p className="text-[13px] text-muted-foreground">
+                    <p className="text-[14px] text-muted-foreground">
                       Demo checkout — no real payment is processed yet.
                     </p>
                   </div>

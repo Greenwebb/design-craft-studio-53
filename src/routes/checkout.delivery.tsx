@@ -95,7 +95,7 @@ function DeliveryStep() {
                     <span className="block text-[17px] font-medium">{DELIVERY_LABELS[o.id]}</span>
                     <span className="mt-1 block text-sm text-muted-foreground">{o.desc}</span>
                   </span>
-                  <span className="text-[15px]">{price === 0 ? "Free" : formatPrice(price)}</span>
+                  <span className="text-[16px]">{price === 0 ? "Free" : formatPrice(price)}</span>
                 </span>
               </label>
             );
@@ -105,7 +105,7 @@ function DeliveryStep() {
 
       {hasSpecial && (
         <div className="mt-8 max-w-lg border border-border p-6">
-          <p className="text-[15px] font-medium">Special delivery</p>
+          <p className="text-[16px] font-medium">Special delivery</p>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
             One or more works in your selection require coordinated delivery. We'll confirm final delivery
             arrangements with you after purchase — any difference in cost will be agreed with you first.

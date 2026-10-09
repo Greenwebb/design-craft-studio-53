@@ -58,7 +58,7 @@ function SecurityPage() {
     <div className="mx-auto w-full max-w-5xl px-[18px] py-10 sm:px-8">
       <p className="note text-xl">keep it yours</p>
       <h1 className="mt-1 text-4xl font-semibold tracking-tight">Sign-in & security</h1>
-      <p className="mt-3 max-w-xl text-[15px] text-muted-foreground">One account covers buying and creating, so these settings protect both.</p>
+      <p className="mt-3 max-w-xl text-[16px] text-muted-foreground">One account covers buying and creating, so these settings protect both.</p>
 
       <div className="mt-10">
         <Section title="Password" lede="Choose something you don't use anywhere else.">
@@ -82,7 +82,7 @@ function SecurityPage() {
           <ul className="divide-y divide-border rounded-3xl border border-border">
             {sessions.map((s) => (
               <li key={s.id} className="flex items-center gap-4 px-5 py-4">
-                <span className="grid h-10 w-10 place-items-center rounded-full bg-secondary"><s.icon size={18} /></span>
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-secondary"><s.icon size={20} /></span>
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium">{s.device}</p>
                   <p className="text-xs text-muted-foreground">{s.place} · {s.when}</p>

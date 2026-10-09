@@ -5,3 +5,9 @@
 - [ ] Polish public marketplace (artwork pages, artist profiles, search, collections, join)
 - [ ] Collector account area (home, orders, saved works, collaborations)
 - [ ] Shopping & checkout polish (bag, checkout steps, confirmation)
+- [x] Bigger text and icons site-wide
+- [x] Commission / hire workflow with proposal states (Request → Project created)
+- [x] Project workspace tabs (overview, messages, files, milestones, payments, timeline)
+- [x] Order fulfilment + wallet state definitions
+- [x] Admin / Operations dashboard as its own separate shell (/admin)
+- [x] Move all shared state (bag, account context, dashboard context) to Zustand stores

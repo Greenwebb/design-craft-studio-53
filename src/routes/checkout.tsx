@@ -47,7 +47,7 @@ function CheckoutLayout() {
       <header className="border-b border-border">
         <div className="container-x flex items-center justify-between py-5">
           <Link to="/" aria-label="I Am An Artist home"><Logo /></Link>
-          <p className="flex items-center gap-2 text-[13px] text-muted-foreground">
+          <p className="flex items-center gap-2 text-[14px] text-muted-foreground">
             <Lock className="h-3.5 w-3.5" /> Secure checkout
           </p>
         </div>
@@ -93,15 +93,15 @@ function CheckoutLayout() {
                 <img src={w.image} alt="" className="h-20 w-16 bg-secondary object-cover" />
                 <div className="flex flex-1 items-start justify-between gap-3">
                   <div>
-                    <p className="text-[15px] font-medium">{w.title}</p>
+                    <p className="text-[16px] font-medium">{w.title}</p>
                     <p className="text-sm text-muted-foreground">{w.artist.name}</p>
                   </div>
-                  <p className="text-[15px]">{formatPrice(w.price)}</p>
+                  <p className="text-[16px]">{formatPrice(w.price)}</p>
                 </div>
               </li>
             ))}
           </ul>
-          <dl className="mt-8 space-y-2 border-t border-border pt-6 text-[15px]">
+          <dl className="mt-8 space-y-2 border-t border-border pt-6 text-[16px]">
             <div className="flex justify-between">
               <dt className="text-muted-foreground">Subtotal</dt>
               <dd>{formatPrice(subtotal)}</dd>

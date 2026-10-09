@@ -119,7 +119,7 @@ function WorkPage() {
           >
             {work.artist.name}
           </Link>
-          <div className="mt-5 space-y-1 text-[15px] text-muted-foreground">
+          <div className="mt-5 space-y-1 text-[16px] text-muted-foreground">
             {work.medium && <p>{work.medium}</p>}
             {work.year && <p>{work.year}</p>}
             {dims(work) && <p>{dims(work)}</p>}
@@ -163,7 +163,7 @@ function WorkPage() {
           ) : (
             <div className="mt-6">
               <p className="eyebrow">{work.availability === "sold" ? "Sold" : "Reserved"}</p>
-              <p className="mt-3 text-[15px] text-muted-foreground">
+              <p className="mt-3 text-[16px] text-muted-foreground">
                 {work.availability === "sold"
                   ? "This work has found its home. Discover similar works below."
                   : "This work is currently reserved. Enquire to be first in line if it becomes available."}
@@ -174,7 +174,7 @@ function WorkPage() {
             </div>
           )}
 
-          <div className="mt-10 space-y-2 border-t border-border pt-6 text-[13px] text-muted-foreground">
+          <div className="mt-10 space-y-2 border-t border-border pt-6 text-[14px] text-muted-foreground">
             <p className="flex items-center gap-2"><ShieldCheck className="h-4 w-4" /> Secure purchase</p>
             <p className="flex items-center gap-2"><Truck className="h-4 w-4" /> Collection or delivery available</p>
             <p className="flex items-center gap-2"><FileCheck className="h-4 w-4" /> Authenticity documentation included</p>
@@ -216,7 +216,7 @@ function WorkPage() {
             ]
               .filter(([, v]) => v)
               .map(([k, v]) => (
-                <div key={k} className="flex justify-between gap-8 py-4 text-[15px]">
+                <div key={k} className="flex justify-between gap-8 py-4 text-[16px]">
                   <dt className="text-muted-foreground">{k}</dt>
                   <dd className="text-right font-medium">{v}</dd>
                 </div>
@@ -225,7 +225,7 @@ function WorkPage() {
         </Reveal>
         <Reveal delay={0.1}>
           <p className="eyebrow">Delivery & Ownership</p>
-          <div className="mt-8 space-y-6 text-[15px] leading-relaxed text-muted-foreground">
+          <div className="mt-8 space-y-6 text-[16px] leading-relaxed text-muted-foreground">
             <p>
               Collect in person in Lusaka at no cost, or have the work delivered — locally, nationally or
               internationally. Large and high-value works travel with coordinated, hands-on delivery.
