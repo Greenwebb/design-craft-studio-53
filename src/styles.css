@@ -54,6 +54,9 @@
   --color-ink: var(--ink);
   --color-ink-foreground: var(--ink-foreground);
   --font-sans: "Inter Tight", sans-serif;
+  --font-heading: "Inter Tight", sans-serif;
+  --font-body: "Inter Tight", sans-serif;
+  --font-accent: "Caveat", cursive;
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -134,3 +137,8 @@
 }
 html { scroll-behavior: smooth; }
 body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+
+/* Handwritten accent — artist voice & editorial annotations only */
+@utility note { font-family: var(--font-accent); font-weight: 400; font-size: clamp(20px, 1.6vw, 26px); line-height: 1.05; letter-spacing: 0; text-transform: none; color: color-mix(in oklab, currentColor 75%, transparent); }
+@utility note-title { font-family: var(--font-accent); font-weight: 500; font-size: clamp(22px, 1.9vw, 30px); line-height: 1.05; letter-spacing: 0; }
+@utility note-feature { font-family: var(--font-accent); font-weight: 400; font-size: 1.08em; letter-spacing: 0; line-height: 1; }
