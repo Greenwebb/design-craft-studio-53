@@ -1,34 +1,310 @@
-import { artistProfiles } from './artists';
-import type { Artist } from './artists';
-import danceImage from '@/assets/studio-dance.jpg';
-import designImage from '@/assets/studio-design.jpg';
-export type ArtistCapabilities = { portfolio: boolean; sellsWorks: boolean; acceptsCommissions: boolean; offersServices: boolean; acceptsBookings: boolean };
-export type AttentionItem = { id: string; type: 'purchase' | 'commission' | 'booking' | 'service-request' | 'project' | 'payment' | 'profile'; title: string; description: string; createdAt: string; priority: 'high' | 'normal' | 'low'; action: { label: string; href: string }; thumbnail?: string };
-export type CreativeWork = { id: string; title: string; image: string; category: string; views: number; status: 'Published' | 'Draft' | 'Sold' | 'Reserved' };
-export type ActivityItem = { id: string; title: string; time: string; kind: 'work' | 'save' | 'enquiry' | 'payment' };
-export type DashboardHome = { greeting: { artistName: string }; attention: AttentionItem[]; profile: { completion: number; suggestions: string[] }; discovery: { profileViews: number; workViews: number; saves: number; enquiries: number }; earnings?: { available: number; pending: number; thisMonth: number; currency: 'ZMW' }; recentWork: CreativeWork[]; recentActivity: ActivityItem[]; recommendedNextAction: { title: string; description: string; href: string } };
-export const previewStates = ['painter', 'photographer', 'musician', 'dancer', 'designer', 'portfolio', 'new'] as const;
-export type PreviewState = typeof previewStates[number];
-function firstArtist(): Artist { const artist = artistProfiles[0]; if (!artist) throw new Error('Artist preview is missing'); return artist; }
-const first = firstArtist();
-const find = (discipline: string): Artist => artistProfiles.find(a => a.disciplines.includes(discipline)) ?? first;
-export function getStudio(state: PreviewState) {
- const base = state === 'musician' ? find('Musician') : state === 'photographer' ? find('Photographer') : first;
- const names = { painter: base.name, photographer: base.name, musician: base.name, dancer: 'Mutale Banda', designer: 'Tendai Phiri', portfolio: 'Mwansa Chileshe', new: 'Alex' };
- const disciplines = { painter: ['Painter','Muralist'], photographer: ['Photographer'], musician: ['Musician','Producer'], dancer: ['Dancer','Choreographer'], designer: ['Designer','Art director'], portfolio: ['Visual artist'], new: ['Creative'] };
- const commerce = !['portfolio','new'].includes(state);
- const capabilities: ArtistCapabilities = { portfolio: true, sellsWorks: state === 'painter', acceptsCommissions: ['painter','designer'].includes(state), offersServices: ['painter','photographer','musician','designer'].includes(state), acceptsBookings: ['photographer','musician','dancer'].includes(state) };
- const projects = state === 'dancer' ? [{title:'Movement, in practice',img:danceImage},{title:'Contemporary performance',img:danceImage}] : state === 'designer' ? [{title:'Studio North — Identity',img:designImage},{title:'Visual language studies',img:designImage}] : base.portfolio;
- const work = state === 'new' ? [] : projects.slice(0,3).map((p,i) => ({ id: String(i), title: p.title, image: p.img, category: state === 'painter' && i === 0 ? 'Original work' : 'Portfolio project', views: [218,142,96][i] ?? 0, status: 'Published' as const }));
- const attention: AttentionItem[] = [];
- if(capabilities.sellsWorks) attention.push({id:'sale',type:'purchase',title:'After the Rain',description:'Purchased · K18,500 · Ready to prepare',createdAt:'1 hour ago',priority:'high',action:{label:'Prepare order',href:'sell'},thumbnail:base.portfolio[0]?.img ?? base.heroMedia});
- if(capabilities.acceptsCommissions) attention.push({id:'commission',type:'commission',title:state==='designer'?'Brand identity project':'Hotel mural project',description:state==='designer'?'New enquiry · Studio North':'New commission request · Latitude Hotel',createdAt:'2 hours ago',priority:'high',action:{label:'Review request',href:'projects'}});
- if(capabilities.acceptsBookings) attention.push({id:'booking',type:'booking',title:state==='dancer'?'Contemporary dance performance':state==='musician'?'Live acoustic performance':'Portrait photography session',description:'New booking request · Saturday, 24 October',createdAt:'3 hours ago',priority:'normal',action:{label:'Review booking',href:'projects'}});
- if(capabilities.offersServices && !capabilities.acceptsCommissions && !capabilities.acceptsBookings) attention.push({id:'service',type:'service-request',title:'Creative project enquiry',description:'A client would like to work with you',createdAt:'Yesterday',priority:'normal',action:{label:'Review enquiry',href:'projects'}});
- const data: DashboardHome = { greeting:{artistName:names[state].split(' ')[0] ?? names[state]}, attention, profile:{completion:state==='new'?24:72,suggestions:[state==='new'?'Add your first portfolio project':'Add two more projects to give visitors a stronger sense of your work.']}, discovery:state==='new'?{profileViews:0,workViews:0,saves:0,enquiries:0}:{profileViews:128,workViews:364,saves:12,enquiries:3}, ...(commerce?{earnings:{available:12450,pending:4200,thisMonth:18700,currency:'ZMW' as const}}:{}), recentWork:work, recentActivity:state==='new'?[]:[{id:'1',title:`${work[0]?.title ?? 'Your work'} was viewed 18 times`,time:'2 hours ago',kind:'work'},{id:'2',title:'A visitor saved your portfolio project',time:'Yesterday',kind:'save'},...(commerce?[{id:'3',title:'You received a new creative enquiry',time:'Yesterday',kind:'enquiry' as const},{id:'4',title:'K8,500 payout completed',time:'3 days ago',kind:'payment' as const}]:[])], recommendedNextAction:{title:state==='new'?'Give your creative space its first project.':'Add another project to strengthen your profile.',description:state==='new'?'Start with something you’re proud of. Your first piece gives people a reason to stay.':'A fuller portfolio gives visitors more reasons to explore your work.',href:'portfolio'} };
- if (state === 'dancer' && data.earnings) { data.earnings = {available:0,pending:0,thisMonth:0,currency:'ZMW'}; data.recentActivity = data.recentActivity.filter(a=>a.kind!=='payment'); }
- return { artist:{...base,name:names[state],disciplines:disciplines[state],heroMedia:state==='dancer'?danceImage:state==='designer'?designImage:base.heroMedia},capabilities,data,monetizationEnabled:commerce };
+import { artistProfiles } from "./artists";
+import type { Artist } from "./artists";
+import danceImage from "@/assets/studio-dance.jpg";
+import designImage from "@/assets/studio-design.jpg";
+export type ArtistCapabilities = {
+  portfolio: boolean;
+  sellsWorks: boolean;
+  acceptsCommissions: boolean;
+  offersServices: boolean;
+  acceptsBookings: boolean;
+};
+export type AttentionItem = {
+  id: string;
+  type:
+    "purchase" | "commission" | "booking" | "service-request" | "project" | "payment" | "profile";
+  title: string;
+  description: string;
+  createdAt: string;
+  priority: "high" | "normal" | "low";
+  action: { label: string; href: string };
+  thumbnail?: string;
+};
+export type CreativeWork = {
+  id: string;
+  title: string;
+  image: string;
+  category: string;
+  views: number;
+  status: "Published" | "Draft" | "Sold" | "Reserved";
+};
+export type ActivityItem = {
+  id: string;
+  title: string;
+  time: string;
+  kind: "work" | "save" | "enquiry" | "payment";
+};
+export type DashboardHome = {
+  greeting: { artistName: string };
+  attention: AttentionItem[];
+  profile: { completion: number; suggestions: string[] };
+  discovery: { profileViews: number; workViews: number; saves: number; enquiries: number };
+  earnings?: { available: number; pending: number; thisMonth: number; currency: "ZMW" };
+  recentWork: CreativeWork[];
+  recentActivity: ActivityItem[];
+  recommendedNextAction: { title: string; description: string; href: string };
+};
+export const previewStates = [
+  "painter",
+  "photographer",
+  "musician",
+  "dancer",
+  "designer",
+  "portfolio",
+  "new",
+] as const;
+export type PreviewState = (typeof previewStates)[number];
+function firstArtist(): Artist {
+  const artist = artistProfiles[0];
+  if (!artist) throw new Error("Artist preview is missing");
+  return artist;
 }
-export function navigation(c: ArtistCapabilities) { return [{id:'home',label:'Home'}, {id:'profile',label:'My Profile'}, {id:'portfolio',label:'Portfolio'}, ...(c.sellsWorks?[{id:'sell',label:'Sell'}]:[]), ...(c.offersServices?[{id:'services',label:'Services'}]:[]), ...(c.acceptsCommissions||c.offersServices||c.acceptsBookings?[{id:'projects',label:c.acceptsBookings&&!c.offersServices?'Bookings / Projects':'Projects'}]:[]), ...(c.sellsWorks||c.acceptsCommissions||c.offersServices||c.acceptsBookings?[{id:'earnings',label:'Earnings'}]:[])]; }
-export function createOptions(c: ArtistCapabilities) { return [{title:'Add portfolio project',description:'Show work that represents you.',section:'portfolio'},...(c.sellsWorks?[{title:'List work for sale',description:'A finished work for a new home.',section:'sell'}]:[]),...(c.offersServices?[{title:'Create a service',description:'Offer a creative skill.',section:'services'}]:[]),...(c.acceptsBookings||c.acceptsCommissions?[{title:c.acceptsBookings?'Add booking availability':'Accept commissions',description:'Make room for your next opportunity.',section:'availability'}]:[])]; }
-export const money = (n: number) => `K${n.toLocaleString('en-ZM')}`;
+const first = firstArtist();
+const find = (discipline: string): Artist =>
+  artistProfiles.find((a) => a.disciplines.includes(discipline)) ?? first;
+export function getStudio(state: PreviewState) {
+  const base =
+    state === "musician"
+      ? find("Musician")
+      : state === "photographer"
+        ? find("Photographer")
+        : first;
+  const names = {
+    painter: base.name,
+    photographer: base.name,
+    musician: base.name,
+    dancer: "Mutale Banda",
+    designer: "Tendai Phiri",
+    portfolio: "Mwansa Chileshe",
+    new: "Alex",
+  };
+  const disciplines = {
+    painter: ["Painter", "Muralist"],
+    photographer: ["Photographer"],
+    musician: ["Musician", "Producer"],
+    dancer: ["Dancer", "Choreographer"],
+    designer: ["Designer", "Art director"],
+    portfolio: ["Visual artist"],
+    new: ["Creative"],
+  };
+  const commerce = !["portfolio", "new"].includes(state);
+  const capabilities: ArtistCapabilities = {
+    portfolio: true,
+    sellsWorks: state === "painter",
+    acceptsCommissions: ["painter", "designer"].includes(state),
+    offersServices: ["painter", "photographer", "musician", "designer"].includes(state),
+    acceptsBookings: ["photographer", "musician", "dancer"].includes(state),
+  };
+  const projects =
+    state === "dancer"
+      ? [
+          { title: "Movement, in practice", img: danceImage },
+          { title: "Contemporary performance", img: danceImage },
+        ]
+      : state === "designer"
+        ? [
+            { title: "Studio North — Identity", img: designImage },
+            { title: "Visual language studies", img: designImage },
+          ]
+        : base.portfolio;
+  const work =
+    state === "new"
+      ? []
+      : projects
+          .slice(0, 3)
+          .map((p, i) => ({
+            id: String(i),
+            title: p.title,
+            image: p.img,
+            category: state === "painter" && i === 0 ? "Original work" : "Portfolio project",
+            views: [218, 142, 96][i] ?? 0,
+            status: "Published" as const,
+          }));
+  const attention: AttentionItem[] = [];
+  if (capabilities.sellsWorks)
+    attention.push({
+      id: "sale",
+      type: "purchase",
+      title: "After the Rain",
+      description: "Purchased · K18,500 · Ready to prepare",
+      createdAt: "1 hour ago",
+      priority: "high",
+      action: { label: "Prepare order", href: "sell" },
+      thumbnail: base.portfolio[0]?.img ?? base.heroMedia,
+    });
+  if (capabilities.acceptsCommissions)
+    attention.push({
+      id: "commission",
+      type: "commission",
+      title: state === "designer" ? "Brand identity project" : "Hotel mural project",
+      description:
+        state === "designer"
+          ? "New enquiry · Studio North"
+          : "New commission request · Latitude Hotel",
+      createdAt: "2 hours ago",
+      priority: "high",
+      action: { label: "Review request", href: "projects" },
+    });
+  if (capabilities.acceptsBookings)
+    attention.push({
+      id: "booking",
+      type: "booking",
+      title:
+        state === "dancer"
+          ? "Contemporary dance performance"
+          : state === "musician"
+            ? "Live acoustic performance"
+            : "Portrait photography session",
+      description: "New booking request · Saturday, 24 October",
+      createdAt: "3 hours ago",
+      priority: "normal",
+      action: { label: "Review booking", href: "projects" },
+    });
+  if (
+    capabilities.offersServices &&
+    !capabilities.acceptsCommissions &&
+    !capabilities.acceptsBookings
+  )
+    attention.push({
+      id: "service",
+      type: "service-request",
+      title: "Creative project enquiry",
+      description: "A client would like to work with you",
+      createdAt: "Yesterday",
+      priority: "normal",
+      action: { label: "Review enquiry", href: "projects" },
+    });
+  const data: DashboardHome = {
+    greeting: { artistName: names[state].split(" ")[0] ?? names[state] },
+    attention,
+    profile: {
+      completion: state === "new" ? 24 : 72,
+      suggestions: [
+        state === "new"
+          ? "Add your first portfolio project"
+          : "Add two more projects to give visitors a stronger sense of your work.",
+      ],
+    },
+    discovery:
+      state === "new"
+        ? { profileViews: 0, workViews: 0, saves: 0, enquiries: 0 }
+        : { profileViews: 128, workViews: 364, saves: 12, enquiries: 3 },
+    ...(commerce
+      ? {
+          earnings: { available: 12450, pending: 4200, thisMonth: 18700, currency: "ZMW" as const },
+        }
+      : {}),
+    recentWork: work,
+    recentActivity:
+      state === "new"
+        ? []
+        : [
+            {
+              id: "1",
+              title: `${work[0]?.title ?? "Your work"} was viewed 18 times`,
+              time: "2 hours ago",
+              kind: "work",
+            },
+            {
+              id: "2",
+              title: "A visitor saved your portfolio project",
+              time: "Yesterday",
+              kind: "save",
+            },
+            ...(commerce
+              ? [
+                  {
+                    id: "3",
+                    title: "You received a new creative enquiry",
+                    time: "Yesterday",
+                    kind: "enquiry" as const,
+                  },
+                  {
+                    id: "4",
+                    title: "K8,500 payout completed",
+                    time: "3 days ago",
+                    kind: "payment" as const,
+                  },
+                ]
+              : []),
+          ],
+    recommendedNextAction: {
+      title:
+        state === "new"
+          ? "Give your creative space its first project."
+          : "Add another project to strengthen your profile.",
+      description:
+        state === "new"
+          ? "Start with something you’re proud of. Your first piece gives people a reason to stay."
+          : "A fuller portfolio gives visitors more reasons to explore your work.",
+      href: "portfolio",
+    },
+  };
+  if (state === "dancer" && data.earnings) {
+    data.earnings = { available: 0, pending: 0, thisMonth: 0, currency: "ZMW" };
+    data.recentActivity = data.recentActivity.filter((a) => a.kind !== "payment");
+  }
+  return {
+    artist: {
+      ...base,
+      name: names[state],
+      disciplines: disciplines[state],
+      heroMedia:
+        state === "dancer" ? danceImage : state === "designer" ? designImage : base.heroMedia,
+    },
+    capabilities,
+    data,
+    monetizationEnabled: commerce,
+  };
+}
+export function navigation(c: ArtistCapabilities) {
+  return [
+    { id: "home", label: "Home" },
+    { id: "profile", label: "My Profile" },
+    { id: "portfolio", label: "Portfolio" },
+    ...(c.sellsWorks ? [{ id: "sell", label: "Sell" }] : []),
+    ...(c.offersServices ? [{ id: "services", label: "Services" }] : []),
+    ...(c.acceptsCommissions || c.offersServices || c.acceptsBookings
+      ? [
+          {
+            id: "projects",
+            label: c.acceptsBookings && !c.offersServices ? "Bookings / Projects" : "Projects",
+          },
+        ]
+      : []),
+    ...(c.sellsWorks || c.acceptsCommissions || c.offersServices || c.acceptsBookings
+      ? [{ id: "earnings", label: "Earnings" }]
+      : []),
+  ];
+}
+export function createOptions(c: ArtistCapabilities) {
+  return [
+    {
+      title: "Add portfolio project",
+      description: "Show work that represents you.",
+      section: "portfolio",
+    },
+    ...(c.sellsWorks
+      ? [
+          {
+            title: "List work for sale",
+            description: "A finished work for a new home.",
+            section: "sell",
+          },
+        ]
+      : []),
+    ...(c.offersServices
+      ? [{ title: "Create a service", description: "Offer a creative skill.", section: "services" }]
+      : []),
+    ...(c.acceptsBookings || c.acceptsCommissions
+      ? [
+          {
+            title: c.acceptsBookings ? "Add booking availability" : "Accept commissions",
+            description: "Make room for your next opportunity.",
+            section: "availability",
+          },
+        ]
+      : []),
+  ];
+}
+export const money = (n: number) => `K${n.toLocaleString("en-ZM")}`;
