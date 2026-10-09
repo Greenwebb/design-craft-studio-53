@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BagRouteImport } from './routes/bag'
 import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as JoinRouteImport } from './routes/join'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ArtistsSlugRouteImport } from './routes/artists.$slug'
@@ -19,6 +20,8 @@ import { Route as CheckoutContactRouteImport } from './routes/checkout.contact'
 import { Route as CheckoutDeliveryRouteImport } from './routes/checkout.delivery'
 import { Route as CheckoutPaymentRouteImport } from './routes/checkout.payment'
 import { Route as CheckoutReviewRouteImport } from './routes/checkout.review'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as DashboardSectionRouteImport } from './routes/dashboard.$section'
 import { Route as OrderConfirmedRouteImport } from './routes/order.confirmed'
 import { Route as WorkSlugRouteImport } from './routes/work.$slug'
 
@@ -35,6 +38,11 @@ const BagRoute = BagRouteImport.update({
 const CheckoutRoute = CheckoutRouteImport.update({
   id: '/checkout',
   path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JoinRoute = JoinRouteImport.update({
@@ -72,6 +80,16 @@ const CheckoutReviewRoute = CheckoutReviewRouteImport.update({
   path: '/review',
   getParentRoute: () => CheckoutRoute,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSectionRoute = DashboardSectionRouteImport.update({
+  id: '/$section',
+  path: '/$section',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const OrderConfirmedRoute = OrderConfirmedRouteImport.update({
   id: '/order/confirmed',
   path: '/order/confirmed',
@@ -87,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/bag': typeof BagRoute
   '/checkout': typeof CheckoutRouteWithChildren
+  '/dashboard': typeof DashboardRouteWithChildren
   '/join': typeof JoinRoute
   '/shop': typeof ShopRoute
   '/artists/$slug': typeof ArtistsSlugRoute
@@ -94,8 +113,10 @@ export interface FileRoutesByFullPath {
   '/checkout/delivery': typeof CheckoutDeliveryRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
   '/checkout/review': typeof CheckoutReviewRoute
+  '/dashboard/$section': typeof DashboardSectionRoute
   '/order/confirmed': typeof OrderConfirmedRoute
   '/work/$slug': typeof WorkSlugRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -108,14 +129,17 @@ export interface FileRoutesByTo {
   '/checkout/delivery': typeof CheckoutDeliveryRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
   '/checkout/review': typeof CheckoutReviewRoute
+  '/dashboard/$section': typeof DashboardSectionRoute
   '/order/confirmed': typeof OrderConfirmedRoute
   '/work/$slug': typeof WorkSlugRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/bag': typeof BagRoute
   '/checkout': typeof CheckoutRouteWithChildren
+  '/dashboard': typeof DashboardRouteWithChildren
   '/join': typeof JoinRoute
   '/shop': typeof ShopRoute
   '/artists/$slug': typeof ArtistsSlugRoute
@@ -123,8 +147,10 @@ export interface FileRoutesById {
   '/checkout/delivery': typeof CheckoutDeliveryRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
   '/checkout/review': typeof CheckoutReviewRoute
+  '/dashboard/$section': typeof DashboardSectionRoute
   '/order/confirmed': typeof OrderConfirmedRoute
   '/work/$slug': typeof WorkSlugRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -132,6 +158,7 @@ export interface FileRouteTypes {
     | '/'
     | '/bag'
     | '/checkout'
+    | '/dashboard'
     | '/join'
     | '/shop'
     | '/artists/$slug'
@@ -139,8 +166,10 @@ export interface FileRouteTypes {
     | '/checkout/delivery'
     | '/checkout/payment'
     | '/checkout/review'
+    | '/dashboard/$section'
     | '/order/confirmed'
     | '/work/$slug'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -153,13 +182,16 @@ export interface FileRouteTypes {
     | '/checkout/delivery'
     | '/checkout/payment'
     | '/checkout/review'
+    | '/dashboard/$section'
     | '/order/confirmed'
     | '/work/$slug'
+    | '/dashboard'
   id:
     | '__root__'
     | '/'
     | '/bag'
     | '/checkout'
+    | '/dashboard'
     | '/join'
     | '/shop'
     | '/artists/$slug'
@@ -167,14 +199,17 @@ export interface FileRouteTypes {
     | '/checkout/delivery'
     | '/checkout/payment'
     | '/checkout/review'
+    | '/dashboard/$section'
     | '/order/confirmed'
     | '/work/$slug'
+    | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BagRoute: typeof BagRoute
   CheckoutRoute: typeof CheckoutRouteWithChildren
+  DashboardRoute: typeof DashboardRouteWithChildren
   JoinRoute: typeof JoinRoute
   ShopRoute: typeof ShopRoute
   ArtistsSlugRoute: typeof ArtistsSlugRoute
@@ -203,6 +238,13 @@ declare module '@tanstack/react-router' {
       path: '/checkout'
       fullPath: '/checkout'
       preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/join': {
@@ -254,6 +296,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CheckoutReviewRouteImport
       parentRoute: typeof CheckoutRoute
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/$section': {
+      id: '/dashboard/$section'
+      path: '/$section'
+      fullPath: '/dashboard/$section'
+      preLoaderRoute: typeof DashboardSectionRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/order/confirmed': {
       id: '/order/confirmed'
       path: '/order/confirmed'
@@ -289,10 +345,25 @@ const CheckoutRouteWithChildren = CheckoutRoute._addFileChildren(
   CheckoutRouteChildren,
 )
 
+interface DashboardRouteChildren {
+  DashboardSectionRoute: typeof DashboardSectionRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardSectionRoute: DashboardSectionRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BagRoute: BagRoute,
   CheckoutRoute: CheckoutRouteWithChildren,
+  DashboardRoute: DashboardRouteWithChildren,
   JoinRoute: JoinRoute,
   ShopRoute: ShopRoute,
   ArtistsSlugRoute: ArtistsSlugRoute,
