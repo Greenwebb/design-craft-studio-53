@@ -291,12 +291,12 @@ function ShopPage() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-x-6 gap-y-16 md:grid-cols-12 md:gap-y-[72px]">
+          <div className="grid grid-cols-1 gap-x-6 gap-y-14 sm:grid-cols-2 md:gap-y-20 lg:grid-cols-3">
             {shown.map((w, i) => (
-              <WorkCard key={w.id} w={w} span={SPANS[i % SPANS.length]!} eager={i < 3} />
+              <WorkCard key={w.id} w={w} eager={i < 3} />
             ))}
             {loading && [0, 1, 2].map((i) => (
-              <div key={`sk-${i}`} className={`${SPANS[(shown.length + i) % SPANS.length]} animate-pulse`}>
+              <div key={`sk-${i}`} className="animate-pulse">
                 <div className="aspect-[4/5] w-full rounded-sm bg-secondary" />
                 <div className="mt-4 h-4 w-2/3 rounded-sm bg-secondary" />
                 <div className="mt-2 h-3 w-1/3 rounded-sm bg-secondary" />
