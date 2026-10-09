@@ -2,7 +2,8 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { useState } from 'react';
 import { AdminPage, AdminTable, DropdownFilter, FilterTabs, SectionCard, StatusPill } from '@/components/admin/admin-ui';
 import { money } from '@/data/admin-data';
-import { sharedProjects } from '@/data/ecosystem';
+import { sharedProjects as baseProjects } from '@/data/ecosystem';
+import { useAdminOps } from '@/stores/admin-ops';
 import { pageHead } from '@/lib/page-head';
 
 export const Route = createFileRoute('/admin/projects/')({ head: () => pageHead('Projects', 'Commission and service projects in operations.', true), component: ProjectsQueue });
@@ -15,6 +16,8 @@ const ops: Record<string, { agreed: number; paid: number; dispute?: string; next
 
 function ProjectsQueue() {
   const [tab, setTab] = useState('all');
+  const live = useAdminOps((s) => s.projects);
+  const sharedProjects = baseProjects.map((p) => ({ ...p, status: (live.find((l) => l.id === p.id)?.state ?? p.status) as typeof p.status }));
   const awaiting = sharedProjects.filter((x) => x.status === 'awaiting-review').length;
   const tabs = [
     { value: 'all', label: 'All', count: sharedProjects.length },

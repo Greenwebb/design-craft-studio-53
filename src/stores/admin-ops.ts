@@ -1,15 +1,17 @@
 import { create } from 'zustand';
 import {
   actionsByResource, creatorSeed, currentStaff, disputeSeed, moderationSeed, nid, orderSeed, payoutSeed,
-  refundSeed, stamp, supportSeed, userSeed, verificationSeed, workSeed,
+  refundSeed, stamp, serviceSeed, bookingSeed, projectSeed, collectionSeed, broadcastSeed, spaceSeed, auditSeed, supportSeed, userSeed, verificationSeed, workSeed,
   type ActionDef, type AuditEvent, type BaseRow, type CreatorRow, type DisputeRow, type ModRow, type Note,
   type OrderRow, type PayoutRow, type RefundRow, type SupportRow, type ThreadMessage,
-  type UserRow, type VerificationRow, type WorkRow,
+  type UserRow, type VerificationRow, type WorkRow, type ServiceRow, type BookingRow, type ProjectRow, type CollectionRow, type BroadcastRow, type SpaceRow,
 } from '@/data/admin-data';
 
 export type AdminResources = {
   users: UserRow[]; creators: CreatorRow[]; works: WorkRow[]; orders: OrderRow[]; payouts: PayoutRow[];
   refunds: RefundRow[]; disputes: DisputeRow[]; support: SupportRow[]; verification: VerificationRow[]; moderation: ModRow[];
+  services: (ServiceRow & BaseRow)[]; bookings: (BookingRow & BaseRow)[]; projects: ProjectRow[];
+  collections: CollectionRow[]; broadcasts: BroadcastRow[]; spaces: SpaceRow[];
 };
 
 type AdminState = AdminResources & {
@@ -20,6 +22,8 @@ type AdminState = AdminResources & {
   reply: (resource: 'disputes' | 'support', id: string, body: string, from?: string) => void;
   refundFromOrder: (order: OrderRow, reason: string) => RefundRow | undefined;
   resetAll: () => void;
+  log: (action: string, resource: string, id: string, reason?: string) => void;
+  create: <K extends 'collections' | 'broadcasts' | 'spaces'>(resource: K, row: AdminResources[K][number]) => void;
 };
 
 const seeds: AdminResources = {
@@ -27,6 +31,9 @@ const seeds: AdminResources = {
   orders: structuredClone(orderSeed), payouts: structuredClone(payoutSeed), refunds: structuredClone(refundSeed),
   disputes: structuredClone(disputeSeed), support: structuredClone(supportSeed),
   verification: structuredClone(verificationSeed), moderation: structuredClone(moderationSeed),
+  services: structuredClone(serviceSeed) as (ServiceRow & BaseRow)[], bookings: structuredClone(bookingSeed) as (BookingRow & BaseRow)[],
+  projects: structuredClone(projectSeed), collections: structuredClone(collectionSeed) as CollectionRow[],
+  broadcasts: structuredClone(broadcastSeed) as BroadcastRow[], spaces: structuredClone(spaceSeed),
 };
 
 const logAudit = (audit: AuditEvent[], action: string, resource: string, resourceId: string, reason?: string): AuditEvent[] => [
@@ -37,7 +44,7 @@ const logAudit = (audit: AuditEvent[], action: string, resource: string, resourc
 // browser session. Preview only — no server records, payments or messages.
 export const useAdminOps = create<AdminState>()((set, get) => ({
   ...structuredClone(seeds),
-  audit: [],
+  audit: structuredClone(auditSeed),
   record: (resource, id) => (get()[resource] as BaseRow[]).find((r) => r.id === id) as AdminResources[typeof resource][number] | undefined,
   act: (resource, id, action, opts) => {
     const reason = opts?.reason;
@@ -116,7 +123,9 @@ export const useAdminOps = create<AdminState>()((set, get) => ({
     set((s) => ({ refunds: [refund, ...s.refunds], audit: logAudit(s.audit, 'Refund initiated', 'orders', order.id, reason) }));
     return refund;
   },
-  resetAll: () => set({ ...structuredClone(seeds), audit: [] }),
+  create: (resource, row) => set((s) => ({ [resource]: [row, ...(s[resource] as BaseRow[])], audit: logAudit(s.audit, 'Created', resource, row.id) }) as Partial<AdminState>),
+  log: (action, resource, id, reason) => set((s) => ({ audit: logAudit(s.audit, action, resource, id, reason) })),
+  resetAll: () => set({ ...structuredClone(seeds), audit: structuredClone(auditSeed) }),
 }));
 
 // Convenience: actions available for a record's current state.

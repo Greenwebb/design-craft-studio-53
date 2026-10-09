@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { AdminPage, AdminTable, Fact, FactGrid, SectionCard, StatusPill } from '@/components/admin/admin-ui';
+import { ActionsPanel, AuditTrail, InternalNotes, AdminPage, Fact, FactGrid, SectionCard, StatusPill } from '@/components/admin/admin-ui';
 import { money } from '@/data/admin-data';
 import { projectMilestones } from '@/data/workflows';
-import { sharedProjects, sharedConversations } from '@/data/ecosystem';
+import { sharedConversations } from '@/data/ecosystem';
+import { useAdminOps } from '@/stores/admin-ops';
 import { pageHead } from '@/lib/page-head';
 
 export const Route = createFileRoute('/admin/projects/$id')({
@@ -12,24 +13,24 @@ export const Route = createFileRoute('/admin/projects/$id')({
 
 function ProjectAdminView() {
   const { id } = Route.useParams();
-  const project = sharedProjects.find((p) => p.id === id);
+  const project = useAdminOps((s) => s.projects.find((p) => p.id === id));
   if (!project) return <AdminPage title="Project"><p className="text-muted-foreground">This project is no longer available.</p></AdminPage>;
   const dispute = project.id === 'hotel-lobby-mural' ? 'D-104' : undefined;
   const messages = sharedConversations.find((c) => c.projectId === id)?.messages ?? [];
   return (
     <AdminPage title={project.title} back>
       <div className="flex flex-wrap items-center gap-3">
-        <StatusPill state={project.status} />
+        <StatusPill state={project.state} />
         {dispute && <Link to="/admin/disputes/$id" params={{ id: dispute }} className="inline-flex items-center gap-1.5 rounded-full bg-studio-copper/10 px-3 py-1 text-[13px] font-medium text-studio-copper">Dispute {dispute} open</Link>}
         <span className="text-[15px] text-muted-foreground">Source: {project.source}</span>
       </div>
       <SectionCard title="Overview">
         <FactGrid cols={4}>
-          <Fact label="Customer">{project.customerName}</Fact>
-          <Fact label="Creator">{project.creatorName}</Fact>
-          <Fact label="Agreed amount">{project.id === 'hotel-lobby-mural' ? money(41000) : money(1700)}</Fact>
-          <Fact label="Paid in">{project.id === 'hotel-lobby-mural' ? money(24600) : money(500)}</Fact>
-          <Fact label="Next action" className="sm:col-span-2">{project.nextMilestone}</Fact>
+          <Fact label="Customer">{project.customer}</Fact>
+          <Fact label="Creator">{project.creator}</Fact>
+          <Fact label="Agreed amount">{money(project.agreed)}</Fact>
+          <Fact label="Paid in">{money(project.paidIn)}</Fact>
+          <Fact label="Next action" className="sm:col-span-2">{project.next}</Fact>
           <Fact label="Dispute state">{dispute ? 'Under review · funds held' : 'None'}</Fact>
         </FactGrid>
       </SectionCard>
@@ -53,6 +54,9 @@ function ProjectAdminView() {
           <p className="mt-4 text-sm text-muted-foreground">Full conversation content is visible only to authorized support roles.</p>
         </SectionCard>
       </div>
+      <ActionsPanel resource="projects" record={project} />
+      <InternalNotes resource="projects" record={project} />
+      <AuditTrail resource="projects" id={project.id} />
     </AdminPage>
   );
 }

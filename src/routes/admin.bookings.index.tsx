@@ -1,13 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import { AdminPage, AdminTable, FilterTabs, StatusPill } from '@/components/admin/admin-ui';
-import { money, bookingSeed } from '@/data/admin-data';
+import { money } from '@/data/admin-data';
+import { useAdminOps } from '@/stores/admin-ops';
 import { pageHead } from '@/lib/page-head';
 
 export const Route = createFileRoute('/admin/bookings/')({ head: () => pageHead('Bookings', 'Service bookings, deposits and cancellations.', true), component: BookingsQueue });
 
 function BookingsQueue() {
   const [tab, setTab] = useState('all');
+  const bookingSeed = useAdminOps((s) => s.bookings);
   const counts = (s: string) => bookingSeed.filter((b) => b.state === s).length;
   const tabs = [
     { value: 'all', label: 'All', count: bookingSeed.length },

@@ -22,3 +22,5 @@
 - [ ] Collector account completion: orders, saved works, collaborations, reviews
 - [ ] Creator dashboard modules completion: portfolio, sell, services, projects
 - [ ] Public marketplace polish: artwork pages, artist profiles, search, collections
+
+- [x] Admin account area: /admin/account (+profile, security, notifications, preferences, activity), avatar menu, team & internal staff management (brief: Add_and_complete_the_Admin_Account_Profile)

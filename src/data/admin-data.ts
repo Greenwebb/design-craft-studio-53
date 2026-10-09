@@ -81,29 +81,32 @@ export const marketplaceSnapshot = [
 
 // ---------------- Shell navigation ----------------
 export type AdminNavItem = { id: string; label: string; to: string; count?: number };
-export const adminNav: { group: string | null; items: AdminNavItem[] }[] = [
+export const adminNav: { group: string | null; to?: string; summary?: string; items: AdminNavItem[] }[] = [
   { group: null, items: [
     { id: 'overview', label: 'Overview', to: '/admin', count: 15 },
     { id: 'users', label: 'Users', to: '/admin/users' }, { id: 'creators', label: 'Creators', to: '/admin/creators', count: 2 },
   ] },
-  { group: 'Marketplace', items: [
+  { group: 'Marketplace', to: '/admin/marketplace', summary: 'What is for sale, how it is presented, and curated placements for businesses.', items: [
     { id: 'works', label: 'Works', to: '/admin/works', count: 3 }, { id: 'services', label: 'Services', to: '/admin/services' },
     { id: 'collections', label: 'Collections', to: '/admin/collections' },
+    { id: 'spaces', label: 'Art for Spaces', to: '/admin/spaces', count: 1 },
   ] },
-  { group: 'Operations', items: [
+  { group: 'Operations', to: '/admin/operations', summary: 'Orders, projects, bookings and support moving through delivery.', items: [
     { id: 'orders', label: 'Orders', to: '/admin/orders', count: 4 }, { id: 'projects', label: 'Projects', to: '/admin/projects', count: 24 },
     { id: 'bookings', label: 'Bookings', to: '/admin/bookings', count: 2 }, { id: 'support', label: 'Support', to: '/admin/support', count: 5 },
   ] },
-  { group: 'Finance', items: [
+  { group: 'Finance', to: '/admin/finance', summary: 'Money in, money held, money out — every movement traced by ledger.', items: [
     { id: 'payments', label: 'Payments', to: '/admin/payments', count: 1 }, { id: 'wallets', label: 'Wallets', to: '/admin/wallets' },
     { id: 'payouts', label: 'Payouts', to: '/admin/payouts', count: 3 }, { id: 'refunds', label: 'Refunds', to: '/admin/refunds', count: 2 },
   ] },
-  { group: 'Trust & Safety', items: [
+  { group: 'Trust & Safety', to: '/admin/trust', summary: 'Disputes, content reports and identity checks that protect both sides.', items: [
     { id: 'disputes', label: 'Disputes', to: '/admin/disputes', count: 3 }, { id: 'moderation', label: 'Moderation', to: '/admin/moderation', count: 7 },
     { id: 'verification', label: 'Verification', to: '/admin/verification', count: 5 },
   ] },
-  { group: 'System', items: [
+  { group: 'System', to: '/admin/system', summary: 'Broadcasts, platform rules and the record of every staff action.', items: [
     { id: 'notifications', label: 'Notifications', to: '/admin/notifications' }, { id: 'settings', label: 'Settings', to: '/admin/settings' },
+    { id: 'team', label: 'Team', to: '/admin/team' }, { id: 'roles', label: 'Roles', to: '/admin/roles' },
+    { id: 'audit', label: 'Audit Logs', to: '/admin/audit' },
   ] },
 ];
 
@@ -503,3 +506,89 @@ export const activityFeed = [
   { id: 'af-4', who: 'Latitude Hotel', what: 'added evidence to dispute D-104', when: '2 h ago', tone: 'warning' },
   { id: 'af-5', who: 'George Mwale', what: 'featured “Copper Dusk” in a collection', when: '3 h ago', tone: 'info' },
 ] as const;
+
+// ---------------- Extended workflows (creators, services, bookings, projects, curation, broadcasts, spaces) ----------------
+export type ProjectRow = BaseRow & { title: string; customer: string; creator: string; source: string; agreed: number; paidIn: number; next: string };
+export const projectSeed: ProjectRow[] = [
+  { id: 'hotel-lobby-mural', title: 'Hotel Lobby Mural', customer: 'Latitude Hotel', creator: 'Mwansa Chileshe', source: 'commission', agreed: 41000, paidIn: 24600, next: 'Concept approval', state: 'disputed' },
+  { id: 'portrait-session', title: 'Portrait Photography', customer: 'Sarah Banda', creator: 'Taonga Banda', source: 'booking', agreed: 1700, paidIn: 500, next: 'Session · 18 October', state: 'in-progress' },
+];
+export type CollectionRow = BaseRow & { title: string; works: number; curator: string; updated: string; description?: string };
+export type BroadcastRow = BaseRow & { audience: string; channel: string; title: string; body: string; scheduled: string };
+export type SpaceRow = BaseRow & { client: string; space: string; city: string; budget: number; brief: string; curator: string; shortlist: number; received: string };
+export const spaceSeed: SpaceRow[] = [
+  { id: 'AS-31', client: 'Latitude Hotel', space: 'Hotel lobby & 40 rooms', city: 'Lusaka', budget: 180000, brief: 'Warm contemporary Zambian works, mix of large canvases and photography for rooms.', curator: 'Chewe M.', shortlist: 14, received: '2 Oct', state: 'proposal-sent' },
+  { id: 'AS-32', client: 'Stanbic Head Office', space: 'Boardroom & reception', city: 'Lusaka', budget: 95000, brief: 'Calm, abstract, corporate-appropriate. Two statement pieces.', curator: 'Unassigned', shortlist: 0, received: '7 Oct', state: 'new' },
+  { id: 'AS-33', client: 'Kafue River Lodge', space: '12 chalets', city: 'Kafue', budget: 60000, brief: 'Nature and river themes, ceramics welcome.', curator: 'Chewe M.', shortlist: 9, received: '28 Sep', state: 'curating' },
+  { id: 'AS-29', client: 'Dr. Mumba Clinic', space: 'Waiting room', city: 'Ndola', budget: 18000, brief: 'Soothing prints, washable frames.', curator: 'George M.', shortlist: 6, received: '12 Sep', state: 'installed' },
+];
+export const auditSeed: AuditEvent[] = [
+  { id: 'AU-1', at: '9 Oct, 08:41', actor: 'Natasha Phiri', actorRole: 'Finance', action: 'Approve for processing', resource: 'payouts', resourceId: 'P-318' },
+  { id: 'AU-2', at: '9 Oct, 08:19', actor: 'System', actorRole: 'Automation', action: 'Flag reconciliation mismatch', resource: 'payments', resourceId: 'PM-1094' },
+  { id: 'AU-3', at: '9 Oct, 07:52', actor: 'Kelvin Zulu', actorRole: 'Verification', action: 'Mark verified', resource: 'verification', resourceId: 'V-41' },
+  { id: 'AU-4', at: '8 Oct, 17:10', actor: 'George Mwale', actorRole: 'Super Admin', action: 'Suspend account', resource: 'users', resourceId: 'U-2250', reason: 'Repeated chargebacks on three orders' },
+  { id: 'AU-5', at: '8 Oct, 15:02', actor: 'Chewe Mwila', actorRole: 'Curator', action: 'Publish collection', resource: 'collections', resourceId: 'COL-1' },
+  { id: 'AU-6', at: '8 Oct, 11:30', actor: 'Mapalo Tembo', actorRole: 'Moderator', action: 'Hide listing', resource: 'works', resourceId: 'W-533', reason: 'Watermarked stock image' },
+];
+
+Object.assign(actionsByResource, {
+  creators: [
+    { id: 'approve', label: 'Approve creator', from: ['under-review'], to: 'active', tone: 'primary', consequences: ['The profile goes live in the marketplace', 'The creator can publish works and services'] },
+    { id: 'request-payout-id', label: 'Request payout verification', from: ['under-review', 'active'], set: { payoutVerification: 'Payout identity requested' }, requiresReason: true },
+    { id: 'pause', label: 'Pause storefront', from: ['active'], to: 'paused', requiresReason: true, consequences: ['Listings are hidden temporarily', 'Open orders and projects continue'] },
+    { id: 'resume', label: 'Resume storefront', from: ['paused'], to: 'active', tone: 'primary' },
+    { id: 'suspend', label: 'Suspend creator', from: ['active', 'paused', 'under-review'], to: 'suspended', tone: 'danger', requiresReason: true, consequences: ['All listings and services are hidden', 'Payouts are paused', 'The creator is notified with the reason'] },
+    { id: 'reinstate', label: 'Reinstate creator', from: ['suspended'], to: 'active', tone: 'primary', requiresReason: true },
+  ],
+  services: [
+    { id: 'hide', label: 'Hide service', from: ['published'], to: 'hidden', tone: 'danger', requiresReason: true, consequences: ['The service disappears from search and the profile', 'Existing bookings continue'] },
+    { id: 'restore', label: 'Restore service', from: ['hidden'], to: 'published', tone: 'primary' },
+    { id: 'flag', label: 'Send to moderation', from: ['published', 'hidden'], to: 'under-review', requiresReason: true },
+    { id: 'clear', label: 'Clear review', from: ['under-review'], to: 'published', tone: 'primary', set: { reports: 0 } },
+  ],
+  bookings: [
+    { id: 'approve-reschedule', label: 'Approve reschedule', from: ['reschedule-requested'], to: 'confirmed', tone: 'primary', consequences: ['Both parties get the new time', 'The deposit carries over'] },
+    { id: 'decline-reschedule', label: 'Decline reschedule', from: ['reschedule-requested'], to: 'confirmed', requiresReason: true },
+    { id: 'complete', label: 'Mark completed', from: ['confirmed'], to: 'completed', tone: 'primary' },
+    { id: 'no-show', label: 'Record no-show', from: ['confirmed'], to: 'no-show', requiresReason: true, consequences: ['The cancellation policy decides the deposit'] },
+    { id: 'refund-deposit', label: 'Refund deposit', from: ['no-show', 'cancelled'], financial: true, requiresReason: true, set: { payment: 'Deposit refunded' }, consequences: ['The deposit returns to the customer', 'The creator wallet is adjusted by ledger entry'] },
+    { id: 'cancel', label: 'Cancel booking', from: ['confirmed', 'reschedule-requested'], to: 'cancelled', tone: 'danger', requiresReason: true },
+  ],
+  projects: [
+    { id: 'hold', label: 'Place project on hold', from: ['in-progress', 'disputed'], to: 'on-hold', requiresReason: true, consequences: ['Milestone payouts pause', 'Both parties are notified'] },
+    { id: 'resume', label: 'Resume project', from: ['on-hold'], to: 'in-progress', tone: 'primary' },
+    { id: 'release-milestone', label: 'Release current milestone', from: ['in-progress'], financial: true, requiresReason: true, consequences: ['The milestone amount moves to the creator’s pending balance'] },
+    { id: 'open-dispute', label: 'Open a dispute', from: ['in-progress', 'on-hold'], to: 'disputed', tone: 'danger', requiresReason: true },
+    { id: 'complete', label: 'Mark completed', from: ['in-progress'], to: 'completed', tone: 'primary' },
+    { id: 'cancel', label: 'Cancel project', from: ['in-progress', 'on-hold', 'disputed'], to: 'cancelled', tone: 'danger', requiresReason: true, consequences: ['Unreleased funds follow the refund policy', 'The project closes for both parties'] },
+  ],
+  collections: [
+    { id: 'publish', label: 'Publish now', from: ['draft', 'scheduled'], to: 'published', tone: 'primary' },
+    { id: 'schedule', label: 'Schedule', from: ['draft'], to: 'scheduled', set: { updated: 'Scheduled' } },
+    { id: 'unpublish', label: 'Unpublish', from: ['published'], to: 'draft' },
+    { id: 'archive', label: 'Archive', from: ['draft', 'published'], to: 'archived', tone: 'danger', requiresReason: true },
+    { id: 'restore', label: 'Restore', from: ['archived'], to: 'draft' },
+  ],
+  broadcasts: [
+    { id: 'approve', label: 'Approve & schedule', from: ['draft'], to: 'scheduled', tone: 'primary', consequences: ['It sends automatically at the scheduled time'] },
+    { id: 'send-now', label: 'Send now', from: ['draft', 'scheduled'], to: 'sent', tone: 'primary', requiresReason: true, consequences: ['Every person in the audience receives it', 'This cannot be recalled'] },
+    { id: 'cancel', label: 'Cancel broadcast', from: ['draft', 'scheduled'], to: 'cancelled', tone: 'danger', requiresReason: true },
+  ],
+  spaces: [
+    { id: 'assign', label: 'Assign to me', from: ['new'], to: 'curating', tone: 'primary', set: { curator: 'George M.' } },
+    { id: 'send-proposal', label: 'Send proposal', from: ['curating'], to: 'proposal-sent', tone: 'primary', consequences: ['The client receives the shortlist and quote'] },
+    { id: 'accepted', label: 'Client accepted', from: ['proposal-sent'], to: 'accepted', tone: 'primary', consequences: ['Orders are created for each selected work', 'Creators are notified'] },
+    { id: 'revise', label: 'Revise shortlist', from: ['proposal-sent'], to: 'curating', requiresReason: true },
+    { id: 'installed', label: 'Mark installed', from: ['accepted'], to: 'installed', tone: 'primary' },
+    { id: 'decline', label: 'Close enquiry', from: ['new', 'curating', 'proposal-sent'], to: 'closed', tone: 'danger', requiresReason: true },
+  ],
+} satisfies Record<string, ActionDef[]>);
+
+export const sectionBlurb: Record<string, string> = {
+  works: 'Listings, editions, certificates and reports.', services: 'Bookable and commissioned services.', collections: 'Editorial and rule-based curation.',
+  spaces: 'Curated art placements for hotels, offices and clinics.', orders: 'Artwork purchases from payment to delivery.', projects: 'Commissions with milestones and held funds.',
+  bookings: 'Sessions, deposits, reschedules and no-shows.', support: 'Customer and creator cases.', payments: 'Captured payments and reconciliation.',
+  wallets: 'Creator balances moved only by ledger entries.', payouts: 'Withdrawals to mobile money and bank.', refunds: 'Full and partial refunds with reversals.',
+  disputes: 'Cases between customers and creators.', moderation: 'Reported content and appeals.', verification: 'Creator identity and payout checks.',
+  notifications: 'Internal alerts and controlled broadcasts.', settings: 'Fees, roles and platform rules.', audit: 'Every staff action, who and why.', team: 'Internal staff, invitations and access.', roles: 'Roles and the permissions beneath them.',
+};

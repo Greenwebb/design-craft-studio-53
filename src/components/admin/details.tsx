@@ -70,9 +70,9 @@ export function CreatorDetail({ id }: { id: string }) {
         </FactGrid>
         <p className="mt-5 text-sm text-muted-foreground">Balances are ledger-only. Corrections happen through payouts, refunds and reversals — never by editing a balance.</p>
       </SectionCard>
-      <ActionsPanel resource="users" record={{ ...creator, state: creator.state === 'under-review' || creator.state === 'paused' ? 'active' : creator.state } as BaseRow} />
-      <InternalNotes resource="users" record={creator} />
-      <Trail resource="users" id={creator.id} />
+      <ActionsPanel resource="creators" record={creator} />
+      <InternalNotes resource="creators" record={creator} />
+      <Trail resource="creators" id={creator.id} />
     </AdminPage>
   );
 }

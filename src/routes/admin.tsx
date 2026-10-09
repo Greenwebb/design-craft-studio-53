@@ -4,7 +4,8 @@ import { FloatingNav, floatingNavItem } from '@/components/ecosystem/floating-na
 import { LayoutGrid, Scale, Undo2, LifeBuoy, MoreHorizontal, Home, Users, Palette, Store, Workflow, Wallet, Shield, Settings, ChevronRight, type LucideIcon } from 'lucide-react';
 import { adminNav } from '@/data/admin-data';
 import { Logo } from '@/components/site';
-import { currentStaff } from '@/data/admin-data';
+import { Avatar, useMe } from '@/components/admin/admin-account';
+import { roleOf, useAdminTeam } from '@/stores/admin-team';
 import { useAdminSearch } from '@/components/admin/admin-ui';
 import { AdminSearch } from '@/components/admin/admin-search';
 import { AdminDialog } from '@/components/admin/admin-ui';
@@ -38,6 +39,8 @@ function AdminShell() {
   const path = useRouterState({ select: (s) => s.location.pathname });
   const openSearch = useAdminSearch((s) => s.setOpen);
   const [more, setMore] = useState(false);
+  const me = useMe();
+  const myRole = useAdminTeam((s) => roleOf(s.roles, me.roleId)?.label);
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openSearch(true); }
@@ -56,10 +59,9 @@ function AdminShell() {
           <span className="rounded-full bg-ink px-3 py-1 text-xs font-medium text-ink-foreground">Operations</span>
         </div>
         <SidebarNav path={path} />
-        <div className="mt-2 hidden items-center gap-3 rounded-2xl border border-border p-4 lg:flex">
-          <span className="grid h-10 w-10 place-items-center rounded-full bg-studio-green/10 text-sm font-semibold text-studio-green">{currentStaff.initials}</span>
-          <div className="min-w-0"><p className="truncate text-[15px] font-medium">{currentStaff.name}</p><p className="text-sm text-muted-foreground">{currentStaff.role}</p></div>
-        </div>
+        <Link to="/admin/account" className="mt-2 hidden items-center gap-3 rounded-2xl border border-border p-4 hover:bg-secondary lg:flex">
+          <Avatar name={me.name} /><div className="min-w-0"><p className="truncate text-[15px] font-medium">{me.name}</p><p className="text-sm text-muted-foreground">{myRole}</p></div>
+        </Link>
         <p className="mt-4 hidden text-sm leading-relaxed text-muted-foreground lg:block">Preview only. Real access will require a staff role checked by the server.</p>
       </aside>
       <div className="min-w-0">
@@ -108,7 +110,7 @@ function CountBadge({ n }: { n?: number | undefined }) {
 // Main areas first; sub-pages appear only when a group is expanded.
 // The group containing the current page opens automatically.
 function SidebarNav({ path }: { path: string }) {
-  const activeGroup = adminNav.find((g) => g.group && g.items.some((i) => isActive(path, i.to)))?.group ?? null;
+  const activeGroup = adminNav.find((g) => g.group && (path === g.to || g.items.some((i) => isActive(path, i.to))))?.group ?? null;
   const [open, setOpen] = useState<Record<string, boolean>>({});
   useEffect(() => { if (activeGroup) setOpen((o) => ({ ...o, [activeGroup]: true })); }, [activeGroup]);
   const row = 'flex min-h-[42px] w-full items-center gap-3 rounded-full px-4 text-[15px] font-medium';
@@ -132,12 +134,15 @@ function SidebarNav({ path }: { path: string }) {
         const id = `nav-${name.replace(/\W+/g, '-').toLowerCase()}`;
         return (
           <div key={name} className="mt-1">
-            <button type="button" aria-expanded={expanded} aria-controls={id} onClick={() => setOpen((o) => ({ ...o, [name]: !expanded }))}
-              className={`${row} text-left hover:bg-secondary ${hasActive ? 'bg-foreground/[0.04]' : ''}`}>
-              <Icon size={19} aria-hidden /><span className="flex-1">{name}</span>
-              {!expanded && <CountBadge n={total} />}
-              <ChevronRight size={16} aria-hidden className={`text-muted-foreground transition-transform duration-200 ${expanded ? 'rotate-90' : ''}`} />
-            </button>
+            <div className={`flex items-center rounded-full ${hasActive || path === group.to ? 'bg-foreground/[0.04]' : ''}`}>
+              <Link to={group.to ?? '/admin'} className={`${row} flex-1 hover:bg-secondary ${path === group.to ? 'font-semibold' : ''}`}>
+                <Icon size={19} aria-hidden /><span className="flex-1">{name}</span>{!expanded && <CountBadge n={total} />}
+              </Link>
+              <button type="button" aria-expanded={expanded} aria-controls={id} aria-label={`${expanded ? 'Collapse' : 'Expand'} ${name}`} onClick={() => setOpen((o) => ({ ...o, [name]: !expanded }))}
+                className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-muted-foreground hover:bg-secondary hover:text-foreground">
+                <ChevronRight size={17} aria-hidden className={`transition-transform duration-200 ${expanded ? 'rotate-90' : ''}`} />
+              </button>
+            </div>
             {expanded && (
               <div id={id} className="mt-0.5 flex flex-col">
                 {group.items.map((item) => {
