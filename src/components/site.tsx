@@ -197,7 +197,7 @@ export function Footer() {
       <div className="container-x grid gap-12 py-20 md:grid-cols-4">
         <p className="text-[13px] font-semibold tracking-[0.14em]">I AM AN ARTIST</p>
         <nav className={col} aria-label="Footer">
-          <a className="link-line w-fit" href={`${SITE}/shop`}>Shop</a>
+          <a className="link-line w-fit" href="/shop">Shop</a>
           <a className="link-line w-fit" href={`${SITE}/artists`}>Artists</a>
           <a className="link-line w-fit" href={"/join"}>Join as Artist</a>
           <a className="link-line w-fit" href="#spaces">Art for Spaces</a>
