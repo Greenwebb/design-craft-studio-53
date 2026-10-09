@@ -40,6 +40,7 @@ import { StudioLink } from "./controls";
 import { StudioNotifications } from "./notifications";
 import { StudioCommandSearch } from "./command-search";
 import { ContextSwitch } from "@/components/ecosystem/context-switch";
+import { DashboardTopBar, topBarIcon } from "@/components/ecosystem/top-bar";
 import { FloatingNav, floatingNavItem, floatingNavAction } from "@/components/ecosystem/floating-nav";
 export function StudioShell({ state }: { state: PreviewState }) {
   const { user, setContext } = useEcosystem();
@@ -149,23 +150,19 @@ export function StudioShell({ state }: { state: PreviewState }) {
           {navBody}
         </aside>
         <div className="lg:ml-[244px]">
-          <header className="flex h-[92px] items-center justify-between gap-2 border-b border-border px-[18px] sm:px-7 lg:px-10">
-            <div className="flex items-center gap-3">
+          <DashboardTopBar title={title} eyebrow="Creating" leading={
               <IconButton
                 ariaLabel="Open studio navigation"
                 onClick={() => setDrawer(true)}
                 className="h-9 w-9 border-0 lg:hidden"
               >
                 <Menu size={20} />
-              </IconButton>
-              <span className="text-sm font-medium">{title}</span>
-            </div>
-            <div className="flex items-center gap-1 sm:gap-3">
+              </IconButton>}>
               <IconButton
                 ariaLabel="Search studio"
                 title="Search studio"
                 onClick={() => setSearch(true)}
-                className="h-9 w-9 border-0"
+                className={topBarIcon}
               >
                 <Search size={20} />
               </IconButton>
@@ -176,7 +173,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
                   setNotifications(true);
                   setRead(true);
                 }}
-                className="relative h-9 w-9 border-0"
+                className={`relative ${topBarIcon}`}
               >
                 <Bell size={20} />
                 {studio.data.attention.length > 0 && !read && (
@@ -217,8 +214,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
                 </DropdownMenuContent>
               </DropdownMenu>
               <div className="hidden md:block"><SiteButton onClick={() => setCreate(true)} className="h-10 px-4 py-0"><Plus size={19}/>Create<ChevronDown size={15}/></SiteButton></div>
-            </div>
-          </header>
+          </DashboardTopBar>
           <main
             id="studio-main"
             className="mx-auto max-w-[1440px] px-[18px] pb-32 pt-8 sm:px-7 lg:px-10 lg:pb-20"
