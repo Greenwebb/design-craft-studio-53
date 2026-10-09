@@ -101,7 +101,7 @@ const topIcons: Record<string, LucideIcon> = { overview: Home, users: Users, cre
 const groupIcons: Record<string, LucideIcon> = { Marketplace: Store, Operations: Workflow, Finance: Wallet, 'Trust & Safety': Shield, System: Settings };
 const isActive = (path: string, to: string) => (to === '/admin' ? path === '/admin' : path === to || path.startsWith(to + '/'));
 
-function CountBadge({ n }: { n?: number }) {
+function CountBadge({ n }: { n?: number | undefined }) {
   return n !== undefined && n > 0 ? <span className="rounded-full bg-studio-copper/15 px-2.5 text-[13px] text-studio-copper">{n}</span> : null;
 }
 
