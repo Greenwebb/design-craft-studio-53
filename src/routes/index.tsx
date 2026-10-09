@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowRight, ArrowUpRight, ArrowLeft, Search, User, Menu, X } from "lucide-react";
 import heroArt from "@/assets/hero-art.jpg";
@@ -38,6 +38,42 @@ function Reveal({ children, delay = 0, className }: { children: ReactNode; delay
       transition={{ duration: 0.8, ease: EASE, delay }}
     >
       {children}
+    </motion.div>
+  );
+}
+
+function Cursor() {
+  const [active, setActive] = useState(false);
+  const [fine, setFine] = useState(false);
+  const x = useMotionValue(-200);
+  const y = useMotionValue(-200);
+  const sx = useSpring(x, { stiffness: 500, damping: 40, mass: 0.6 });
+  const sy = useSpring(y, { stiffness: 500, damping: 40, mass: 0.6 });
+  useEffect(() => {
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+    setFine(true);
+    const move = (e: MouseEvent) => {
+      x.set(e.clientX);
+      y.set(e.clientY);
+      setActive(!!(e.target as Element | null)?.closest?.("[data-cursor]"));
+    };
+    window.addEventListener("mousemove", move, { passive: true });
+    return () => window.removeEventListener("mousemove", move);
+  }, [x, y]);
+  if (!fine) return null;
+  return (
+    <motion.div
+      aria-hidden
+      style={{ x: sx, y: sy }}
+      className="pointer-events-none fixed left-0 top-0 z-[80] -ml-10 -mt-10"
+    >
+      <motion.div
+        animate={{ scale: active ? 1 : 0, opacity: active ? 1 : 0 }}
+        transition={{ duration: 0.3, ease: EASE }}
+        className="grid h-20 w-20 place-items-center rounded-full bg-ink text-[11px] font-medium uppercase tracking-[0.12em] text-ink-foreground mix-blend-difference"
+      >
+        View
+      </motion.div>
     </motion.div>
   );
 }
@@ -225,7 +261,7 @@ const works = [
 
 function Artwork({ w }: { w: (typeof works)[number] }) {
   return (
-    <a href={`${SITE}/shop`} className="group block">
+    <a href={`${SITE}/shop`} data-cursor className="group block">
       <div className="relative overflow-hidden rounded-sm">
         <img src={w.img} alt={`${w.t} by ${w.a}`} width={w.w} height={w.h} loading="lazy"
           className={`${w.ar} w-full object-cover transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.025]`} />
@@ -353,7 +389,7 @@ function Collections() {
       <div className="grid gap-x-6 gap-y-14 md:grid-cols-2">
         {collections.map((c, i) => (
           <Reveal key={c.t} delay={(i % 2) * 0.1}>
-            <a href={`${SITE}/shop`} className="group block">
+            <a href={`${SITE}/shop`} data-cursor className="group block">
               <div className="overflow-hidden rounded-sm">
                 <img src={c.img} alt={`${c.t} collection`} loading="lazy"
                   className={`w-full object-cover transition-transform duration-700 group-hover:scale-[1.025] ${c.big ? "h-[420px] md:h-[600px]" : "h-[340px] md:h-[460px]"}`} />
@@ -460,6 +496,7 @@ function Footer() {
 function Index() {
   return (
     <div className="bg-background text-foreground">
+      <Cursor />
       <Nav />
       <main>
         <Hero />
