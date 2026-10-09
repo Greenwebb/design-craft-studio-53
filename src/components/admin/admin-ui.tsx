@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import { Link } from '@tanstack/react-router';
 import * as Dialog from '@radix-ui/react-dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Check, ChevronDown, History, Lock, Plus, X } from 'lucide-react';
+import { ArrowDown, ArrowUp, ArrowUpDown, Check, ChevronDown, History, Lock, Plus, Search, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { MobilePageHeader, SearchButton, NotificationButton, BackButton } from '@/components/ecosystem/top-bar';
 import { AccountMenu } from '@/components/ecosystem/account-menu';
@@ -276,25 +276,77 @@ export function DropdownFilter({ label, value, options, onChange }: {
 
 // ---------- operational table (desktop) that becomes cards on phones ----------
 export type Column<T> = { key: string; label: string; className?: string; render?: (row: T) => ReactNode };
-export function AdminTable<T extends { id: string }>({ columns, rows, hrefFor, emptyTitle, emptyDetail }: {
+const PAGE_SIZE = 10;
+const cellText = (row: unknown) => JSON.stringify(row).toLowerCase();
+
+export function AdminTable<T extends { id: string }>({ columns, rows: allRows, hrefFor, emptyTitle, emptyDetail }: {
   columns: Column<T>[]; rows: T[]; hrefFor: (row: T) => string; emptyTitle: string; emptyDetail?: string;
 }) {
-  if (!rows.length) {
+  const [q, setQ] = useState('');
+  const [sort, setSort] = useState<{ key: string; dir: 1 | -1 } | null>(null);
+  const [page, setPage] = useState(0);
+  const needle = q.trim().toLowerCase();
+  let rows = needle ? allRows.filter((r) => cellText(r).includes(needle)) : allRows;
+  if (sort) {
+    rows = [...rows].sort((a, b) => {
+      const av = (a as Record<string, unknown>)[sort.key], bv = (b as Record<string, unknown>)[sort.key];
+      const an = typeof av === 'number' ? av : String(av ?? ''), bn = typeof bv === 'number' ? bv : String(bv ?? '');
+      return (typeof an === 'number' && typeof bn === 'number' ? an - bn : String(an).localeCompare(String(bn), undefined, { numeric: true })) * sort.dir;
+    });
+  }
+  const pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+  const current = Math.min(page, pages - 1);
+  const total = rows.length;
+  rows = rows.slice(current * PAGE_SIZE, current * PAGE_SIZE + PAGE_SIZE);
+  const toggleSort = (key: string) => { setSort((s) => (s?.key === key ? (s.dir === 1 ? { key, dir: -1 } : null) : { key, dir: 1 })); setPage(0); };
+
+  const toolbar = (
+    <div className="flex flex-wrap items-center gap-3">
+      <label className="relative flex-1 min-w-[220px] max-w-md">
+        <span className="sr-only">Search this list</span>
+        <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" aria-hidden />
+        <input type="search" value={q} onChange={(e) => { setQ(e.target.value); setPage(0); }} placeholder="Search name, ID, email…"
+          className="h-12 w-full rounded-full border border-border bg-background pl-11 pr-4 text-[15px] outline-none focus:ring-2 focus:ring-ring" />
+      </label>
+      <p className="text-sm text-muted-foreground" aria-live="polite">{total} of {allRows.length}</p>
+    </div>
+  );
+  const pager = pages > 1 && (
+    <nav aria-label="Pages" className="flex items-center justify-between gap-3">
+      <button type="button" disabled={current === 0} onClick={() => setPage(current - 1)} className="rounded-full border border-border px-5 py-2.5 text-sm font-medium disabled:opacity-40 hover:bg-secondary">Previous</button>
+      <span className="text-sm text-muted-foreground">Page {current + 1} of {pages}</span>
+      <button type="button" disabled={current >= pages - 1} onClick={() => setPage(current + 1)} className="rounded-full border border-border px-5 py-2.5 text-sm font-medium disabled:opacity-40 hover:bg-secondary">Next</button>
+    </nav>
+  );
+
+  if (!total) {
     return (
-      <div className="rounded-xl border border-border p-10 text-center">
-        <p className="text-lg font-medium">{emptyTitle}</p>
-        {emptyDetail && <p className="mt-2 text-[15px] text-muted-foreground">{emptyDetail}</p>}
-      </div>
+      <>
+        {toolbar}
+        <div className="rounded-xl border border-border p-10 text-center">
+          <p className="text-lg font-medium">{needle ? `Nothing matches “${q.trim()}”.` : emptyTitle}</p>
+          <p className="mt-2 text-[15px] text-muted-foreground">{needle ? 'Check the spelling or try an ID or email.' : emptyDetail}</p>
+          {needle && <button type="button" onClick={() => setQ('')} className="mt-4 rounded-full border border-border px-5 py-2.5 text-sm font-medium hover:bg-secondary">Clear search</button>}
+        </div>
+      </>
     );
   }
   return (
     <>
+      {toolbar}
       {/* Desktop table */}
       <div className="studio-panel hidden overflow-x-auto lg:block">
         <table className="w-full min-w-[860px] border-collapse text-left">
           <thead>
             <tr className="border-b border-border">
-              {columns.map((c) => <th key={c.key} className="sticky top-0 bg-studio-surface px-5 py-4 text-[13px] font-semibold uppercase tracking-wide text-muted-foreground">{c.label}</th>)}
+              {columns.map((c) => (
+                <th key={c.key} aria-sort={sort?.key === c.key ? (sort.dir === 1 ? 'ascending' : 'descending') : 'none'} className="sticky top-0 bg-studio-surface px-5 py-4 text-[13px] font-semibold uppercase tracking-wide text-muted-foreground">
+                  <button type="button" onClick={() => toggleSort(c.key)} className="inline-flex items-center gap-1 uppercase hover:text-foreground">
+                    {c.label}
+                    {sort?.key === c.key ? (sort.dir === 1 ? <ArrowUp className="h-4 w-4" /> : <ArrowDown className="h-4 w-4" />) : <ArrowUpDown className="h-4 w-4 opacity-40" />}
+                  </button>
+                </th>
+              ))}
               <th className="sticky top-0 bg-studio-surface px-5 py-4" aria-label="Open" />
             </tr>
           </thead>
@@ -331,6 +383,7 @@ export function AdminTable<T extends { id: string }>({ columns, rows, hrefFor, e
           );
         })}
       </ul>
+      {pager}
     </>
   );
 }
