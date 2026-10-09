@@ -2,6 +2,7 @@ import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motio
 import { useEffect, useState, type ReactNode, type ButtonHTMLAttributes } from "react";
 import { ArrowRight, ArrowUpRight, Search, User, Menu, X } from "lucide-react";
 import logoAsset from "@/assets/logo.png.asset.json";
+import { cn } from '@/lib/utils';
 
 export function Logo({ className = "h-11 md:h-12" }: { className?: string }) {
   return <img src={logoAsset.url} alt="I Am An Artist" className={`w-auto ${className}`} />;
@@ -83,7 +84,7 @@ export function SiteButton({
   className?: string;
   ariaLabel?: string;
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick" | "children">) {
-  const cls = `inline-flex w-fit items-center justify-center gap-2 rounded-full px-7 py-4 text-sm font-medium ${buttonVariants[variant]} ${className}`;
+  const cls = cn('inline-flex w-fit items-center justify-center gap-2 rounded-full px-7 py-4 text-sm font-medium', buttonVariants[variant], className);
   if (href) return <a href={href} onClick={onClick} aria-label={ariaLabel} className={cls}>{children}</a>;
   return <button type="button" {...props} onClick={onClick} aria-label={ariaLabel} className={cls}>{children}</button>;
 }
@@ -106,7 +107,7 @@ export function IconButton({
       {...props}
       onClick={onClick}
       aria-label={ariaLabel}
-      className={`grid h-11 w-11 place-items-center rounded-full border border-border transition-colors hover:bg-ink hover:text-ink-foreground ${className}`}
+      className={cn('grid h-11 w-11 place-items-center rounded-full border border-border transition-colors hover:bg-ink hover:text-ink-foreground', className)}
     >
       {children}
     </button>
