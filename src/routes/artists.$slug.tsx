@@ -243,7 +243,7 @@ function Reviews({ a, n }: { a: Artist; n: number }) {
         <div className="grid gap-6 md:grid-cols-2">
           {a.reviews!.map((r, i) => (
             <Reveal key={i} delay={i * 0.08}>
-              <figure className="flex h-full flex-col justify-between gap-10 rounded-sm bg-card p-8 md:p-10">
+              <figure className="flex h-full flex-col justify-between gap-10 rounded-sm bg-cream p-8 md:p-10">
                 <div>
                   <div className="flex gap-1" aria-label="5 out of 5">{Array.from({ length: 5 }).map((_, k) => <Star key={k} className="h-3.5 w-3.5 fill-current" />)}</div>
                   <blockquote className="mt-6 text-xl leading-snug tracking-[-0.015em] md:text-2xl">“{r.quote}”</blockquote>
