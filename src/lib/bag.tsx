@@ -98,9 +98,15 @@ export function BagProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (hydrated) writeJSON("iaaa-bag", items);
   }, [items, hydrated]);
-  useEffect(() => writeJSON("iaaa-saved", saved), [saved]);
-  useEffect(() => writeJSON("iaaa-checkout", draft), [draft]);
-  useEffect(() => writeJSON("iaaa-last-order", lastOrder), [lastOrder]);
+  useEffect(() => {
+    if (hydrated) writeJSON("iaaa-saved", saved);
+  }, [saved, hydrated]);
+  useEffect(() => {
+    if (hydrated) writeJSON("iaaa-checkout", draft);
+  }, [draft, hydrated]);
+  useEffect(() => {
+    if (hydrated) writeJSON("iaaa-last-order", lastOrder);
+  }, [lastOrder, hydrated]);
 
   const add = (slug: string) => setItems((prev) => (prev.includes(slug) ? prev : [...prev, slug]));
   const remove = (slug: string) => setItems((prev) => prev.filter((s) => s !== slug));
