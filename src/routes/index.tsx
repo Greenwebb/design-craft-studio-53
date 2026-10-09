@@ -10,6 +10,7 @@ import work1 from "@/assets/work-1.jpg";
 import work2 from "@/assets/work-2.jpg";
 import work3 from "@/assets/work-3.jpg";
 import work4 from "@/assets/work-4.jpg";
+import { SiteButton, IconButton } from "@/components/site";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -60,10 +61,10 @@ function Hero() {
             Discover original works, the artists behind them, and the stories worth collecting.
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-8">
-            <a href={`${SITE}/shop`} className="group inline-flex items-center gap-3 bg-ink px-7 py-4 text-sm font-medium text-ink-foreground transition-opacity hover:opacity-85">
+            <SiteButton href={`${SITE}/shop`}>
               Explore the collection
-              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </a>
+              <ArrowUpRight className="h-4 w-4" />
+            </SiteButton>
             <TextLink href={`${SITE}/artists`}>Meet the artists</TextLink>
           </div>
         </motion.div>
@@ -204,8 +205,8 @@ function Artists() {
             <Reveal delay={0.1}><h2 className="display-lg mt-6 max-w-3xl">Meet the people behind the work.</h2></Reveal>
           </div>
           <div className="flex shrink-0 gap-2">
-            <button onClick={() => go(-1)} aria-label="Previous artist" className="grid h-11 w-11 place-items-center rounded-full border border-border transition-colors hover:bg-ink hover:text-ink-foreground"><ArrowLeft className="h-4 w-4" /></button>
-            <button onClick={() => go(1)} aria-label="Next artist" className="grid h-11 w-11 place-items-center rounded-full border border-border transition-colors hover:bg-ink hover:text-ink-foreground"><ArrowRight className="h-4 w-4" /></button>
+            <IconButton onClick={() => go(-1)} ariaLabel="Previous artist"><ArrowLeft className="h-4 w-4" /></IconButton>
+            <IconButton onClick={() => go(1)} ariaLabel="Next artist"><ArrowRight className="h-4 w-4" /></IconButton>
           </div>
         </div>
         <AnimatePresence mode="wait">
@@ -311,9 +312,9 @@ function ForArtists() {
               Build your presence, tell the story behind your work and reach people who value what you create.
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-8">
-              <a href={"/join"} className="group inline-flex items-center gap-3 bg-ink px-7 py-4 text-sm font-medium text-ink-foreground transition-opacity hover:opacity-85">
+              <SiteButton href="/join">
                 Join as an artist <ArrowUpRight className="h-4 w-4" />
-              </a>
+              </SiteButton>
               <TextLink href={"/join"}>Learn how it works</TextLink>
             </div>
           </Reveal>

@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { ArrowLeft, ArrowRight, Check, Plus, Image as ImageIcon, Video, Music, FolderOpen, ShoppingBag, Brush, Briefcase, CalendarCheck } from "lucide-react";
-import { EASE } from "@/components/site";
+import { EASE, SiteButton } from "@/components/site";
 import { HeroProfile } from "@/components/artist-hero";
 import type { Artist } from "@/data/artists";
 import onboardArt from "@/assets/artist-1.jpg";
@@ -222,15 +222,15 @@ function JoinPage() {
           <div className="container-x flex flex-wrap gap-3 pb-24 pt-6">
             {step === "preview" ? (
               <>
-                <button onClick={() => { setDir(1); setStep("done"); window.scrollTo({ top: 0 }); }} className="inline-flex items-center gap-2 rounded-full bg-ink px-7 py-4 text-sm font-medium text-ink-foreground">Publish profile <ArrowRight className="h-4 w-4" /></button>
-                <button onClick={() => jump("profile")} className="rounded-full border border-border px-7 py-4 text-sm font-medium hover:bg-secondary">Edit</button>
+                <SiteButton onClick={() => { setDir(1); setStep("done"); window.scrollTo({ top: 0 }); }}>Publish profile <ArrowRight className="h-4 w-4" /></SiteButton>
+                <SiteButton variant="outline" onClick={() => jump("profile")}>Edit</SiteButton>
               </>
             ) : (
               <>
-                <a href="#top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 300, behavior: "smooth" }); }} className="inline-flex items-center gap-2 rounded-full bg-ink px-7 py-4 text-sm font-medium text-ink-foreground">View my profile <ArrowRight className="h-4 w-4" /></a>
-                <button onClick={() => jump("work")} className="rounded-full border border-border px-7 py-4 text-sm font-medium hover:bg-secondary">Add more work</button>
-                {(d.caps.offersServices || d.caps.acceptsBookings || d.caps.acceptsCommissions) && <button onClick={() => jump("earn")} className="rounded-full border border-border px-7 py-4 text-sm font-medium hover:bg-secondary">Add a service</button>}
-                {d.caps.sellsWorks && <button onClick={() => jump("work")} className="rounded-full border border-border px-7 py-4 text-sm font-medium hover:bg-secondary">List your first work</button>}
+                <SiteButton href="#top" onClick={() => window.scrollTo({ top: 300, behavior: "smooth" })}>View my profile <ArrowRight className="h-4 w-4" /></SiteButton>
+                <SiteButton variant="outline" onClick={() => jump("work")}>Add more work</SiteButton>
+                {(d.caps.offersServices || d.caps.acceptsBookings || d.caps.acceptsCommissions) && <SiteButton variant="outline" onClick={() => jump("earn")}>Add a service</SiteButton>}
+                {d.caps.sellsWorks && <SiteButton variant="outline" onClick={() => jump("work")}>List your first work</SiteButton>}
               </>
             )}
           </div>
@@ -254,7 +254,7 @@ function JoinPage() {
               <motion.div key={step} custom={dir} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.45, ease: EASE }} className="max-w-2xl">
                 {step === "welcome" && (
                   <div className="flex flex-col gap-4 lg:pt-24">
-                    <button onClick={() => go(1)} className="inline-flex w-fit items-center gap-2 rounded-full bg-ink px-8 py-4 text-sm font-medium text-ink-foreground">Get started <ArrowRight className="h-4 w-4" /></button>
+                    <SiteButton onClick={() => go(1)} className="px-8">Get started <ArrowRight className="h-4 w-4" /></SiteButton>
                     <a href="/" className="link-line w-fit text-sm font-medium">I already have an account</a>
                     <p className="mt-6 text-[13px] text-muted-foreground">Takes about 5 minutes. You can finish later.</p>
                   </div>
@@ -361,9 +361,9 @@ function JoinPage() {
                     <button onClick={() => go(-1)} className="inline-flex items-center gap-2 text-sm font-medium opacity-70 hover:opacity-100"><ArrowLeft className="h-4 w-4" />Back</button>
                     <div className="flex items-center gap-5">
                       {step === "work" && <button onClick={() => { set("work", null); setDir(1); setStep(flow[idx + 1]!); }} className="link-line text-sm font-medium">Skip for now</button>}
-                      <button onClick={() => go(1)} className="inline-flex items-center gap-2 rounded-full bg-ink px-7 py-4 text-sm font-medium text-ink-foreground">
+                      <SiteButton onClick={() => go(1)}>
                         {flow[idx + 1] === "preview" ? "Preview profile" : "Continue"} <ArrowRight className="h-4 w-4" />
-                      </button>
+                      </SiteButton>
                     </div>
                   </div>
                 )}
