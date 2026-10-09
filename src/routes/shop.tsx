@@ -25,13 +25,13 @@ const SORTS: { id: Sort; label: string }[] = [
 
 export const Route = createFileRoute("/shop")({
   validateSearch: (s: Record<string, unknown>): SearchState => ({
-    type: typeof s.type === "string" ? (s.type as WorkType) : undefined,
-    price: typeof s.price === "string" ? s.price : undefined,
-    size: typeof s.size === "string" ? (s.size as SearchState["size"]) : undefined,
-    orientation: typeof s.orientation === "string" ? (s.orientation as SearchState["orientation"]) : undefined,
-    theme: typeof s.theme === "string" ? s.theme : undefined,
-    available: s.available === true || s.available === "true" ? true : undefined,
-    sort: typeof s.sort === "string" ? (s.sort as Sort) : undefined,
+    type: typeof s["type"] === "string" ? (s["type"] as WorkType) : undefined,
+    price: typeof s["price"] === "string" ? (s["price"] as string) : undefined,
+    size: typeof s["size"] === "string" ? (s["size"] as SearchState["size"]) : undefined,
+    orientation: typeof s["orientation"] === "string" ? (s["orientation"] as SearchState["orientation"]) : undefined,
+    theme: typeof s["theme"] === "string" ? (s["theme"] as string) : undefined,
+    available: s["available"] === true || s["available"] === "true" ? true : undefined,
+    sort: typeof s["sort"] === "string" ? (s["sort"] as Sort) : undefined,
   }),
   head: () => ({
     meta: [
