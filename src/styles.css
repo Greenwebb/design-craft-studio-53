@@ -52,6 +52,7 @@
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
   --color-ink: var(--ink);
+  --color-success: oklch(0.62 0.13 150);
   --color-ink-foreground: var(--ink-foreground);
   --font-sans: "Inter Tight", sans-serif;
   --font-heading: "Inter Tight", sans-serif;
