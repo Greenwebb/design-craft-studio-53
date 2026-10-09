@@ -1,7 +1,7 @@
 import { createFileRoute, Link, Outlet, useRouterState } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 import { FloatingNav, floatingNavItem } from '@/components/ecosystem/floating-nav';
-import { LayoutGrid, Scale, Undo2, LifeBuoy, MoreHorizontal } from 'lucide-react';
+import { LayoutGrid, Scale, Undo2, LifeBuoy, MoreHorizontal, Home, Users, Palette, Store, Workflow, Wallet, Shield, Settings, ChevronRight, type LucideIcon } from 'lucide-react';
 import { adminNav } from '@/data/admin-data';
 import { Logo } from '@/components/site';
 import { currentStaff } from '@/data/admin-data';
@@ -55,23 +55,7 @@ function AdminShell() {
           <Logo />
           <span className="rounded-full bg-ink px-3 py-1 text-xs font-medium text-ink-foreground">Operations</span>
         </div>
-        <nav aria-label="Operations" className="mt-8 hidden flex-col lg:flex">
-          {adminNav.map((group) => (
-            <div key={group.group ?? 'root'} className="mb-5">
-              {group.group && <p className="mb-2 px-4 text-[12px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{group.group}</p>}
-              <div className="flex flex-col gap-1">
-                {group.items.map((item) => (
-                  <Link key={item.id} to={item.to} activeOptions={item.to === '/admin' ? { exact: true } : {}}
-                    activeProps={{ className: 'bg-ink text-ink-foreground' }}
-                    className="flex shrink-0 items-center gap-3 rounded-full px-4 py-2.5 text-[15px] font-medium">
-                    <span className="flex-1">{item.label}</span>
-                    {item.count !== undefined && item.count > 0 && <span className="rounded-full bg-studio-copper/15 px-2.5 text-[13px] text-studio-copper">{item.count}</span>}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ))}
-        </nav>
+        <SidebarNav path={path} />
         <div className="mt-2 hidden items-center gap-3 rounded-2xl border border-border p-4 lg:flex">
           <span className="grid h-10 w-10 place-items-center rounded-full bg-studio-green/10 text-sm font-semibold text-studio-green">{currentStaff.initials}</span>
           <div className="min-w-0"><p className="truncate text-[15px] font-medium">{currentStaff.name}</p><p className="text-sm text-muted-foreground">{currentStaff.role}</p></div>
@@ -106,10 +90,71 @@ function AdminShell() {
               </div>
             </div>
           ))}
-          <Link to="/admin/settings" onClick={() => setMore(false)} className="block rounded-full border border-border px-4 py-2.5 text-center text-[15px] font-medium hover:bg-secondary">Settings</Link>
         </div>
       </AdminDialog>
       <AdminSearch />
     </div>
+  );
+}
+
+const topIcons: Record<string, LucideIcon> = { overview: Home, users: Users, creators: Palette };
+const groupIcons: Record<string, LucideIcon> = { Marketplace: Store, Operations: Workflow, Finance: Wallet, 'Trust & Safety': Shield, System: Settings };
+const isActive = (path: string, to: string) => (to === '/admin' ? path === '/admin' : path === to || path.startsWith(to + '/'));
+
+function CountBadge({ n }: { n?: number | undefined }) {
+  return n !== undefined && n > 0 ? <span className="rounded-full bg-studio-copper/15 px-2.5 text-[13px] text-studio-copper">{n}</span> : null;
+}
+
+// Main areas first; sub-pages appear only when a group is expanded.
+// The group containing the current page opens automatically.
+function SidebarNav({ path }: { path: string }) {
+  const activeGroup = adminNav.find((g) => g.group && g.items.some((i) => isActive(path, i.to)))?.group ?? null;
+  const [open, setOpen] = useState<Record<string, boolean>>({});
+  useEffect(() => { if (activeGroup) setOpen((o) => ({ ...o, [activeGroup]: true })); }, [activeGroup]);
+  const row = 'flex min-h-[42px] w-full items-center gap-3 rounded-full px-4 text-[15px] font-medium';
+  return (
+    <nav aria-label="Operations" className="mt-8 hidden flex-col gap-1 lg:flex">
+      {adminNav.map((group) => {
+        if (!group.group) return group.items.map((item) => {
+          const Icon = topIcons[item.id] ?? Home;
+          return (
+            <Link key={item.id} to={item.to} activeOptions={item.to === '/admin' ? { exact: true } : {}}
+              activeProps={{ className: 'bg-ink text-ink-foreground' }} className={`${row} hover:bg-secondary`}>
+              <Icon size={19} aria-hidden /><span className="flex-1">{item.label}</span><CountBadge n={item.count} />
+            </Link>
+          );
+        });
+        const name = group.group;
+        const Icon = groupIcons[name] ?? Settings;
+        const expanded = !!open[name];
+        const hasActive = activeGroup === name;
+        const total = group.items.reduce((n, i) => n + (i.count ?? 0), 0);
+        const id = `nav-${name.replace(/\W+/g, '-').toLowerCase()}`;
+        return (
+          <div key={name} className="mt-1">
+            <button type="button" aria-expanded={expanded} aria-controls={id} onClick={() => setOpen((o) => ({ ...o, [name]: !expanded }))}
+              className={`${row} text-left hover:bg-secondary ${hasActive ? 'bg-foreground/[0.04]' : ''}`}>
+              <Icon size={19} aria-hidden /><span className="flex-1">{name}</span>
+              {!expanded && <CountBadge n={total} />}
+              <ChevronRight size={16} aria-hidden className={`text-muted-foreground transition-transform duration-200 ${expanded ? 'rotate-90' : ''}`} />
+            </button>
+            {expanded && (
+              <div id={id} className="mt-0.5 flex flex-col">
+                {group.items.map((item) => {
+                  const on = isActive(path, item.to);
+                  return (
+                    <Link key={item.id} to={item.to} aria-current={on ? 'page' : undefined}
+                      className={`relative flex min-h-[34px] items-center gap-2 rounded-full pl-12 pr-4 text-[14px] hover:bg-secondary ${on ? 'font-semibold text-foreground' : 'text-muted-foreground'}`}>
+                      {on && <span aria-hidden className="absolute left-[30px] h-1.5 w-1.5 rounded-full bg-foreground" />}
+                      <span className="flex-1">{item.label}</span><CountBadge n={item.count} />
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </nav>
   );
 }
