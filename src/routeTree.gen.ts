@@ -28,6 +28,7 @@ import { Route as PublicBagRouteImport } from './routes/_public/bag'
 import { Route as PublicSearchRouteImport } from './routes/_public/search'
 import { Route as AccountIndexRouteImport } from './routes/account.index'
 import { Route as AccountSectionRouteImport } from './routes/account.$section'
+import { Route as AccountSecurityRouteImport } from './routes/account.security'
 import { Route as CheckoutContactRouteImport } from './routes/checkout.contact'
 import { Route as CheckoutDeliveryRouteImport } from './routes/checkout.delivery'
 import { Route as CheckoutPaymentRouteImport } from './routes/checkout.payment'
@@ -140,6 +141,11 @@ const AccountIndexRoute = AccountIndexRouteImport.update({
 const AccountSectionRoute = AccountSectionRouteImport.update({
   id: '/$section',
   path: '/$section',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountSecurityRoute = AccountSecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
   getParentRoute: () => AccountRoute,
 } as any)
 const CheckoutContactRoute = CheckoutContactRouteImport.update({
@@ -256,6 +262,7 @@ export interface FileRoutesByFullPath {
   '/bag': typeof PublicBagRoute
   '/search': typeof PublicSearchRoute
   '/account/$section': typeof AccountSectionRoute
+  '/account/security': typeof AccountSecurityRoute
   '/checkout/contact': typeof CheckoutContactRoute
   '/checkout/delivery': typeof CheckoutDeliveryRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
@@ -291,6 +298,7 @@ export interface FileRoutesByTo {
   '/bag': typeof PublicBagRoute
   '/search': typeof PublicSearchRoute
   '/account/$section': typeof AccountSectionRoute
+  '/account/security': typeof AccountSecurityRoute
   '/checkout/contact': typeof CheckoutContactRoute
   '/checkout/delivery': typeof CheckoutDeliveryRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
@@ -332,6 +340,7 @@ export interface FileRoutesById {
   '/_public/bag': typeof PublicBagRoute
   '/_public/search': typeof PublicSearchRoute
   '/account/$section': typeof AccountSectionRoute
+  '/account/security': typeof AccountSecurityRoute
   '/checkout/contact': typeof CheckoutContactRoute
   '/checkout/delivery': typeof CheckoutDeliveryRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
@@ -374,6 +383,7 @@ export interface FileRouteTypes {
     | '/bag'
     | '/search'
     | '/account/$section'
+    | '/account/security'
     | '/checkout/contact'
     | '/checkout/delivery'
     | '/checkout/payment'
@@ -409,6 +419,7 @@ export interface FileRouteTypes {
     | '/bag'
     | '/search'
     | '/account/$section'
+    | '/account/security'
     | '/checkout/contact'
     | '/checkout/delivery'
     | '/checkout/payment'
@@ -449,6 +460,7 @@ export interface FileRouteTypes {
     | '/_public/bag'
     | '/_public/search'
     | '/account/$section'
+    | '/account/security'
     | '/checkout/contact'
     | '/checkout/delivery'
     | '/checkout/payment'
@@ -623,6 +635,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountSectionRouteImport
       parentRoute: typeof AccountRoute
     }
+    '/account/security': {
+      id: '/account/security'
+      path: '/security'
+      fullPath: '/account/security'
+      preLoaderRoute: typeof AccountSecurityRouteImport
+      parentRoute: typeof AccountRoute
+    }
     '/checkout/contact': {
       id: '/checkout/contact'
       path: '/contact'
@@ -793,6 +812,7 @@ const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
 
 interface AccountRouteChildren {
   AccountSectionRoute: typeof AccountSectionRoute
+  AccountSecurityRoute: typeof AccountSecurityRoute
   AccountIndexRoute: typeof AccountIndexRoute
   AccountOrdersIdRoute: typeof AccountOrdersIdRoute
   AccountProjectsIdRoute: typeof AccountProjectsIdRoute
@@ -800,6 +820,7 @@ interface AccountRouteChildren {
 
 const AccountRouteChildren: AccountRouteChildren = {
   AccountSectionRoute: AccountSectionRoute,
+  AccountSecurityRoute: AccountSecurityRoute,
   AccountIndexRoute: AccountIndexRoute,
   AccountOrdersIdRoute: AccountOrdersIdRoute,
   AccountProjectsIdRoute: AccountProjectsIdRoute,
