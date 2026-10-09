@@ -44,6 +44,7 @@ export type LastOrder = {
 };
 
 type BagContextValue = {
+  hydrated: boolean;
   items: string[];
   saved: string[];
   add: (slug: string) => void;
@@ -125,7 +126,7 @@ export function BagProvider({ children }: { children: ReactNode }) {
 
   return (
     <BagContext.Provider
-      value={{ items, saved, add, remove, toggleSave, clear, draft, setDraft, resetDraft, lastOrder, placeOrder }}
+      value={{ hydrated, items, saved, add, remove, toggleSave, clear, draft, setDraft, resetDraft, lastOrder, placeOrder }}
     >
       {children}
     </BagContext.Provider>
