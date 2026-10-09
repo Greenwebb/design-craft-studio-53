@@ -407,6 +407,36 @@ function JoinPage() {
 }
 
 /* ---------------- pieces ---------------- */
+function SideRail({ stage, name, disciplines, location }: { stage: number; name: string; disciplines: string[]; location: string }) {
+  return (
+    <aside className="hidden lg:block">
+      <div className="sticky top-40 space-y-12">
+        <ol className="space-y-6">
+          {STAGES.map((s, i) => (
+            <li key={s} className="flex items-start gap-4">
+              <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border text-[13px] ${i < stage ? "border-foreground bg-foreground text-background" : i === stage ? "border-foreground" : "border-border text-muted-foreground"}`}>
+                {i < stage ? <Check className="h-3.5 w-3.5" /> : i + 1}
+              </span>
+              <div className="min-w-0 pt-1">
+                <p className={`text-[15px] leading-snug ${i === stage ? "font-medium" : i < stage ? "text-muted-foreground line-through decoration-foreground/30" : "text-muted-foreground"}`}>{s}</p>
+                {i === stage && <p className="mt-1 text-[12px] text-muted-foreground">In progress</p>}
+              </div>
+            </li>
+          ))}
+        </ol>
+        {name.trim() && (
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: EASE }} className="rounded-2xl border border-border p-6">
+            <p className="note -rotate-2">that's you</p>
+            <p className="mt-3 text-[17px] font-semibold uppercase tracking-[0.06em]">{name}</p>
+            <p className="mt-1.5 text-[13px] leading-snug text-muted-foreground">{disciplines.join(" · ")}</p>
+            {location && <p className="mt-1 text-[13px] text-muted-foreground">{location}</p>}
+          </motion.div>
+        )}
+      </div>
+    </aside>
+  );
+}
+
 function StageBar({ stage, sub, total, milestone }: { stage: number; sub: number; total: number; milestone: boolean }) {
   return (
     <div className="border-b border-border">
