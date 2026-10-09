@@ -15,8 +15,8 @@
 - [x] Move all shared state (bag, account context, dashboard context) to Zustand stores
 
 ## Frontend-only phase (mock data everywhere; external APIs wired later)
-- [ ] Earnings / Wallet full UI: pending → available → withdraw → processing → paid, fees, reversals, failed payouts (creator)
-- [ ] Order fulfilment tracking UI: paid → confirmed → preparing → dispatch → delivered → completed (creator + collector views)
+- [x] Earnings / Wallet full UI: pending → available → withdraw → processing → paid, fees, reversals, failed payouts (creator)
+- [x] Order fulfilment tracking UI: paid → confirmed → preparing → dispatch → delivered → completed (collector view; creator sell-side view still open)
 - [ ] Notifications center: grouped purchases, enquiries, bookings, profile updates across shells
 - [ ] Messaging / inbox: project + commission conversations, both sides
 - [ ] Collector account completion: orders, saved works, collaborations, reviews
