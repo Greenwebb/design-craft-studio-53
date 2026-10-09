@@ -16,6 +16,7 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CreatorRouteImport } from './routes/creator'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as JoinRouteImport } from './routes/join'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicArtForSpacesRouteImport } from './routes/_public/art-for-spaces'
 import { Route as PublicBagRouteImport } from './routes/_public/bag'
@@ -74,6 +75,11 @@ const DashboardRoute = DashboardRouteImport.update({
 const JoinRoute = JoinRouteImport.update({
   id: '/join',
   path: '/join',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PublicIndexRoute = PublicIndexRouteImport.update({
@@ -210,6 +216,7 @@ export interface FileRoutesByFullPath {
   '/creator': typeof CreatorRouteWithChildren
   '/dashboard': typeof DashboardRouteWithChildren
   '/join': typeof JoinRoute
+  '/login': typeof LoginRoute
   '/art-for-spaces': typeof PublicArtForSpacesRoute
   '/bag': typeof PublicBagRoute
   '/search': typeof PublicSearchRoute
@@ -239,6 +246,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRouteWithChildren
   '/join': typeof JoinRoute
+  '/login': typeof LoginRoute
   '/art-for-spaces': typeof PublicArtForSpacesRoute
   '/bag': typeof PublicBagRoute
   '/search': typeof PublicSearchRoute
@@ -274,6 +282,7 @@ export interface FileRoutesById {
   '/creator': typeof CreatorRouteWithChildren
   '/dashboard': typeof DashboardRouteWithChildren
   '/join': typeof JoinRoute
+  '/login': typeof LoginRoute
   '/_public/art-for-spaces': typeof PublicArtForSpacesRoute
   '/_public/bag': typeof PublicBagRoute
   '/_public/search': typeof PublicSearchRoute
@@ -310,6 +319,7 @@ export interface FileRouteTypes {
     | '/creator'
     | '/dashboard'
     | '/join'
+    | '/login'
     | '/art-for-spaces'
     | '/bag'
     | '/search'
@@ -339,6 +349,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/checkout'
     | '/join'
+    | '/login'
     | '/art-for-spaces'
     | '/bag'
     | '/search'
@@ -373,6 +384,7 @@ export interface FileRouteTypes {
     | '/creator'
     | '/dashboard'
     | '/join'
+    | '/login'
     | '/_public/art-for-spaces'
     | '/_public/bag'
     | '/_public/search'
@@ -408,6 +420,7 @@ export interface RootRouteChildren {
   CreatorRoute: typeof CreatorRouteWithChildren
   DashboardRoute: typeof DashboardRouteWithChildren
   JoinRoute: typeof JoinRoute
+  LoginRoute: typeof LoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -459,6 +472,13 @@ declare module '@tanstack/react-router' {
       path: '/join'
       fullPath: '/join'
       preLoaderRoute: typeof JoinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_public/': {
@@ -745,6 +765,7 @@ const rootRouteChildren: RootRouteChildren = {
   CreatorRoute: CreatorRouteWithChildren,
   DashboardRoute: DashboardRouteWithChildren,
   JoinRoute: JoinRoute,
+  LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
