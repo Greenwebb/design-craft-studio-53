@@ -218,7 +218,8 @@ function Hero() {
             className="aspect-[4/5] w-full object-cover lg:max-h-[78svh]"
           />
         </motion.div>
-        <figcaption className="mt-4 flex items-baseline justify-between gap-4 text-[13px]">
+        <p className="note mt-4 -rotate-1">a story worth keeping</p>
+        <figcaption className="mt-1 flex items-baseline justify-between gap-4 text-[13px]">
           <span><span className="font-medium">Mwansa Chileshe</span> — <em className="not-italic text-muted-foreground">After the Rain</em></span>
           <span className="text-muted-foreground">Lusaka, Zambia · 2026</span>
         </figcaption>
@@ -234,10 +235,11 @@ function Story() {
         <Reveal><p className="eyebrow text-muted-foreground">The Story</p></Reveal>
         <Reveal delay={0.1}>
           <blockquote className="display-quote mt-8">
-            “I painted this after the first rains came. Everything around me became quieter, greener and somehow new again.”
+            “I painted this <span className="note-feature">after the first rains came.</span> Everything around me became quieter, greener and somehow new again.”
           </blockquote>
         </Reveal>
         <Reveal delay={0.2} className="mt-10 space-y-1 text-sm">
+          <p className="note mb-1">From the studio</p>
           <p className="font-medium">Mwansa Chileshe</p>
           <p className="text-muted-foreground">Oil on canvas</p>
           <p className="text-muted-foreground">Lusaka, Zambia</p>
@@ -271,7 +273,7 @@ function Artwork({ w }: { w: (typeof works)[number] }) {
       </div>
       <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto] gap-4">
         <div className="min-w-0">
-          <h3 className="text-[17px] font-medium">{w.t}</h3>
+          <h3 className="note-title">{w.t}</h3>
           <p className="text-sm">{w.a}</p>
           <p className="text-[13px] text-muted-foreground">{w.m}</p>
         </div>
@@ -331,7 +333,8 @@ function Artists() {
                 <p className="eyebrow text-muted-foreground">{String(i + 1).padStart(2, "0")} / {String(artists.length).padStart(2, "0")}</p>
                 <h3 className="mt-6 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">{a.name}</h3>
                 <p className="mt-2 text-muted-foreground">{a.role}</p>
-                <p className="mt-10 max-w-xl text-2xl leading-snug tracking-[-0.02em] md:text-3xl">“{a.quote}”</p>
+                <p className="note mt-10">in their own words</p>
+                <p className="mt-3 max-w-xl text-2xl leading-snug tracking-[-0.02em] md:text-3xl">“{a.quote}”</p>
                 <div className="mt-10"><TextLink href={`${SITE}/artists`}>View artist</TextLink></div>
               </div>
               <div className="grid grid-cols-2 gap-6">
@@ -356,6 +359,7 @@ function Spaces() {
         <div>
           <Reveal><p className="eyebrow opacity-60">Art for Spaces</p></Reveal>
           <Reveal delay={0.1}><h2 className="display-lg mt-6">Art changes a space.</h2></Reveal>
+          <Reveal delay={0.15}><p className="note mt-4">curated for your space</p></Reveal>
           <Reveal delay={0.2}>
             <p className="mt-8 max-w-md text-lg leading-relaxed opacity-80">
               We help hotels, offices, restaurants and remarkable spaces discover and commission original work from Zambian artists.
@@ -461,6 +465,7 @@ function ForArtists() {
 function Closing() {
   return (
     <section className="container-x flex min-h-[70vh] flex-col justify-center border-t border-border py-24">
+      <Reveal><p className="note mb-6">from Zambia, with a story</p></Reveal>
       <Reveal><h2 className="display-xl max-w-5xl">Made here. Collected everywhere.</h2></Reveal>
       <Reveal delay={0.15} className="mt-12"><TextLink href={`${SITE}/shop`} className="text-lg">Explore the collection</TextLink></Reveal>
     </section>
