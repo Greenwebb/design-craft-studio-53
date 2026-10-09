@@ -115,7 +115,7 @@ function Hero() {
 
 function Story() {
   return (
-    <section className="container-x section-y grid items-center gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
+    <section className="bg-cream">
       <div>
         <Reveal><p className="eyebrow text-muted-foreground"><span className="mr-3 text-foreground">01</span>The Story</p></Reveal>
         <Reveal delay={0.1}>
