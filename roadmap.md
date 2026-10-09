@@ -10,4 +10,4 @@
 - [x] Public shell, canonical creator namespace and legacy redirects.
 - [x] Collector shell, Home, collection, orders, saved and contextual projects/messages.
 - [x] Shared account-menu context switching and onboarding-to-studio presentation transition.
-- [ ] Verify preview transitions, public browsing and mobile navigation; real authentication and permissions out of scope.
+- [x] Verify preview transitions, public browsing and mobile navigation; real authentication and permissions out of scope.
