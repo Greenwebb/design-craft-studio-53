@@ -263,7 +263,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
         <Dialog.Root open={create} onOpenChange={setCreate}>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 z-50 bg-ink/35" />
-            <Dialog.Content className="studio fixed inset-x-0 bottom-0 z-50 max-h-[90svh] overflow-y-auto rounded-t-lg bg-studio-surface p-6 outline-none md:inset-y-0 md:left-auto md:right-0 md:w-[420px] md:rounded-none md:rounded-l-lg">
+            <Dialog.Content className="studio fixed inset-x-0 bottom-0 z-50 max-h-[90svh] overflow-y-auto rounded-t-lg bg-studio-surface p-6 outline-none sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:w-[min(520px,calc(100vw-3rem))] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:max-h-[86svh] sm:rounded-lg sm:p-8 sm:shadow-2xl">
               <Dialog.Title className="text-xl font-semibold">Create</Dialog.Title>
               <Dialog.Description className="mt-1 text-sm text-muted-foreground">
                 Make your next creative move.
