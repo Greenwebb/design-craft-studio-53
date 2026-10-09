@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Image, ArrowUpRight } from "lucide-react";
+import { ProjectSummary, MessageThread } from "@/components/ecosystem/primitives";
+import { sharedProjects } from "@/data/ecosystem";
 import { useStudio } from "@/components/creator/context";
 import { StudioLink } from "@/components/creator/controls";
 import { SiteButton } from "@/components/site";
@@ -66,6 +68,8 @@ function StudioDestination() {
     (section === "services" && !capabilities.offersServices) ||
     (section === "earnings" && !monetizationEnabled)
   );
+  if (section === "projects" && (capabilities.acceptsCommissions || capabilities.offersServices || capabilities.acceptsBookings)) return <section><h1 className="mb-4 text-4xl font-semibold">Projects</h1><p className="mb-8 text-xs text-muted-foreground">Shared project preview · Sample data</p>{sharedProjects.filter(p=>p.creatorId==="preview-artist").map(p=><ProjectSummary key={p.id} project={p} context="creator"/>)}</section>;
+  if (section === "messages") return <section><h1 className="mb-8 text-4xl font-semibold">Messages</h1><MessageThread/></section>;
   return (
     <section className="min-h-[65vh]">
       <span className="note text-studio-green">room for what’s next</span>

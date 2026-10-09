@@ -2,6 +2,8 @@ import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motio
 import { useEffect, useState, type ReactNode, type ButtonHTMLAttributes } from "react";
 import { ArrowRight, ArrowUpRight, Search, User, Menu, X } from "lucide-react";
 import logoAsset from "@/assets/logo.png.asset.json";
+import { Link, useRouterState } from "@tanstack/react-router";
+import { AccountMenu } from "@/components/ecosystem/account-menu";
 import { cn } from '@/lib/utils';
 
 export function Logo({ className = "h-11 md:h-12" }: { className?: string }) {
@@ -132,10 +134,10 @@ export function Nav() {
     window.addEventListener("scroll", f, { passive: true });
     return () => window.removeEventListener("scroll", f);
   }, []);
-  const pathname = typeof window !== "undefined" ? window.location.pathname : "";
+  const pathname = useRouterState({ select: s => s.location.pathname });
   const links = [
     ["Shop", "/shop"],
-    ["View Artists", `${SITE}/artists`],
+    ["View Artists", "/artists"],
     ["Join as Artist", "/join"],
   ];
   return (
@@ -154,10 +156,10 @@ export function Nav() {
                 {i === 2 && <ArrowUpRight className="h-3.5 w-3.5" />}
               </a>
             ))}
-            <button aria-label="Search" onClick={() => window.dispatchEvent(new Event("open-search"))} className="opacity-80 transition-opacity hover:opacity-100"><Search className="h-[18px] w-[18px]" /></button>
-            <a href="/dashboard" aria-label="Creative studio" className="opacity-80 transition-opacity hover:opacity-100"><User className="h-[18px] w-[18px]" /></a>
+            <Link to="/search" aria-label="Search" className="opacity-80 transition-opacity hover:opacity-100"><Search className="h-[18px] w-[18px]" /></Link>
+            <AccountMenu />
           </nav>
-          <button className="md:hidden" aria-label="Open menu" onClick={() => setOpen(true)}><Menu className="h-6 w-6" /></button>
+          <div className="flex items-center gap-2 md:hidden"><AccountMenu/><IconButton className="border-0" ariaLabel="Open menu" onClick={() => setOpen(true)}><Menu className="h-6 w-6" /></IconButton></div>
         </div>
       </header>
       <AnimatePresence>
@@ -174,7 +176,7 @@ export function Nav() {
               <button aria-label="Close menu" onClick={() => setOpen(false)}><X className="h-6 w-6" /></button>
             </div>
             <nav className="container-x mt-12 flex flex-col">
-              {[...links, ["Art for Spaces", "#spaces"]].map(([l, h], i) => (
+              {[...links, ["Art for Spaces", "/art-for-spaces"]].map(([l, h], i) => (
                 <motion.a
                   key={l}
                   href={h}
@@ -207,9 +209,9 @@ export function Footer() {
         <div><Logo className="h-16" /></div>
         <nav className={col} aria-label="Footer">
           <a className="link-line w-fit" href="/shop">Shop</a>
-          <a className="link-line w-fit" href={`${SITE}/artists`}>Artists</a>
+          <a className="link-line w-fit" href="/artists">Artists</a>
           <a className="link-line w-fit" href={"/join"}>Join as Artist</a>
-          <a className="link-line w-fit" href="#spaces">Art for Spaces</a>
+          <a className="link-line w-fit" href="/art-for-spaces">Art for Spaces</a>
           <a className="link-line w-fit" href={SITE}>About</a>
         </nav>
         <div className={col}>
