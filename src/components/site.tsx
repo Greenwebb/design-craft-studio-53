@@ -76,7 +76,7 @@ export function Nav() {
   const links = [
     ["Shop", `${SITE}/shop`],
     ["View Artists", `${SITE}/artists`],
-    ["Join as Artist", `${SITE}/join`],
+    ["Join as Artist", "/join"],
   ];
   return (
     <>
@@ -148,7 +148,7 @@ export function Footer() {
         <nav className={col} aria-label="Footer">
           <a className="link-line w-fit" href={`${SITE}/shop`}>Shop</a>
           <a className="link-line w-fit" href={`${SITE}/artists`}>Artists</a>
-          <a className="link-line w-fit" href={`${SITE}/join`}>Join as Artist</a>
+          <a className="link-line w-fit" href={"/join"}>Join as Artist</a>
           <a className="link-line w-fit" href="#spaces">Art for Spaces</a>
           <a className="link-line w-fit" href={SITE}>About</a>
         </nav>
