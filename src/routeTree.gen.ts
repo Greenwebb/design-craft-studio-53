@@ -50,9 +50,13 @@ import { Route as PublicShopCollectionRouteImport } from './routes/_public/shop.
 import { Route as PublicWorkSlugRouteImport } from './routes/_public/work.$slug'
 import { Route as AccountOrdersIdRouteImport } from './routes/account.orders.$id'
 import { Route as AccountProjectsIdRouteImport } from './routes/account.projects.$id'
+import { Route as AccountSettingsIndexRouteImport } from './routes/account.settings.index'
+import { Route as AccountSettingsPageRouteImport } from './routes/account.settings.$page'
 import { Route as CreatorCommissionsIdRouteImport } from './routes/creator.commissions.$id'
 import { Route as CreatorNewKindRouteImport } from './routes/creator.new.$kind'
 import { Route as CreatorProjectsIdRouteImport } from './routes/creator.projects.$id'
+import { Route as CreatorSettingsIndexRouteImport } from './routes/creator.settings.index'
+import { Route as CreatorSettingsPageRouteImport } from './routes/creator.settings.$page'
 
 const PublicRouteRoute = PublicRouteRouteImport.update({
   id: '/_public',
@@ -258,6 +262,16 @@ const AccountProjectsIdRoute = AccountProjectsIdRouteImport.update({
   path: '/projects/$id',
   getParentRoute: () => AccountRoute,
 } as any)
+const AccountSettingsIndexRoute = AccountSettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountSettingsPageRoute = AccountSettingsPageRouteImport.update({
+  id: '/settings/$page',
+  path: '/settings/$page',
+  getParentRoute: () => AccountRoute,
+} as any)
 const CreatorCommissionsIdRoute = CreatorCommissionsIdRouteImport.update({
   id: '/commissions/$id',
   path: '/commissions/$id',
@@ -271,6 +285,16 @@ const CreatorNewKindRoute = CreatorNewKindRouteImport.update({
 const CreatorProjectsIdRoute = CreatorProjectsIdRouteImport.update({
   id: '/projects/$id',
   path: '/projects/$id',
+  getParentRoute: () => CreatorRoute,
+} as any)
+const CreatorSettingsIndexRoute = CreatorSettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => CreatorRoute,
+} as any)
+const CreatorSettingsPageRoute = CreatorSettingsPageRouteImport.update({
+  id: '/settings/$page',
+  path: '/settings/$page',
   getParentRoute: () => CreatorRoute,
 } as any)
 
@@ -313,11 +337,15 @@ export interface FileRoutesByFullPath {
   '/work/$slug': typeof PublicWorkSlugRoute
   '/account/orders/$id': typeof AccountOrdersIdRoute
   '/account/projects/$id': typeof AccountProjectsIdRoute
+  '/account/settings/$page': typeof AccountSettingsPageRoute
   '/creator/commissions/$id': typeof CreatorCommissionsIdRoute
   '/creator/new/$kind': typeof CreatorNewKindRoute
   '/creator/projects/$id': typeof CreatorProjectsIdRoute
+  '/creator/settings/$page': typeof CreatorSettingsPageRoute
   '/artists/': typeof PublicArtistsIndexRoute
   '/shop/': typeof PublicShopIndexRoute
+  '/account/settings/': typeof AccountSettingsIndexRoute
+  '/creator/settings/': typeof CreatorSettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
@@ -354,11 +382,15 @@ export interface FileRoutesByTo {
   '/work/$slug': typeof PublicWorkSlugRoute
   '/account/orders/$id': typeof AccountOrdersIdRoute
   '/account/projects/$id': typeof AccountProjectsIdRoute
+  '/account/settings/$page': typeof AccountSettingsPageRoute
   '/creator/commissions/$id': typeof CreatorCommissionsIdRoute
   '/creator/new/$kind': typeof CreatorNewKindRoute
   '/creator/projects/$id': typeof CreatorProjectsIdRoute
+  '/creator/settings/$page': typeof CreatorSettingsPageRoute
   '/artists': typeof PublicArtistsIndexRoute
   '/shop': typeof PublicShopIndexRoute
+  '/account/settings': typeof AccountSettingsIndexRoute
+  '/creator/settings': typeof CreatorSettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -401,11 +433,15 @@ export interface FileRoutesById {
   '/_public/work/$slug': typeof PublicWorkSlugRoute
   '/account/orders/$id': typeof AccountOrdersIdRoute
   '/account/projects/$id': typeof AccountProjectsIdRoute
+  '/account/settings/$page': typeof AccountSettingsPageRoute
   '/creator/commissions/$id': typeof CreatorCommissionsIdRoute
   '/creator/new/$kind': typeof CreatorNewKindRoute
   '/creator/projects/$id': typeof CreatorProjectsIdRoute
+  '/creator/settings/$page': typeof CreatorSettingsPageRoute
   '/_public/artists/': typeof PublicArtistsIndexRoute
   '/_public/shop/': typeof PublicShopIndexRoute
+  '/account/settings/': typeof AccountSettingsIndexRoute
+  '/creator/settings/': typeof CreatorSettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -448,11 +484,15 @@ export interface FileRouteTypes {
     | '/work/$slug'
     | '/account/orders/$id'
     | '/account/projects/$id'
+    | '/account/settings/$page'
     | '/creator/commissions/$id'
     | '/creator/new/$kind'
     | '/creator/projects/$id'
+    | '/creator/settings/$page'
     | '/artists/'
     | '/shop/'
+    | '/account/settings/'
+    | '/creator/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth'
@@ -489,11 +529,15 @@ export interface FileRouteTypes {
     | '/work/$slug'
     | '/account/orders/$id'
     | '/account/projects/$id'
+    | '/account/settings/$page'
     | '/creator/commissions/$id'
     | '/creator/new/$kind'
     | '/creator/projects/$id'
+    | '/creator/settings/$page'
     | '/artists'
     | '/shop'
+    | '/account/settings'
+    | '/creator/settings'
   id:
     | '__root__'
     | '/_public'
@@ -535,11 +579,15 @@ export interface FileRouteTypes {
     | '/_public/work/$slug'
     | '/account/orders/$id'
     | '/account/projects/$id'
+    | '/account/settings/$page'
     | '/creator/commissions/$id'
     | '/creator/new/$kind'
     | '/creator/projects/$id'
+    | '/creator/settings/$page'
     | '/_public/artists/'
     | '/_public/shop/'
+    | '/account/settings/'
+    | '/creator/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -848,6 +896,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountProjectsIdRouteImport
       parentRoute: typeof AccountRoute
     }
+    '/account/settings/': {
+      id: '/account/settings/'
+      path: '/settings'
+      fullPath: '/account/settings/'
+      preLoaderRoute: typeof AccountSettingsIndexRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/settings/$page': {
+      id: '/account/settings/$page'
+      path: '/settings/$page'
+      fullPath: '/account/settings/$page'
+      preLoaderRoute: typeof AccountSettingsPageRouteImport
+      parentRoute: typeof AccountRoute
+    }
     '/creator/commissions/$id': {
       id: '/creator/commissions/$id'
       path: '/commissions/$id'
@@ -867,6 +929,20 @@ declare module '@tanstack/react-router' {
       path: '/projects/$id'
       fullPath: '/creator/projects/$id'
       preLoaderRoute: typeof CreatorProjectsIdRouteImport
+      parentRoute: typeof CreatorRoute
+    }
+    '/creator/settings/': {
+      id: '/creator/settings/'
+      path: '/settings'
+      fullPath: '/creator/settings/'
+      preLoaderRoute: typeof CreatorSettingsIndexRouteImport
+      parentRoute: typeof CreatorRoute
+    }
+    '/creator/settings/$page': {
+      id: '/creator/settings/$page'
+      path: '/settings/$page'
+      fullPath: '/creator/settings/$page'
+      preLoaderRoute: typeof CreatorSettingsPageRouteImport
       parentRoute: typeof CreatorRoute
     }
   }
@@ -912,6 +988,8 @@ interface AccountRouteChildren {
   AccountIndexRoute: typeof AccountIndexRoute
   AccountOrdersIdRoute: typeof AccountOrdersIdRoute
   AccountProjectsIdRoute: typeof AccountProjectsIdRoute
+  AccountSettingsPageRoute: typeof AccountSettingsPageRoute
+  AccountSettingsIndexRoute: typeof AccountSettingsIndexRoute
 }
 
 const AccountRouteChildren: AccountRouteChildren = {
@@ -920,6 +998,8 @@ const AccountRouteChildren: AccountRouteChildren = {
   AccountIndexRoute: AccountIndexRoute,
   AccountOrdersIdRoute: AccountOrdersIdRoute,
   AccountProjectsIdRoute: AccountProjectsIdRoute,
+  AccountSettingsPageRoute: AccountSettingsPageRoute,
+  AccountSettingsIndexRoute: AccountSettingsIndexRoute,
 }
 
 const AccountRouteWithChildren =
@@ -961,6 +1041,8 @@ interface CreatorRouteChildren {
   CreatorCommissionsIdRoute: typeof CreatorCommissionsIdRoute
   CreatorNewKindRoute: typeof CreatorNewKindRoute
   CreatorProjectsIdRoute: typeof CreatorProjectsIdRoute
+  CreatorSettingsPageRoute: typeof CreatorSettingsPageRoute
+  CreatorSettingsIndexRoute: typeof CreatorSettingsIndexRoute
 }
 
 const CreatorRouteChildren: CreatorRouteChildren = {
@@ -969,6 +1051,8 @@ const CreatorRouteChildren: CreatorRouteChildren = {
   CreatorCommissionsIdRoute: CreatorCommissionsIdRoute,
   CreatorNewKindRoute: CreatorNewKindRoute,
   CreatorProjectsIdRoute: CreatorProjectsIdRoute,
+  CreatorSettingsPageRoute: CreatorSettingsPageRoute,
+  CreatorSettingsIndexRoute: CreatorSettingsIndexRoute,
 }
 
 const CreatorRouteWithChildren =

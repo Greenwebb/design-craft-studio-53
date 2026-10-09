@@ -183,7 +183,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
                   <span className="absolute right-2 top-1 h-1.5 w-1.5 rounded-full bg-studio-copper" />
                 )}
               </IconButton>
-              <AccountMenu context="creator" />
+              <AccountMenu context="creator" artist={state} />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <IconButton
@@ -232,7 +232,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
             { id: "work", label: "Work", icon: Image },
             { id: "create", label: "Create", icon: Plus },
             { id: "projects", label: "Projects", icon: Briefcase },
-            { id: "profile", label: "Profile", icon: User },
+            { id: "settings", label: "Profile", icon: User },
           ].filter(n => n.id !== "projects" || nav.some(item => item.id === "projects")).map((n) =>
             n.id === "create" ? (
               <button
