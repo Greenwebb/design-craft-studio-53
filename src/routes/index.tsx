@@ -136,18 +136,21 @@ function Nav() {
               <span className="text-[13px] font-semibold tracking-[0.14em]">I AM AN ARTIST</span>
               <button aria-label="Close menu" onClick={() => setOpen(false)}><X className="h-6 w-6" /></button>
             </div>
-            <nav className="container-x mt-12 flex flex-col gap-4">
+            <nav className="container-x mt-12 flex flex-col">
               {[...links, ["Art for Spaces", "#spaces"]].map(([l, h], i) => (
                 <motion.a
                   key={l}
                   href={h}
                   onClick={() => setOpen(false)}
-                  className="text-[44px] font-semibold leading-none tracking-[-0.04em]"
+                  className="group flex items-baseline gap-4 border-b border-border py-4"
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.08 * i, duration: 0.6, ease: EASE }}
                 >
-                  {l}
+                  <span className="eyebrow text-muted-foreground">0{i + 1}</span>
+                  <span className="text-[44px] font-semibold leading-none tracking-[-0.04em] transition-transform duration-300 group-hover:translate-x-2">
+                    {l}
+                  </span>
                 </motion.a>
               ))}
             </nav>
@@ -200,7 +203,7 @@ function Hero() {
           </div>
         </motion.div>
       </motion.div>
-      <motion.figure style={{ y: imgY }} className="lg:justify-self-end lg:w-full lg:max-w-[760px]">
+      <motion.figure style={{ y: imgY }} className="relative lg:justify-self-end lg:w-full lg:max-w-[760px]">
         <motion.div
           className="overflow-hidden rounded-sm"
           initial={{ opacity: 0, scale: 1.04, clipPath: "inset(10% 0 10% 0)" }}
@@ -514,9 +517,22 @@ function Footer() {
   );
 }
 
+function Grain() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-0 z-[70] opacity-[0.05] mix-blend-multiply"
+      style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")`,
+      }}
+    />
+  );
+}
+
 function Index() {
   return (
     <div className="bg-background text-foreground">
+      <Grain />
       <Cursor />
       <Nav />
       <main>
