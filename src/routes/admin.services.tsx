@@ -17,7 +17,7 @@ function ServicesQueue() {
           { key: 'orders', label: 'Orders', render: (s) => `${s.orders}${s.reports ? ` · ${s.reports} reports` : ''}` },
           { key: 'state', label: 'Status', render: (s) => <StatusPill state={s.state} /> },
         ]}
-        rows={serviceSeed as never}
+        rows={serviceSeed}
         hrefFor={(s) => '/admin/services'}
         emptyTitle="No services listed."
       />

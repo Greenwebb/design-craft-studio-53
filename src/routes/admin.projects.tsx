@@ -22,7 +22,7 @@ function ProjectsQueue() {
   ];
   return (
     <AdminPage title="Projects">
-      <FilterTabs options={tabs as never} value={tab} onChange={setTab} />
+      <FilterTabs options={tabs} value={tab} onChange={setTab} />
       <AdminTable
         columns={[
           { key: 'title', label: 'Project', render: (p) => <div><p className="font-medium">{p.title}</p><p className="text-sm text-muted-foreground">{p.customerName} ↔ {p.creatorName} · {p.source}</p></div> },
@@ -31,7 +31,7 @@ function ProjectsQueue() {
           { key: 'nextMilestone', label: 'Next step', render: (p) => ops[p.id]?.nextAction ?? p.nextMilestone },
           { key: 'status', label: 'Status', render: (p) => <div className="flex flex-col items-start gap-1.5"><StatusPill state={p.status} />{ops[p.id]?.dispute && <span className="text-[13px] text-studio-copper">Dispute {ops[p.id].dispute}</span>}</div> },
         ]}
-        rows={sharedProjects.filter((p) => tab === 'all' || (tab === 'attention' ? !!ops[p.id]?.dispute : p.status === tab)) as never}
+        rows={sharedProjects.filter((p) => tab === 'all' || (tab === 'attention' ? !!ops[p.id]?.dispute : p.status === tab))}
         hrefFor={(p) => `/admin/projects/${p.id}`}
         emptyTitle="No projects match this filter."
       />

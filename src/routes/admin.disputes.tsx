@@ -41,7 +41,7 @@ function DisputesQueue() {
           { key: 'priority', label: 'Priority', render: (d) => <span className={`rounded-full px-3 py-1 text-[13px] font-semibold ${priorityMeta[d.priority].className}`}>{priorityMeta[d.priority].label}</span> },
           { key: 'state', label: 'Status', render: (d) => <StatusPill state={d.state} /> },
         ]}
-        rows={rows as never}
+        rows={rows}
         hrefFor={(d) => `/admin/disputes/${d.id}`}
         emptyTitle="No disputes match these filters."
       />

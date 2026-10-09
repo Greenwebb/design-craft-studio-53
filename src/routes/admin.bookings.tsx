@@ -27,7 +27,7 @@ function BookingsQueue() {
           { key: 'policy', label: 'Policy' },
           { key: 'state', label: 'Status', render: (b) => <div className="flex flex-col items-start gap-1.5"><StatusPill state={b.state} />{b.issue && <span className="text-[13px] text-studio-danger">{b.issue}</span>}</div> },
         ]}
-        rows={rows as never}
+        rows={rows}
         hrefFor={() => '/admin/bookings'}
         emptyTitle="No bookings match this filter."
       />

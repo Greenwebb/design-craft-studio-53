@@ -29,7 +29,7 @@ function VerificationQueue() {
           { key: 'documents', label: 'Documents', render: (v) => `${v.documents.length} supplied` },
           { key: 'state', label: 'Status', render: (v) => <StatusPill state={v.state} /> },
         ]}
-        rows={rows as never}
+        rows={rows}
         hrefFor={(v) => `/admin/verification/${v.id}`}
         emptyTitle="No verifications in this queue."
         emptyDetail="You're all caught up."

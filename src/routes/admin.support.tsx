@@ -40,7 +40,7 @@ function SupportQueue() {
           { key: 'assignedTo', label: 'Assigned', render: (c) => c.assignedTo ?? <span className="text-studio-copper">Unassigned</span> },
           { key: 'state', label: 'Status', render: (c) => <StatusPill state={c.state} /> },
         ]}
-        rows={rows as never}
+        rows={rows}
         hrefFor={(c) => `/admin/support/${c.id}`}
         emptyTitle="No cases match these filters."
         emptyDetail="Nothing is waiting on the team right now."

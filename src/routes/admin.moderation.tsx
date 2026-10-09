@@ -38,7 +38,7 @@ function ModerationQueue() {
           { key: 'reported', label: 'Reported' },
           { key: 'state', label: 'Status', render: (m) => <StatusPill state={m.state} /> },
         ]}
-        rows={rows as never}
+        rows={rows}
         hrefFor={(m) => `/admin/moderation/${m.id}`}
         emptyTitle="No reports match these filters."
         emptyDetail="The moderation queue is clear."
