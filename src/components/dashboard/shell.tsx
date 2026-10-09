@@ -197,7 +197,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
           </DashboardTopBar>
           <main
             id="studio-main"
-            className="mx-auto max-w-[1440px] px-[18px] pb-32 pt-5 sm:px-7 sm:pt-7 lg:px-10 lg:pb-20"
+            className="mx-auto max-w-[1440px] px-[18px] pb-32 pt-7 sm:px-7 sm:pt-9 lg:px-10 lg:pb-20"
           >
             <Outlet />
           </main>
