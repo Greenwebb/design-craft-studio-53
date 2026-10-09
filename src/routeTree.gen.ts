@@ -70,6 +70,7 @@ import { Route as AccountProjectsIdRouteImport } from './routes/account.projects
 import { Route as AccountSettingsIndexRouteImport } from './routes/account.settings.index'
 import { Route as AccountSettingsPageRouteImport } from './routes/account.settings.$page'
 import { Route as AdminBookingsIndexRouteImport } from './routes/admin.bookings.index'
+import { Route as AdminBookingsIdRouteImport } from './routes/admin.bookings.$id'
 import { Route as AdminCreatorsIndexRouteImport } from './routes/admin.creators.index'
 import { Route as AdminCreatorsIdRouteImport } from './routes/admin.creators.$id'
 import { Route as AdminDisputesIndexRouteImport } from './routes/admin.disputes.index'
@@ -87,6 +88,7 @@ import { Route as AdminProjectsIdRouteImport } from './routes/admin.projects.$id
 import { Route as AdminRefundsIndexRouteImport } from './routes/admin.refunds.index'
 import { Route as AdminRefundsIdRouteImport } from './routes/admin.refunds.$id'
 import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.index'
+import { Route as AdminServicesIdRouteImport } from './routes/admin.services.$id'
 import { Route as AdminSupportIndexRouteImport } from './routes/admin.support.index'
 import { Route as AdminSupportIdRouteImport } from './routes/admin.support.$id'
 import { Route as AdminUsersIndexRouteImport } from './routes/admin.users.index'
@@ -407,6 +409,11 @@ const AdminBookingsIndexRoute = AdminBookingsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminBookingsRoute,
 } as any)
+const AdminBookingsIdRoute = AdminBookingsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminBookingsRoute,
+} as any)
 const AdminCreatorsIndexRoute = AdminCreatorsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -490,6 +497,11 @@ const AdminRefundsIdRoute = AdminRefundsIdRouteImport.update({
 const AdminServicesIndexRoute = AdminServicesIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AdminServicesRoute,
+} as any)
+const AdminServicesIdRoute = AdminServicesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
   getParentRoute: () => AdminServicesRoute,
 } as any)
 const AdminSupportIndexRoute = AdminSupportIndexRouteImport.update({
@@ -625,6 +637,7 @@ export interface FileRoutesByFullPath {
   '/account/orders/$id': typeof AccountOrdersIdRoute
   '/account/projects/$id': typeof AccountProjectsIdRoute
   '/account/settings/$page': typeof AccountSettingsPageRoute
+  '/admin/bookings/$id': typeof AdminBookingsIdRoute
   '/admin/creators/$id': typeof AdminCreatorsIdRoute
   '/admin/disputes/$id': typeof AdminDisputesIdRoute
   '/admin/moderation/$id': typeof AdminModerationIdRoute
@@ -633,6 +646,7 @@ export interface FileRoutesByFullPath {
   '/admin/payouts/$id': typeof AdminPayoutsIdRoute
   '/admin/projects/$id': typeof AdminProjectsIdRoute
   '/admin/refunds/$id': typeof AdminRefundsIdRoute
+  '/admin/services/$id': typeof AdminServicesIdRoute
   '/admin/support/$id': typeof AdminSupportIdRoute
   '/admin/users/$id': typeof AdminUsersIdRoute
   '/admin/verification/$id': typeof AdminVerificationIdRoute
@@ -700,6 +714,7 @@ export interface FileRoutesByTo {
   '/account/orders/$id': typeof AccountOrdersIdRoute
   '/account/projects/$id': typeof AccountProjectsIdRoute
   '/account/settings/$page': typeof AccountSettingsPageRoute
+  '/admin/bookings/$id': typeof AdminBookingsIdRoute
   '/admin/creators/$id': typeof AdminCreatorsIdRoute
   '/admin/disputes/$id': typeof AdminDisputesIdRoute
   '/admin/moderation/$id': typeof AdminModerationIdRoute
@@ -708,6 +723,7 @@ export interface FileRoutesByTo {
   '/admin/payouts/$id': typeof AdminPayoutsIdRoute
   '/admin/projects/$id': typeof AdminProjectsIdRoute
   '/admin/refunds/$id': typeof AdminRefundsIdRoute
+  '/admin/services/$id': typeof AdminServicesIdRoute
   '/admin/support/$id': typeof AdminSupportIdRoute
   '/admin/users/$id': typeof AdminUsersIdRoute
   '/admin/verification/$id': typeof AdminVerificationIdRoute
@@ -796,6 +812,7 @@ export interface FileRoutesById {
   '/account/orders/$id': typeof AccountOrdersIdRoute
   '/account/projects/$id': typeof AccountProjectsIdRoute
   '/account/settings/$page': typeof AccountSettingsPageRoute
+  '/admin/bookings/$id': typeof AdminBookingsIdRoute
   '/admin/creators/$id': typeof AdminCreatorsIdRoute
   '/admin/disputes/$id': typeof AdminDisputesIdRoute
   '/admin/moderation/$id': typeof AdminModerationIdRoute
@@ -804,6 +821,7 @@ export interface FileRoutesById {
   '/admin/payouts/$id': typeof AdminPayoutsIdRoute
   '/admin/projects/$id': typeof AdminProjectsIdRoute
   '/admin/refunds/$id': typeof AdminRefundsIdRoute
+  '/admin/services/$id': typeof AdminServicesIdRoute
   '/admin/support/$id': typeof AdminSupportIdRoute
   '/admin/users/$id': typeof AdminUsersIdRoute
   '/admin/verification/$id': typeof AdminVerificationIdRoute
@@ -892,6 +910,7 @@ export interface FileRouteTypes {
     | '/account/orders/$id'
     | '/account/projects/$id'
     | '/account/settings/$page'
+    | '/admin/bookings/$id'
     | '/admin/creators/$id'
     | '/admin/disputes/$id'
     | '/admin/moderation/$id'
@@ -900,6 +919,7 @@ export interface FileRouteTypes {
     | '/admin/payouts/$id'
     | '/admin/projects/$id'
     | '/admin/refunds/$id'
+    | '/admin/services/$id'
     | '/admin/support/$id'
     | '/admin/users/$id'
     | '/admin/verification/$id'
@@ -967,6 +987,7 @@ export interface FileRouteTypes {
     | '/account/orders/$id'
     | '/account/projects/$id'
     | '/account/settings/$page'
+    | '/admin/bookings/$id'
     | '/admin/creators/$id'
     | '/admin/disputes/$id'
     | '/admin/moderation/$id'
@@ -975,6 +996,7 @@ export interface FileRouteTypes {
     | '/admin/payouts/$id'
     | '/admin/projects/$id'
     | '/admin/refunds/$id'
+    | '/admin/services/$id'
     | '/admin/support/$id'
     | '/admin/users/$id'
     | '/admin/verification/$id'
@@ -1062,6 +1084,7 @@ export interface FileRouteTypes {
     | '/account/orders/$id'
     | '/account/projects/$id'
     | '/account/settings/$page'
+    | '/admin/bookings/$id'
     | '/admin/creators/$id'
     | '/admin/disputes/$id'
     | '/admin/moderation/$id'
@@ -1070,6 +1093,7 @@ export interface FileRouteTypes {
     | '/admin/payouts/$id'
     | '/admin/projects/$id'
     | '/admin/refunds/$id'
+    | '/admin/services/$id'
     | '/admin/support/$id'
     | '/admin/users/$id'
     | '/admin/verification/$id'
@@ -1546,6 +1570,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBookingsIndexRouteImport
       parentRoute: typeof AdminBookingsRoute
     }
+    '/admin/bookings/$id': {
+      id: '/admin/bookings/$id'
+      path: '/$id'
+      fullPath: '/admin/bookings/$id'
+      preLoaderRoute: typeof AdminBookingsIdRouteImport
+      parentRoute: typeof AdminBookingsRoute
+    }
     '/admin/creators/': {
       id: '/admin/creators/'
       path: '/'
@@ -1663,6 +1694,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/admin/services/'
       preLoaderRoute: typeof AdminServicesIndexRouteImport
+      parentRoute: typeof AdminServicesRoute
+    }
+    '/admin/services/$id': {
+      id: '/admin/services/$id'
+      path: '/$id'
+      fullPath: '/admin/services/$id'
+      preLoaderRoute: typeof AdminServicesIdRouteImport
       parentRoute: typeof AdminServicesRoute
     }
     '/admin/support/': {
@@ -1831,10 +1869,12 @@ const AccountRouteWithChildren =
   AccountRoute._addFileChildren(AccountRouteChildren)
 
 interface AdminBookingsRouteChildren {
+  AdminBookingsIdRoute: typeof AdminBookingsIdRoute
   AdminBookingsIndexRoute: typeof AdminBookingsIndexRoute
 }
 
 const AdminBookingsRouteChildren: AdminBookingsRouteChildren = {
+  AdminBookingsIdRoute: AdminBookingsIdRoute,
   AdminBookingsIndexRoute: AdminBookingsIndexRoute,
 }
 
@@ -1955,10 +1995,12 @@ const AdminRefundsRouteWithChildren = AdminRefundsRoute._addFileChildren(
 )
 
 interface AdminServicesRouteChildren {
+  AdminServicesIdRoute: typeof AdminServicesIdRoute
   AdminServicesIndexRoute: typeof AdminServicesIndexRoute
 }
 
 const AdminServicesRouteChildren: AdminServicesRouteChildren = {
+  AdminServicesIdRoute: AdminServicesIdRoute,
   AdminServicesIndexRoute: AdminServicesIndexRoute,
 }
 
