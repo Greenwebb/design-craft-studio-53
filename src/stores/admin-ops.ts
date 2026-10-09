@@ -1,12 +1,11 @@
 import { create } from 'zustand';
-import { actionsByRole, currentStaff, nid, stamp } from '@/data/admin-data';
-
+import { create } from 'zustand';
 import {
-  actionsByResource, currentStaff as staff, disputeSeed, moderationSeed, nid as newId, orderSeed, payoutSeed,
-  refundSeed, stamp as now, supportSeed, userSeed, verificationSeed, workSeed, creatorSeed,
-  type ActionDef, type AuditEvent, type BaseRow, type DisputeRow, type ModRow, type Note,
+  actionsByResource, creatorSeed, currentStaff, disputeSeed, moderationSeed, nid, orderSeed, payoutSeed,
+  refundSeed, stamp, supportSeed, userSeed, verificationSeed, workSeed,
+  type ActionDef, type AuditEvent, type BaseRow, type CreatorRow, type DisputeRow, type ModRow, type Note,
   type OrderRow, type PayoutRow, type RefundRow, type SupportRow, type ThreadMessage,
-  type UserRow, type VerificationRow, type WorkRow, type CreatorRow,
+  type UserRow, type VerificationRow, type WorkRow,
 } from '@/data/admin-data';
 
 export type AdminResources = {
