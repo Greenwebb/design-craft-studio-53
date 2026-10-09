@@ -50,6 +50,7 @@ import { Route as PublicShopCollectionRouteImport } from './routes/_public/shop.
 import { Route as PublicWorkSlugRouteImport } from './routes/_public/work.$slug'
 import { Route as AccountOrdersIdRouteImport } from './routes/account.orders.$id'
 import { Route as AccountProjectsIdRouteImport } from './routes/account.projects.$id'
+import { Route as CreatorCommissionsIdRouteImport } from './routes/creator.commissions.$id'
 import { Route as CreatorNewKindRouteImport } from './routes/creator.new.$kind'
 import { Route as CreatorProjectsIdRouteImport } from './routes/creator.projects.$id'
 
@@ -257,6 +258,11 @@ const AccountProjectsIdRoute = AccountProjectsIdRouteImport.update({
   path: '/projects/$id',
   getParentRoute: () => AccountRoute,
 } as any)
+const CreatorCommissionsIdRoute = CreatorCommissionsIdRouteImport.update({
+  id: '/commissions/$id',
+  path: '/commissions/$id',
+  getParentRoute: () => CreatorRoute,
+} as any)
 const CreatorNewKindRoute = CreatorNewKindRouteImport.update({
   id: '/new/$kind',
   path: '/new/$kind',
@@ -307,6 +313,7 @@ export interface FileRoutesByFullPath {
   '/work/$slug': typeof PublicWorkSlugRoute
   '/account/orders/$id': typeof AccountOrdersIdRoute
   '/account/projects/$id': typeof AccountProjectsIdRoute
+  '/creator/commissions/$id': typeof CreatorCommissionsIdRoute
   '/creator/new/$kind': typeof CreatorNewKindRoute
   '/creator/projects/$id': typeof CreatorProjectsIdRoute
   '/artists/': typeof PublicArtistsIndexRoute
@@ -347,6 +354,7 @@ export interface FileRoutesByTo {
   '/work/$slug': typeof PublicWorkSlugRoute
   '/account/orders/$id': typeof AccountOrdersIdRoute
   '/account/projects/$id': typeof AccountProjectsIdRoute
+  '/creator/commissions/$id': typeof CreatorCommissionsIdRoute
   '/creator/new/$kind': typeof CreatorNewKindRoute
   '/creator/projects/$id': typeof CreatorProjectsIdRoute
   '/artists': typeof PublicArtistsIndexRoute
@@ -393,6 +401,7 @@ export interface FileRoutesById {
   '/_public/work/$slug': typeof PublicWorkSlugRoute
   '/account/orders/$id': typeof AccountOrdersIdRoute
   '/account/projects/$id': typeof AccountProjectsIdRoute
+  '/creator/commissions/$id': typeof CreatorCommissionsIdRoute
   '/creator/new/$kind': typeof CreatorNewKindRoute
   '/creator/projects/$id': typeof CreatorProjectsIdRoute
   '/_public/artists/': typeof PublicArtistsIndexRoute
@@ -439,6 +448,7 @@ export interface FileRouteTypes {
     | '/work/$slug'
     | '/account/orders/$id'
     | '/account/projects/$id'
+    | '/creator/commissions/$id'
     | '/creator/new/$kind'
     | '/creator/projects/$id'
     | '/artists/'
@@ -479,6 +489,7 @@ export interface FileRouteTypes {
     | '/work/$slug'
     | '/account/orders/$id'
     | '/account/projects/$id'
+    | '/creator/commissions/$id'
     | '/creator/new/$kind'
     | '/creator/projects/$id'
     | '/artists'
@@ -524,6 +535,7 @@ export interface FileRouteTypes {
     | '/_public/work/$slug'
     | '/account/orders/$id'
     | '/account/projects/$id'
+    | '/creator/commissions/$id'
     | '/creator/new/$kind'
     | '/creator/projects/$id'
     | '/_public/artists/'
@@ -836,6 +848,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountProjectsIdRouteImport
       parentRoute: typeof AccountRoute
     }
+    '/creator/commissions/$id': {
+      id: '/creator/commissions/$id'
+      path: '/commissions/$id'
+      fullPath: '/creator/commissions/$id'
+      preLoaderRoute: typeof CreatorCommissionsIdRouteImport
+      parentRoute: typeof CreatorRoute
+    }
     '/creator/new/$kind': {
       id: '/creator/new/$kind'
       path: '/new/$kind'
@@ -939,6 +958,7 @@ const CheckoutRouteWithChildren = CheckoutRoute._addFileChildren(
 interface CreatorRouteChildren {
   CreatorSectionRoute: typeof CreatorSectionRoute
   CreatorIndexRoute: typeof CreatorIndexRoute
+  CreatorCommissionsIdRoute: typeof CreatorCommissionsIdRoute
   CreatorNewKindRoute: typeof CreatorNewKindRoute
   CreatorProjectsIdRoute: typeof CreatorProjectsIdRoute
 }
@@ -946,6 +966,7 @@ interface CreatorRouteChildren {
 const CreatorRouteChildren: CreatorRouteChildren = {
   CreatorSectionRoute: CreatorSectionRoute,
   CreatorIndexRoute: CreatorIndexRoute,
+  CreatorCommissionsIdRoute: CreatorCommissionsIdRoute,
   CreatorNewKindRoute: CreatorNewKindRoute,
   CreatorProjectsIdRoute: CreatorProjectsIdRoute,
 }
