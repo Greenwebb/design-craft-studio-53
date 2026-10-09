@@ -15,7 +15,7 @@ export const Route = createFileRoute('/admin')({
   errorComponent: ({ error, reset }) => (
     <div role="alert" className="mx-auto max-w-lg p-10 text-center">
       <p className="text-xl font-medium">This page couldn't load.</p>
-      <p className="mt-2 text-[15px] text-muted-foreground">{error.message || 'Something went wrong.'} Nothing was changed.</p>
+      <p className="mt-2 text-[15px] text-muted-foreground">{error instanceof Error && error.message ? error.message : 'Something went wrong.'} Nothing was changed.</p>
       <button type="button" onClick={reset} className="mt-5 rounded-full bg-primary px-6 py-3 text-[15px] font-medium text-primary-foreground">Try again</button>
     </div>
   ),
