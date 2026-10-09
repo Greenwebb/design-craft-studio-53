@@ -22,15 +22,15 @@ export type PageHeaderProps = {
 export function MobilePageHeader({ title, eyebrow, back, leading, actions, children, secondaryContent }: PageHeaderProps) {
   return (
     <div className="mx-auto max-w-[1360px] px-[18px] pt-8 sm:px-7 sm:pt-10 lg:px-10">
-      <div className="flex min-h-[48px] items-center gap-3">
+      <div className="flex min-h-[56px] items-center gap-3 sm:min-h-[72px]">
         {back?.visible ? <BackButton onClick={back.onClick} /> : leading}
         <div className="min-w-0 flex-1">
-          {eyebrow && <p className="hidden truncate text-[11px] uppercase tracking-[0.14em] text-muted-foreground sm:block">{eyebrow}</p>}
-          <p className="truncate text-[24px] font-[560] leading-[1.1] tracking-[-0.025em] sm:text-2xl sm:font-semibold">{title}</p>
+          {eyebrow && <p className="hidden truncate text-[12px] font-medium uppercase tracking-[0.16em] text-muted-foreground sm:block">{eyebrow}</p>}
+          <h1 className="truncate text-[30px] font-[560] leading-[1.06] tracking-[-0.03em] sm:text-[38px] sm:font-semibold">{title}</h1>
         </div>
         <div className="flex shrink-0 items-center gap-1 sm:gap-2">{actions}{children}</div>
       </div>
-      {secondaryContent && <div className="mt-3 overflow-x-auto">{secondaryContent}</div>}
+      {secondaryContent && <div className="mt-4 overflow-x-auto">{secondaryContent}</div>}
     </div>
   );
 }
