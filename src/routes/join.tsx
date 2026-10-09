@@ -1,3 +1,4 @@
+import { Logo } from "@/components/site";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
@@ -193,7 +194,7 @@ function JoinPage() {
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <header className="sticky top-0 z-30 border-b border-border bg-background/90 backdrop-blur-xl">
         <div className="container-x flex h-[76px] items-center justify-between">
-          <Link to="/" className="text-[13px] font-semibold tracking-[0.14em]">I AM AN ARTIST</Link>
+          <Link to="/" aria-label="I Am An Artist home"><Logo /></Link>
           <div className="flex items-center gap-6 text-sm">
             <span aria-live="polite" className={`text-[12px] text-muted-foreground transition-opacity ${saved && step !== "welcome" ? "opacity-100" : "opacity-0"}`}>Saved</span>
             {step !== "done" && <Link to="/" className="link-line font-medium">Save &amp; exit</Link>}

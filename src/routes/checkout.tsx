@@ -1,3 +1,4 @@
+import { Logo } from "@/components/site";
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { ArrowLeft, Check, Lock } from "lucide-react";
 import { useEffect } from "react";
@@ -43,9 +44,7 @@ function CheckoutLayout() {
       {/* Simplified checkout header */}
       <header className="border-b border-border">
         <div className="container-x flex items-center justify-between py-5">
-          <Link to="/" className="text-[13px] font-semibold tracking-[0.14em]">
-            I AM AN ARTIST
-          </Link>
+          <Link to="/" aria-label="I Am An Artist home"><Logo /></Link>
           <p className="flex items-center gap-2 text-[13px] text-muted-foreground">
             <Lock className="h-3.5 w-3.5" /> Secure checkout
           </p>
