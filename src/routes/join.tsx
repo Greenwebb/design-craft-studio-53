@@ -152,7 +152,7 @@ function JoinPage() {
 
   const flow: StepId[] = ["welcome", "account", "disciplines", ...(groups.length ? (["focus"] as StepId[]) : []), "profile", "media", "work", "earn", ...(needsAvail ? (["availability"] as StepId[]) : []), "preview", "done"];
   const idx = Math.max(0, flow.indexOf(step));
-  const counted = flow.filter((s) => s !== "welcome" && s !== "done");
+  const counted: StepId[] = flow.filter((s) => s !== "welcome" && s !== "done");
   const pos = counted.indexOf(step) + 1;
 
   const validate = (): string => {
@@ -177,7 +177,7 @@ function JoinPage() {
   const disciplines = [...d.disciplines, ...(d.custom.trim() ? [d.custom.trim()] : [])];
   const preview: Artist = {
     slug: "preview", name: d.name || `${d.first} ${d.last}`.trim() || "Your name", location: d.location || "Your city",
-    disciplines: disciplines.length ? disciplines : ["Artist"], shortStatement: d.headline || "Your headline appears here.", voiceNote: "looks like you",
+    disciplines: disciplines.length ? disciplines : ["Artist"], shortStatement: d.headline || "Your headline appears here.", voiceNote: "in my own words",
     bio: [d.bio], portrait: d.portrait || onboardArt, heroMedia: d.hero || d.portrait || onboardArt,
     primaryCta: d.caps.acceptsCommissions ? "Commission artist" : d.caps.acceptsBookings ? "Book artist" : d.caps.offersServices ? "Start a project" : "View works",
     portfolio: [], services: needsAvail ? [{ title: "", description: "", delivery: "", cta: "" }] : [],
