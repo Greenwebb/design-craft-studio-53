@@ -50,8 +50,34 @@ export function SettingsHub({ context, artist, portrait }: { context: SettingsCo
   const signOut = useSignOut();
   const isCreator = user.roles.includes("creator");
   const rowCls = "flex min-h-[64px] items-center gap-4 px-5 py-3 text-left transition-colors hover:bg-secondary";
+  const switchRow = context === "creator" ? (
+    <Link to="/account" onClick={() => setContext("customer")} className={rowCls}><ShoppingBag size={19} /><span className="flex-1 text-[15px] font-medium">Switch to Buying</span><ChevronRight size={18} className="text-muted-foreground" /></Link>
+  ) : isCreator ? (
+    <Link to="/creator" search={{ artist: "painter" }} onClick={() => setContext("creator")} className={rowCls}><Palette size={19} /><span className="flex-1 text-[15px] font-medium">Switch to Creating</span><ChevronRight size={18} className="text-muted-foreground" /></Link>
+  ) : (
+    <Link to="/join" className={rowCls}><Palette size={19} /><span className="flex-1 text-[15px] font-medium">Join as an Artist</span><ChevronRight size={18} className="text-muted-foreground" /></Link>
+  );
+  const switchCard = context === "creator" ? (
+    <Link to="/account" onClick={() => setContext("customer")} className="group flex flex-col rounded-3xl border border-border bg-background p-6 text-left transition-colors hover:bg-secondary">
+      <span className="grid h-12 w-12 place-items-center rounded-full bg-secondary transition-colors group-hover:bg-background"><ShoppingBag size={21} /></span>
+      <span className="mt-4 block text-[15px] font-medium">Switch to Buying</span>
+      <span className="mt-0.5 block text-xs text-muted-foreground">Shop, orders and saved works</span>
+    </Link>
+  ) : isCreator ? (
+    <Link to="/creator" search={{ artist: "painter" }} onClick={() => setContext("creator")} className="group flex flex-col rounded-3xl border border-border bg-background p-6 text-left transition-colors hover:bg-secondary">
+      <span className="grid h-12 w-12 place-items-center rounded-full bg-secondary transition-colors group-hover:bg-background"><Palette size={21} /></span>
+      <span className="mt-4 block text-[15px] font-medium">Switch to Creating</span>
+      <span className="mt-0.5 block text-xs text-muted-foreground">Your creator dashboard</span>
+    </Link>
+  ) : (
+    <Link to="/join" className="group flex flex-col rounded-3xl border border-border bg-background p-6 text-left transition-colors hover:bg-secondary">
+      <span className="grid h-12 w-12 place-items-center rounded-full bg-secondary transition-colors group-hover:bg-background"><Palette size={21} /></span>
+      <span className="mt-4 block text-[15px] font-medium">Join as an Artist</span>
+      <span className="mt-0.5 block text-xs text-muted-foreground">Start selling your work</span>
+    </Link>
+  );
   return (
-    <div className="mx-auto max-w-[640px]">
+    <div className="mx-auto max-w-[640px] lg:max-w-[880px]">
       <div className="flex flex-col items-center text-center">
         {portrait ? <img src={portrait} alt="" className="h-20 w-20 rounded-full object-cover" /> : <span className="grid h-20 w-20 place-items-center rounded-full bg-secondary text-2xl font-semibold">{user.displayName[0]}</span>}
         <h1 className="mt-4 text-2xl font-semibold tracking-tight">{user.displayName}</h1>
@@ -60,7 +86,8 @@ export function SettingsHub({ context, artist, portrait }: { context: SettingsCo
           <Link to="/artists/$slug" params={{ slug: user.creatorProfile.slug }} className="mt-4 inline-flex items-center gap-2 rounded-full border border-border px-5 py-2 text-sm font-medium">View public profile<ArrowUpRight size={16} /></Link>
         )}
       </div>
-      <nav aria-label="Settings" className="mt-8 divide-y divide-border overflow-hidden rounded-3xl border border-border bg-background">
+      {/* Phones: stacked app-style list */}
+      <nav aria-label="Settings" className="mt-8 divide-y divide-border overflow-hidden rounded-3xl border border-border bg-background lg:hidden">
         {settingsItems(context).map((i) => (
           <Link key={i.id} {...link(i.id)} className={rowCls}>
             <span className="grid h-10 w-10 place-items-center rounded-full bg-secondary"><i.icon size={19} /></span>
@@ -69,16 +96,26 @@ export function SettingsHub({ context, artist, portrait }: { context: SettingsCo
           </Link>
         ))}
       </nav>
-      <div className="mt-5 divide-y divide-border overflow-hidden rounded-3xl border border-border">
-        {context === "creator" ? (
-          <Link to="/account" onClick={() => setContext("customer")} className={rowCls}><ShoppingBag size={19} /><span className="flex-1 text-[15px] font-medium">Switch to Buying</span><ChevronRight size={18} className="text-muted-foreground" /></Link>
-        ) : isCreator ? (
-          <Link to="/creator" search={{ artist: "painter" }} onClick={() => setContext("creator")} className={rowCls}><Palette size={19} /><span className="flex-1 text-[15px] font-medium">Switch to Creating</span><ChevronRight size={18} className="text-muted-foreground" /></Link>
-        ) : (
-          <Link to="/join" className={rowCls}><Palette size={19} /><span className="flex-1 text-[15px] font-medium">Join as an Artist</span><ChevronRight size={18} className="text-muted-foreground" /></Link>
-        )}
+      <div className="mt-5 divide-y divide-border overflow-hidden rounded-3xl border border-border lg:hidden">
+        {switchRow}
         <button type="button" onClick={() => void signOut()} className={`${rowCls} w-full text-destructive`}><LogOut size={19} /><span className="flex-1 text-[15px] font-medium">Sign out</span></button>
       </div>
+      {/* Desktop: grid of cards */}
+      <nav aria-label="Settings" className="mt-10 hidden grid-cols-2 gap-4 lg:grid xl:grid-cols-3">
+        {settingsItems(context).map((i) => (
+          <Link key={i.id} {...link(i.id)} className="group flex flex-col rounded-3xl border border-border bg-background p-6 text-left transition-colors hover:bg-secondary">
+            <span className="grid h-12 w-12 place-items-center rounded-full bg-secondary transition-colors group-hover:bg-background"><i.icon size={21} /></span>
+            <span className="mt-4 block text-[15px] font-medium">{i.label}</span>
+            <span className="mt-0.5 block text-xs text-muted-foreground">{i.hint}</span>
+          </Link>
+        ))}
+        {switchCard}
+        <button type="button" onClick={() => void signOut()} className="group flex flex-col rounded-3xl border border-border bg-background p-6 text-left text-destructive transition-colors hover:bg-secondary">
+          <span className="grid h-12 w-12 place-items-center rounded-full bg-secondary transition-colors group-hover:bg-background"><LogOut size={21} /></span>
+          <span className="mt-4 block text-[15px] font-medium">Sign out</span>
+          <span className="mt-0.5 block text-xs text-muted-foreground">End this session</span>
+        </button>
+      </nav>
     </div>
   );
 }
