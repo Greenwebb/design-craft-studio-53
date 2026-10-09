@@ -181,7 +181,7 @@ function Portfolio({ a, n }: { a: Artist; n: number }) {
     <section id="portfolio" className="container-x section-y scroll-mt-32">
       <SectionHead n={n} label="Featured portfolio" title="Selected projects." note="a few I'm proud of" />
       {first && <Reveal><MediaItem p={first} big /></Reveal>}
-      <div className="mt-16 grid gap-x-6 gap-y-16 md:grid-cols-3">
+      <div className={`mt-16 grid gap-x-6 gap-y-16 ${rest.length === 2 ? "md:grid-cols-2" : "md:grid-cols-3"}`}>
         {rest.map((p, i) => <Reveal key={p.title} delay={i * 0.08}><MediaItem p={p} /></Reveal>)}
       </div>
     </section>
@@ -237,7 +237,7 @@ function Services({ a, n }: { a: Artist; n: number }) {
                   <p className="mt-3 text-[13px] opacity-60">{s.delivery} · <span className="font-medium opacity-100">{s.price ?? "Custom pricing"}</span></p>
                 </div>
                 <a href="#services" className="inline-flex w-fit items-center gap-2 rounded-full border border-ink-foreground/30 px-6 py-3 text-sm font-medium transition-colors group-hover:bg-ink-foreground group-hover:text-ink">
-                  {s.price ? s.cta : "Request quote"} <ArrowUpRight className="h-4 w-4" />
+                  {s.cta} <ArrowUpRight className="h-4 w-4" />
                 </a>
               </li>
             </Reveal>
