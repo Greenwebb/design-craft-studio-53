@@ -7,13 +7,13 @@ import { PRICE_RANGES, SIZES, ORIENTATIONS, THEMES, TYPE_LABELS, collections, fo
 
 type Sort = "curated" | "newest" | "price-asc" | "price-desc";
 type SearchState = {
-  type?: WorkType;
-  price?: string;
-  size?: (typeof SIZES)[number];
-  orientation?: (typeof ORIENTATIONS)[number];
-  theme?: string;
-  available?: boolean;
-  sort?: Sort;
+  type?: WorkType | undefined;
+  price?: string | undefined;
+  size?: (typeof SIZES)[number] | undefined;
+  orientation?: (typeof ORIENTATIONS)[number] | undefined;
+  theme?: string | undefined;
+  available?: boolean | undefined;
+  sort?: Sort | undefined;
 };
 
 const SORTS: { id: Sort; label: string }[] = [
