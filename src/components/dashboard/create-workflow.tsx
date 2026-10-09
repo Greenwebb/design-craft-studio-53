@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router';
 import { Image, ArrowRight, Check, Upload } from 'lucide-react';
 import { SiteButton } from '@/components/site';
 import { useStudio } from './context';
-import { ModuleHeader, ProductEmpty, PreviewNote, SavedNotice } from './product-ui';
+import { ModuleHeader, ProductEmpty, PreviewNote } from './product-ui';
 export function CreateWorkflow({kind}:{kind:string}){
  const {artist,capabilities,state}=useStudio();const [stage,setStage]=useState(0);const [title,setTitle]=useState('');const [description,setDescription]=useState('');const [price,setPrice]=useState('');const [cover,setCover]=useState<string|null>(null);const [published,setPublished]=useState(false);
  const valid=['portfolio','work','service'].includes(kind)&&!(kind==='work'&&!capabilities.sellsWorks)&&!(kind==='service'&&!capabilities.offersServices);

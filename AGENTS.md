@@ -15,4 +15,6 @@
 
 - UI-only ecosystem previews use a single in-memory account context and shared project/conversation fixtures; no frontend state authorizes private data or claims live transactions.
 - Global CSS is the sole source of color tokens; all three shells reuse shared controls, typography, motion constants and artwork data.
-- Global radius tokens define surface rounding, and shared button controls apply their radius after caller classes, so all shells stay consistent without page-specific overrides.
+- Global radius tokens define surface rounding with a creator-shell surface scale, and shared button controls enforce pill rounding after caller classes, preserving consistency within each experience.
+- Creator workflow modules share accessible tabs, drawers and capability-derived preview fixtures; distinct module layouts keep publishing, commerce, collaboration and earnings purposeful.
+- Complex creator creation uses /creator/new/$kind full-page steps; drawers handle focused contextual actions, avoiding cramped multi-field creation overlays.
