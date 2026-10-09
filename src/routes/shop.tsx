@@ -273,7 +273,7 @@ function ShopPage() {
       </section>
 
       {/* Closing editorial — the story now that the work has been seen. */}
-      <section className="container-x border-t border-border pb-24 pt-20 md:pb-32 md:pt-28">
+      <section className="container-x border-t border-border pb-14 pt-20 md:pb-20 md:pt-28">
         <Reveal><p className="eyebrow text-muted-foreground">Shop</p></Reveal>
         <Reveal delay={0.08}>
           <h2 className="mt-6 max-w-5xl text-[clamp(48px,15vw,72px)] font-semibold leading-[0.92] tracking-[-0.06em] md:text-[clamp(64px,7vw,112px)] md:leading-[0.9]">
