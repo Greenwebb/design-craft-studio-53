@@ -338,11 +338,11 @@ export type VerificationRow = BaseRow & {
   creator: string; creatorId: string; type: string; submitted: string; documents: string[]; waiting?: string;
 };
 export const verificationSeed: VerificationRow[] = [
-  { id: 'V-31', creator: 'Mwamba Kapwepwe', creatorId: 'C-140', type: 'Payout identity', submitted: '5 Oct, 11:20', documents: ['NRC scan (front)', 'NRC scan (back)'], waiting: 'Previous submission rejected: scan cropped' },
-  { id: 'V-30', creator: 'Taonga Banda', creatorId: 'C-114', type: 'Identity', submitted: '6 Oct, 09:05', documents: ['Passport photo page', 'Selfie match'] },
-  { id: 'V-29', creator: 'Mwansa Chileshe', creatorId: 'C-101', type: 'Business verification', submitted: '7 Oct, 15:48', documents: ['PACRA certificate', 'TIN certificate'] },
-  { id: 'V-28', creator: 'Nkosi Mvula', creatorId: 'C-155', type: 'Professional profile', submitted: '8 Oct, 08:12', documents: ['Portfolio link', 'Two references'] },
-  { id: 'V-27', creator: 'Lubasi Sinyangwe', creatorId: 'C-133', type: 'Payout identity', submitted: '3 Oct, 16:44', documents: ['NRC scan (front)'], waiting: 'Waiting more than 24h' },
+  { id: 'V-31', creator: 'Mwamba Kapwepwe', creatorId: 'C-140', type: 'Payout identity', state: 'needs-info', submitted: '5 Oct, 11:20', documents: ['NRC scan (front)', 'NRC scan (back)'], waiting: 'Previous submission rejected: scan cropped' },
+  { id: 'V-30', creator: 'Taonga Banda', creatorId: 'C-114', type: 'Identity', state: 'submitted', submitted: '6 Oct, 09:05', documents: ['Passport photo page', 'Selfie match'] },
+  { id: 'V-29', creator: 'Mwansa Chileshe', creatorId: 'C-101', type: 'Business verification', state: 'under-review', submitted: '7 Oct, 15:48', documents: ['PACRA certificate', 'TIN certificate'] },
+  { id: 'V-28', creator: 'Nkosi Mvula', creatorId: 'C-155', type: 'Professional profile', state: 'submitted', submitted: '8 Oct, 08:12', documents: ['Portfolio link', 'Two references'] },
+  { id: 'V-27', creator: 'Lubasi Sinyangwe', creatorId: 'C-133', type: 'Payout identity', state: 'submitted', submitted: '3 Oct, 16:44', documents: ['NRC scan (front)'], waiting: 'Waiting more than 24h' },
 ];
 
 export type ModRow = BaseRow & {

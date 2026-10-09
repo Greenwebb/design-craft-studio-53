@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useState } from 'react';
 import { AdminPage, AdminTable, DropdownFilter, FilterTabs, SectionCard, StatusPill } from '@/components/admin/admin-ui';
-import { money, projectMilestones } from '@/data/admin-data';
+import { money } from '@/data/admin-data';
 import { sharedProjects } from '@/data/ecosystem';
 import { pageHead } from '@/lib/page-head';
 
