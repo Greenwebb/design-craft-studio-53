@@ -11,7 +11,7 @@ export function DashboardTopBar({ title, eyebrow, leading, children }: { title: 
         {leading}
         <div className="min-w-0">
           {eyebrow && <p className="truncate text-[11px] uppercase tracking-[0.14em] text-muted-foreground">{eyebrow}</p>}
-          <h1 className="truncate text-lg font-semibold tracking-tight sm:text-xl">{title}</h1>
+          <p className="truncate text-lg font-semibold tracking-tight sm:text-xl">{title}</p>
         </div>
       </div>
       <div className="flex shrink-0 items-center gap-1 sm:gap-2">{children}</div>
