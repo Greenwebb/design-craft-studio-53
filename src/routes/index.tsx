@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowRight, ArrowUpRight, ArrowLeft, Search, User, Menu, X } from "lucide-react";
@@ -187,8 +187,8 @@ function Works() {
 }
 
 const artists = [
-  { name: "Mwila Tembo", role: "Painter · Lusaka", quote: "My work explores memory, movement and the ordinary spaces that shape our lives.", img: artist2, works: [work3, work2] },
-  { name: "Mwansa Chileshe", role: "Painter · Lusaka", quote: "I paint the land the way it feels after rain — quiet, renewed, still becoming.", img: artist1, works: [heroArt, work1] },
+  { slug: "mwila-tembo", name: "Mwila Tembo", role: "Painter · Lusaka", quote: "My work explores memory, movement and the ordinary spaces that shape our lives.", img: artist2, works: [work3, work2] },
+  { slug: "mwansa-chileshe", name: "Mwansa Chileshe", role: "Painter · Lusaka", quote: "I paint the land the way it feels after rain — quiet, renewed, still becoming.", img: artist1, works: [heroArt, work1] },
 ];
 
 function Artists() {
@@ -219,7 +219,7 @@ function Artists() {
                 <p className="mt-2 text-muted-foreground">{a.role}</p>
                 <p className="note mt-10">in their own words</p>
                 <p className="mt-3 max-w-xl text-2xl leading-snug tracking-[-0.02em] md:text-3xl">“{a.quote}”</p>
-                <div className="mt-10"><TextLink href={`${SITE}/artists`}>View artist</TextLink></div>
+                <div className="mt-10"><Link to="/artists/$slug" params={{ slug: a.slug }} className="group inline-flex items-center gap-2 text-[15px] font-medium"><span className="link-line pb-0.5">View artist</span><ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" /></Link></div>
               </div>
               <div className="grid grid-cols-2 gap-6">
                 {a.works.map((w, k) => (
