@@ -38,7 +38,7 @@ import { useEcosystem } from "@/components/ecosystem/context";
 import { StudioContext } from "./context";
 import { StudioLink } from "./controls";
 import { StudioNotifications } from "./notifications";
-import { studioProjects } from "@/data/studio-product";
+import { StudioCommandSearch } from "./command-search";
 export function StudioShell({ state }: { state: PreviewState }) {
   const { user, setContext } = useEcosystem();
   useEffect(() => { setContext("creator"); }, []);
@@ -50,7 +50,6 @@ export function StudioShell({ state }: { state: PreviewState }) {
   const [create, setCreate] = useState(false);
   const [drawer, setDrawer] = useState(false);
   const [search, setSearch] = useState(false);
-  const [query, setQuery] = useState("");
   const [notifications, setNotifications] = useState(false);
   const [read, setRead] = useState(false);
   const options = createOptions(studio.capabilities);
@@ -310,63 +309,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
             </Dialog.Content>
           </Dialog.Portal>
         </Dialog.Root>
-        <Dialog.Root open={search} onOpenChange={setSearch}>
-          <Dialog.Portal>
-            <Dialog.Overlay className="fixed inset-0 z-50 bg-ink/35" />
-            <Dialog.Content className="studio fixed left-1/2 top-[15%] z-50 w-[calc(100%-36px)] max-w-lg -translate-x-1/2 rounded-lg bg-studio-surface p-6">
-              <Dialog.Title className="text-xl font-semibold">Search your studio</Dialog.Title>
-              <Dialog.Description className="sr-only">
-                Find your workspace or published work
-              </Dialog.Description>
-              <input
-                aria-label="Search work and destinations"
-                placeholder="Search work, projects, earnings…"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                autoFocus
-                className="studio-input my-5"
-              />
-              <div className="max-h-72 space-y-2 overflow-y-auto">
-                {[
-                  ...nav.map((n) => ({ title: n.label, section: n.id })),
-                  ...studio.data.recentWork.map((w) => ({ title: w.title, section: "portfolio" })),
-                  ...options.map(o => ({ title: o.title, section: o.section })),
-                  ...studioProjects(state).map(p => ({ title: p.title, section: "projects" })),
-                  { title: "View public profile", section: "profile" },
-                ]
-                  .filter((n) => n.title.toLowerCase().includes(query.toLowerCase()))
-                  .map((n) => (
-                    <div key={n.title}>
-                      <StudioLink
-                        section={n.section}
-                        onClick={() => setSearch(false)}
-                        className="w-full justify-between py-2"
-                      >
-                        {n.title}
-                      </StudioLink>
-                    </div>
-                  ))}
-                {query &&
-                  !nav.some((n) => n.label.toLowerCase().includes(query.toLowerCase())) &&
-                  !studio.data.recentWork.some((w) =>
-                    w.title.toLowerCase().includes(query.toLowerCase()),
-                  ) && (
-                    <p className="text-sm text-muted-foreground">
-                      No matching work or destinations.
-                    </p>
-                  )}
-              </div>
-              <Dialog.Close asChild>
-                <IconButton
-                  ariaLabel="Close search"
-                  className="absolute right-4 top-4 h-8 w-8 border-0"
-                >
-                  <X size={16} />
-                </IconButton>
-              </Dialog.Close>
-            </Dialog.Content>
-          </Dialog.Portal>
-        </Dialog.Root>
+        <StudioCommandSearch open={search} onClose={()=>setSearch(false)} state={state}/>
         <StudioNotifications open={notifications} onClose={()=>setNotifications(false)} onNavigate={go}/>
       </div>
     </StudioContext.Provider>
