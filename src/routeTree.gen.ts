@@ -38,6 +38,7 @@ import { Route as PublicShopCollectionRouteImport } from './routes/_public/shop.
 import { Route as PublicWorkSlugRouteImport } from './routes/_public/work.$slug'
 import { Route as AccountOrdersIdRouteImport } from './routes/account.orders.$id'
 import { Route as AccountProjectsIdRouteImport } from './routes/account.projects.$id'
+import { Route as CreatorNewKindRouteImport } from './routes/creator.new.$kind'
 import { Route as CreatorProjectsIdRouteImport } from './routes/creator.projects.$id'
 
 const PublicRouteRoute = PublicRouteRouteImport.update({
@@ -184,6 +185,11 @@ const AccountProjectsIdRoute = AccountProjectsIdRouteImport.update({
   path: '/projects/$id',
   getParentRoute: () => AccountRoute,
 } as any)
+const CreatorNewKindRoute = CreatorNewKindRouteImport.update({
+  id: '/new/$kind',
+  path: '/new/$kind',
+  getParentRoute: () => CreatorRoute,
+} as any)
 const CreatorProjectsIdRoute = CreatorProjectsIdRouteImport.update({
   id: '/projects/$id',
   path: '/projects/$id',
@@ -217,6 +223,7 @@ export interface FileRoutesByFullPath {
   '/work/$slug': typeof PublicWorkSlugRoute
   '/account/orders/$id': typeof AccountOrdersIdRoute
   '/account/projects/$id': typeof AccountProjectsIdRoute
+  '/creator/new/$kind': typeof CreatorNewKindRoute
   '/creator/projects/$id': typeof CreatorProjectsIdRoute
   '/artists/': typeof PublicArtistsIndexRoute
   '/shop/': typeof PublicShopIndexRoute
@@ -245,6 +252,7 @@ export interface FileRoutesByTo {
   '/work/$slug': typeof PublicWorkSlugRoute
   '/account/orders/$id': typeof AccountOrdersIdRoute
   '/account/projects/$id': typeof AccountProjectsIdRoute
+  '/creator/new/$kind': typeof CreatorNewKindRoute
   '/creator/projects/$id': typeof CreatorProjectsIdRoute
   '/artists': typeof PublicArtistsIndexRoute
   '/shop': typeof PublicShopIndexRoute
@@ -278,6 +286,7 @@ export interface FileRoutesById {
   '/_public/work/$slug': typeof PublicWorkSlugRoute
   '/account/orders/$id': typeof AccountOrdersIdRoute
   '/account/projects/$id': typeof AccountProjectsIdRoute
+  '/creator/new/$kind': typeof CreatorNewKindRoute
   '/creator/projects/$id': typeof CreatorProjectsIdRoute
   '/_public/artists/': typeof PublicArtistsIndexRoute
   '/_public/shop/': typeof PublicShopIndexRoute
@@ -311,6 +320,7 @@ export interface FileRouteTypes {
     | '/work/$slug'
     | '/account/orders/$id'
     | '/account/projects/$id'
+    | '/creator/new/$kind'
     | '/creator/projects/$id'
     | '/artists/'
     | '/shop/'
@@ -339,6 +349,7 @@ export interface FileRouteTypes {
     | '/work/$slug'
     | '/account/orders/$id'
     | '/account/projects/$id'
+    | '/creator/new/$kind'
     | '/creator/projects/$id'
     | '/artists'
     | '/shop'
@@ -371,6 +382,7 @@ export interface FileRouteTypes {
     | '/_public/work/$slug'
     | '/account/orders/$id'
     | '/account/projects/$id'
+    | '/creator/new/$kind'
     | '/creator/projects/$id'
     | '/_public/artists/'
     | '/_public/shop/'
@@ -590,6 +602,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountProjectsIdRouteImport
       parentRoute: typeof AccountRoute
     }
+    '/creator/new/$kind': {
+      id: '/creator/new/$kind'
+      path: '/new/$kind'
+      fullPath: '/creator/new/$kind'
+      preLoaderRoute: typeof CreatorNewKindRouteImport
+      parentRoute: typeof CreatorRoute
+    }
     '/creator/projects/$id': {
       id: '/creator/projects/$id'
       path: '/projects/$id'
@@ -670,12 +689,14 @@ const CheckoutRouteWithChildren = CheckoutRoute._addFileChildren(
 interface CreatorRouteChildren {
   CreatorSectionRoute: typeof CreatorSectionRoute
   CreatorIndexRoute: typeof CreatorIndexRoute
+  CreatorNewKindRoute: typeof CreatorNewKindRoute
   CreatorProjectsIdRoute: typeof CreatorProjectsIdRoute
 }
 
 const CreatorRouteChildren: CreatorRouteChildren = {
   CreatorSectionRoute: CreatorSectionRoute,
   CreatorIndexRoute: CreatorIndexRoute,
+  CreatorNewKindRoute: CreatorNewKindRoute,
   CreatorProjectsIdRoute: CreatorProjectsIdRoute,
 }
 
