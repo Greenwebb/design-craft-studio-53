@@ -12,7 +12,7 @@ export const Route = createFileRoute("/_public/order/confirmed")({
       { property: "og:title", content: "It's Yours — I Am An Artist" },
       { property: "og:description", content: "Your acquisition is confirmed. What happens next with your work." },
       { name: "description", content: "Your acquisition is confirmed. What happens next with your work." },
-      { name: "robots", content: "noindex" },
+      { name: "robots", content: "noindex" }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: ConfirmedPage,

@@ -5,7 +5,7 @@ import { formatPrice, works } from "@/data/works";
 import { DELIVERY_LABELS, DELIVERY_PRICES, useBag } from "@/lib/bag";
 
 export const Route = createFileRoute("/checkout/review")({
-  head: () => ({ meta: [{ title: "Review — Checkout — I Am An Artist" }, { name: "description", content: "Review your artwork acquisition before confirming." }, { property: "og:title", content: "Review — Checkout — I Am An Artist" }, { property: "og:description", content: "Review your artwork acquisition before confirming." }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Review — Checkout — I Am An Artist" }, { name: "description", content: "Review your artwork acquisition before confirming." }, { property: "og:title", content: "Review — Checkout — I Am An Artist" }, { property: "og:description", content: "Review your artwork acquisition before confirming." }, { name: "robots", content: "noindex" }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: ReviewStep,
 });
 

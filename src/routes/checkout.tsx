@@ -12,7 +12,7 @@ export const Route = createFileRoute("/checkout")({
       { property: "og:title", content: "Secure Checkout — I Am An Artist" },
       { property: "og:description", content: "Complete your acquisition securely with I Am An Artist." },
       { name: "description", content: "Complete your acquisition securely with I Am An Artist." },
-      { name: "robots", content: "noindex" },
+      { name: "robots", content: "noindex" }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: CheckoutLayout,

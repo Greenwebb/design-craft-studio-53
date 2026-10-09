@@ -5,7 +5,7 @@ import { formatPrice, works } from "@/data/works";
 import { DELIVERY_LABELS, DELIVERY_PRICES, useBag, type DeliveryMethod } from "@/lib/bag";
 
 export const Route = createFileRoute("/checkout/delivery")({
-  head: () => ({ meta: [{ title: "Delivery — Checkout — I Am An Artist" }, { name: "description", content: "Choose collection or delivery for your artwork." }, { property: "og:title", content: "Delivery — Checkout — I Am An Artist" }, { property: "og:description", content: "Choose collection or delivery for your artwork." }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Delivery — Checkout — I Am An Artist" }, { name: "description", content: "Choose collection or delivery for your artwork." }, { property: "og:title", content: "Delivery — Checkout — I Am An Artist" }, { property: "og:description", content: "Choose collection or delivery for your artwork." }, { name: "robots", content: "noindex" }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: DeliveryStep,
 });
 
