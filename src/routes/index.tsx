@@ -261,7 +261,7 @@ const works = [
 
 function Artwork({ w }: { w: (typeof works)[number] }) {
   return (
-    <a href={`${SITE}/shop`} className="group block">
+    <a href={`${SITE}/shop`} data-cursor className="group block">
       <div className="relative overflow-hidden rounded-sm">
         <img src={w.img} alt={`${w.t} by ${w.a}`} width={w.w} height={w.h} loading="lazy"
           className={`${w.ar} w-full object-cover transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.025]`} />
@@ -389,7 +389,7 @@ function Collections() {
       <div className="grid gap-x-6 gap-y-14 md:grid-cols-2">
         {collections.map((c, i) => (
           <Reveal key={c.t} delay={(i % 2) * 0.1}>
-            <a href={`${SITE}/shop`} className="group block">
+            <a href={`${SITE}/shop`} data-cursor className="group block">
               <div className="overflow-hidden rounded-sm">
                 <img src={c.img} alt={`${c.t} collection`} loading="lazy"
                   className={`w-full object-cover transition-transform duration-700 group-hover:scale-[1.025] ${c.big ? "h-[420px] md:h-[600px]" : "h-[340px] md:h-[460px]"}`} />
@@ -496,6 +496,7 @@ function Footer() {
 function Index() {
   return (
     <div className="bg-background text-foreground">
+      <Cursor />
       <Nav />
       <main>
         <Hero />
