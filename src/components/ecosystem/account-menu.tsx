@@ -1,5 +1,5 @@
 import { Link, useNavigate } from '@tanstack/react-router';
-import { ArrowUpRight, ShoppingBag, Palette, Check, User } from 'lucide-react';
+import { ArrowUpRight, ShoppingBag, Palette, Check, User, LogIn } from 'lucide-react';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { IconButton } from '@/components/site';
 import { useEcosystem } from './context';
