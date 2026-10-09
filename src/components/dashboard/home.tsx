@@ -77,9 +77,9 @@ export function StudioHome() {
                   className="flex flex-col gap-4 border-t border-border py-6 sm:flex-row sm:items-center sm:gap-5"
                 >
                   {item.thumbnail ? (
-                    <img src={item.thumbnail} alt="" className="h-16 w-16 shrink-0 object-cover" />
+                    <img src={item.thumbnail} alt="" className="h-16 w-16 shrink-0 rounded-lg object-cover" />
                   ) : (
-                    <span className="grid h-16 w-16 shrink-0 place-items-center bg-studio-green/5 text-studio-green">
+                    <span className="grid h-16 w-16 shrink-0 place-items-center rounded-lg bg-studio-green/5 text-studio-green">
                       <ArrowUpRight strokeWidth={1} size={28} />
                     </span>
                   )}
@@ -133,13 +133,13 @@ export function StudioHome() {
           >
             Your profile
           </SectionTitle>
-          <div className="relative mb-5 aspect-[16/9] overflow-hidden bg-studio-green">
+          <div className="relative mb-5 aspect-[16/9] overflow-hidden rounded-lg bg-studio-green">
             <img
               src={artist.heroMedia}
               alt={`${artist.name}'s public profile cover`}
               className="h-full w-full object-cover opacity-80"
             />
-            <div className="absolute bottom-3 left-3 flex items-center gap-2 bg-studio-surface px-3 py-2">
+            <div className="absolute bottom-3 left-3 flex items-center gap-2 rounded-full bg-studio-surface px-3 py-2">
               <img src={artist.portrait} alt="" className="h-7 w-7 rounded-full object-cover" />
               <span className="text-xs font-medium">{artist.name}</span>
             </div>
@@ -154,7 +154,7 @@ export function StudioHome() {
             aria-valuenow={data.profile.completion}
             aria-valuemin={0}
             aria-valuemax={100}
-            className="mt-3 h-0.5 overflow-hidden bg-foreground/10"
+            className="mt-3 h-0.5 overflow-hidden rounded-full bg-foreground/10"
           >
             <div className={state === "new" ? "h-full w-[24%] bg-ink" : "h-full w-[72%] bg-ink"} />
           </div>
@@ -245,14 +245,14 @@ export function StudioHome() {
               {data.recentWork.map((w) => (
                 <article key={w.id}>
                   <StudioLink section="portfolio" arrow={false} className="block">
-                    <div className="relative mb-4 aspect-[4/3] overflow-hidden">
+                    <div className="relative mb-4 aspect-[4/3] overflow-hidden rounded-lg">
                       <img
                         loading="lazy"
                         src={w.image}
                         alt={w.title}
                         className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
                       />
-                      <span className="absolute left-3 top-3 bg-studio-surface px-2 py-1 text-[10px] font-medium">
+                      <span className="absolute left-3 top-3 rounded-full bg-studio-surface px-2 py-1 text-[10px] font-medium">
                         {w.status}
                       </span>
                     </div>
@@ -342,21 +342,21 @@ export function StudioSkeleton() {
       aria-label="Loading your studio"
       className="space-y-10 motion-safe:animate-pulse"
     >
-      <div className="h-12 w-2/3 bg-foreground/5" />
+      <div className="h-12 w-2/3 rounded-lg bg-foreground/5" />
       <div className="space-y-1">
         {[1, 2, 3].map((n) => (
           <div key={n} className="flex gap-5 border-t border-border py-6">
-            <div className="h-16 w-16 bg-foreground/5" />
+            <div className="h-16 w-16 rounded-lg bg-foreground/5" />
             <div className="flex-1 space-y-3">
-              <div className="h-3 w-1/4 bg-foreground/5" />
-              <div className="h-5 w-1/2 bg-foreground/5" />
+              <div className="h-3 w-1/4 rounded-full bg-foreground/5" />
+              <div className="h-5 w-1/2 rounded-full bg-foreground/5" />
             </div>
           </div>
         ))}
       </div>
       <div className="grid grid-cols-3 gap-5">
         {[1, 2, 3].map((n) => (
-          <div key={n} className="aspect-[4/3] bg-foreground/5" />
+          <div key={n} className="aspect-[4/3] rounded-lg bg-foreground/5" />
         ))}
       </div>
       <span className="sr-only">Loading your studio</span>

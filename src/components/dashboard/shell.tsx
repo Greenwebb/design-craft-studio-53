@@ -285,7 +285,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
         <Dialog.Root open={create} onOpenChange={setCreate}>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 z-50 bg-ink/35" />
-            <Dialog.Content className="studio fixed inset-x-0 bottom-0 z-50 rounded-t-xl bg-studio-surface p-6 outline-none md:bottom-auto md:left-1/2 md:top-1/3 md:max-w-sm md:-translate-x-1/2 md:rounded-md">
+            <Dialog.Content className="studio fixed inset-x-0 bottom-0 z-50 rounded-t-lg bg-studio-surface p-6 outline-none md:bottom-auto md:left-1/2 md:top-1/3 md:max-w-sm md:-translate-x-1/2 md:rounded-lg">
               <Dialog.Title className="text-xl font-semibold">Create</Dialog.Title>
               <Dialog.Description className="mt-1 text-sm text-muted-foreground">
                 Make your next creative move.
@@ -322,7 +322,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
         <Dialog.Root open={drawer} onOpenChange={setDrawer}>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 z-50 bg-ink/35" />
-            <Dialog.Content className="studio fixed inset-y-0 left-0 z-50 flex w-[280px] flex-col overflow-y-auto bg-studio-surface p-6">
+            <Dialog.Content className="studio fixed inset-y-0 left-0 z-50 flex w-[280px] flex-col overflow-y-auto rounded-r-lg bg-studio-surface p-6">
               <Dialog.Title className="sr-only">Studio navigation</Dialog.Title>
               <Dialog.Description className="sr-only">Your creative workspace</Dialog.Description>
               <Dialog.Close asChild>
@@ -340,7 +340,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
         <Dialog.Root open={search} onOpenChange={setSearch}>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 z-50 bg-ink/35" />
-            <Dialog.Content className="studio fixed left-1/2 top-[15%] z-50 w-[calc(100%-36px)] max-w-lg -translate-x-1/2 rounded-md bg-studio-surface p-6">
+            <Dialog.Content className="studio fixed left-1/2 top-[15%] z-50 w-[calc(100%-36px)] max-w-lg -translate-x-1/2 rounded-lg bg-studio-surface p-6">
               <Dialog.Title className="text-xl font-semibold">Search your studio</Dialog.Title>
               <Dialog.Description className="sr-only">
                 Find your workspace or published work
@@ -393,7 +393,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
         <Dialog.Root open={notifications} onOpenChange={setNotifications}>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 z-50 bg-ink/20" />
-            <Dialog.Content className="studio fixed bottom-0 right-0 top-0 z-50 w-full max-w-sm overflow-y-auto bg-studio-surface p-7">
+            <Dialog.Content className="studio fixed bottom-0 right-0 top-0 z-50 w-full max-w-sm overflow-y-auto rounded-l-lg bg-studio-surface p-7">
               <Dialog.Title className="text-xl font-semibold">Notifications</Dialog.Title>
               <Dialog.Description className="mt-1 text-sm text-muted-foreground">
                 The important things around your work.

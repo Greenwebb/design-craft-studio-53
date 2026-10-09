@@ -89,7 +89,7 @@ function WorkPage() {
             type="button"
             onClick={() => setZoomed(true)}
             aria-label={`View ${work.title} larger`}
-            className="block w-full cursor-zoom-in bg-secondary"
+            className="block w-full cursor-zoom-in overflow-hidden rounded-lg bg-secondary"
             data-cursor
           >
             <img
@@ -268,7 +268,7 @@ function WorkPage() {
                   {list.map((w, i) => (
                     <Reveal key={w.slug} delay={i * 0.08}>
                       <Link to="/work/$slug" params={{ slug: w.slug }} className="group block" data-cursor>
-                        <div className="overflow-hidden bg-secondary">
+                        <div className="overflow-hidden rounded-lg bg-secondary">
                           <img
                             src={w.image}
                             alt={`${w.title} by ${w.artist.name}`}

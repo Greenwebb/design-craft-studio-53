@@ -154,7 +154,7 @@ function Artwork({ w }: { w: (typeof works)[number] }) {
       <div className="relative overflow-hidden rounded-sm">
         <img src={w.img} alt={`${w.t} by ${w.a}`} width={w.w} height={w.h} loading="lazy"
           className={`${w.ar} w-full object-cover transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.025]`} />
-        <span className="absolute bottom-4 right-4 inline-flex items-center gap-1 bg-background/90 px-3 py-1.5 text-xs font-medium opacity-0 backdrop-blur transition-opacity duration-500 group-hover:opacity-100">
+        <span className="absolute bottom-4 right-4 inline-flex items-center gap-1 rounded-full bg-background/90 px-3 py-1.5 text-xs font-medium opacity-0 backdrop-blur transition-opacity duration-500 group-hover:opacity-100">
           View work <ArrowUpRight className="h-3 w-3" />
         </span>
       </div>
@@ -326,7 +326,7 @@ function ForArtists() {
           </Reveal>
         </div>
         <Reveal delay={0.2}>
-          <div className="border border-border bg-card p-6 md:p-8">
+          <div className="rounded-lg border border-border bg-card p-6 md:p-8">
             <div className="flex items-center gap-4">
               <img src={artist2} alt="Mwila Tembo" loading="lazy" className="h-16 w-16 shrink-0 rounded-sm object-cover" />
               <div className="min-w-0">
@@ -339,7 +339,7 @@ function ForArtists() {
             </p>
             <div className="mt-6 grid grid-cols-3 gap-2">
               {[work3, work2, work4].map((w, k) => (
-                <img key={k} src={w} alt="" loading="lazy" className="aspect-square w-full object-cover" />
+                <img key={k} src={w} alt="" loading="lazy" className="aspect-square w-full rounded-lg object-cover" />
               ))}
             </div>
             <div className="mt-6 border-t border-border pt-5">
