@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Image, ArrowUpRight } from "lucide-react";
-import { useStudio } from "@/components/dashboard/context";
-import { StudioLink } from "@/components/dashboard/controls";
+import { useStudio } from "@/components/creator/context";
+import { StudioLink } from "@/components/creator/controls";
 import { SiteButton } from "@/components/site";
 const sections: Record<string, { title: string; description: string; action?: string }> = {
   portfolio: {
@@ -40,7 +40,7 @@ const sections: Record<string, { title: string; description: string; action?: st
     action: "Set availability",
   },
 };
-export const Route = createFileRoute("/dashboard/$section")({
+export const Route = createFileRoute("/creator/$section")({
   head: ({ params }) => {
     const title = sections[params.section]?.title ?? "Studio";
     const description =
@@ -107,7 +107,7 @@ function StudioDestination() {
           </Link>
         ) : (
           <Link
-            to="/dashboard"
+            to="/creator"
             search={{ artist: state }}
             className="inline-flex items-center gap-2 text-sm font-medium"
           >

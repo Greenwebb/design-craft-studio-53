@@ -19,7 +19,7 @@ export function StudioLink({
   const { state } = useStudio();
   return (
     <Link
-      to="/dashboard/$section"
+      to="/creator/$section"
       params={{ section }}
       search={{ artist: state }}
       onClick={onClick}

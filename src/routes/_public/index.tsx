@@ -12,7 +12,7 @@ import work3 from "@/assets/work-3.jpg";
 import work4 from "@/assets/work-4.jpg";
 import { SiteButton, IconButton } from "@/components/site";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_public/")({
   head: () => ({
     meta: [
       { title: "I Am An Artist — Original contemporary art from Zambia" },
@@ -367,9 +367,9 @@ function Closing() {
 function Index() {
   return (
     <div className="bg-background text-foreground">
-      <Grain />
-      <Cursor />
-      <Nav />
+
+
+
       <main>
         <Hero />
         <Story />
@@ -380,7 +380,7 @@ function Index() {
         <ForArtists />
         <Closing />
       </main>
-      <Footer />
+
     </div>
   );
 }

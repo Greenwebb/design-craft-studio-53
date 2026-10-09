@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { StudioShell } from "@/components/dashboard/shell";
-import { previewStates, type PreviewState } from "@/data/dashboard";
-export const Route = createFileRoute("/dashboard")({
+import { StudioShell } from "@/components/creator/shell";
+import { previewStates, type PreviewState } from "@/data/creator";
+export const Route = createFileRoute("/creator")({
   validateSearch: (search: Record<string, unknown>): { artist: PreviewState } => ({
     artist: previewStates.includes(search["artist"] as PreviewState)
       ? (search["artist"] as PreviewState)

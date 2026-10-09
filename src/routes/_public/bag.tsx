@@ -4,7 +4,7 @@ import { Footer, Nav, Reveal, SiteButton } from "@/components/site";
 import { formatPrice, works } from "@/data/works";
 import { useBag } from "@/lib/bag";
 
-export const Route = createFileRoute("/bag")({
+export const Route = createFileRoute("/_public/bag")({
   head: () => ({
     meta: [
       { title: "Your Selection — I Am An Artist" },
@@ -26,7 +26,7 @@ function BagPage() {
 
   return (
     <main className="bg-paper">
-      <Nav />
+
       <section className="container-x min-h-[70vh] pb-24 pt-32 md:pt-40">
         <Reveal>
           <p className="font-hand text-2xl text-muted-foreground">chosen with intention</p>
@@ -122,7 +122,7 @@ function BagPage() {
           </div>
         )}
       </section>
-      <Footer />
+
     </main>
   );
 }

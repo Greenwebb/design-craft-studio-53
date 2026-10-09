@@ -24,7 +24,7 @@ const SORTS: { id: Sort; label: string }[] = [
   { id: "price-desc", label: "Price: High to Low" },
 ];
 
-export const Route = createFileRoute("/shop")({
+export const Route = createFileRoute("/_public/shop")({
   validateSearch: (s: Record<string, unknown>): SearchState => ({
     type: typeof s["type"] === "string" ? (s["type"] as WorkType) : undefined,
     price: typeof s["price"] === "string" ? (s["price"] as string) : undefined,
@@ -190,9 +190,7 @@ function ShopPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Nav />
-      <Cursor />
-      <Grain />
+
 
       {/* The catalogue opens immediately; the editorial story closes the page. */}
       <h1 className="sr-only">Shop — original works by Zambian artists</h1>
@@ -433,7 +431,6 @@ function ShopPage() {
         )}
       </AnimatePresence>
 
-      <Footer />
     </div>
   );
 }

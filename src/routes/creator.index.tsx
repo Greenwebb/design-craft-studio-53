@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { StudioHome, StudioSkeleton } from "@/components/dashboard/home";
-export const Route = createFileRoute("/dashboard/")({
+import { StudioHome, StudioSkeleton } from "@/components/creator/home";
+export const Route = createFileRoute("/creator/")({
   head: () => ({
     meta: [
       { title: "Your creative studio — I Am An Artist" },
