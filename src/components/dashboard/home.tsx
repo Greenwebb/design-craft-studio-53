@@ -1,0 +1,365 @@
+import { motion, useReducedMotion } from "framer-motion";
+import {
+  ArrowUpRight,
+  ArrowRight,
+  Check,
+  Eye,
+  Heart,
+  MessageSquare,
+  Wallet,
+  Plus,
+} from "lucide-react";
+import { useStudio } from "./context";
+import { SectionTitle, StudioLink } from "./controls";
+import { SiteButton, EASE } from "@/components/site";
+import { money } from "@/data/dashboard";
+const priority = {
+  purchase: 0,
+  commission: 1,
+  "service-request": 1,
+  booking: 2,
+  project: 3,
+  payment: 4,
+  profile: 5,
+};
+export function StudioHome() {
+  const { data, artist, state, openCreate, monetizationEnabled } = useStudio();
+  const reduced = useReducedMotion();
+  const attention = [...data.attention].sort((a, b) => priority[a.type] - priority[b.type]);
+  return (
+    <motion.div
+      initial={reduced ? false : { opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, ease: EASE }}
+    >
+      <div className="mb-10 flex items-center justify-between border-b border-border pb-10 lg:mb-12">
+        <div>
+          <span className="note text-studio-green">your creative space</span>
+          <h1 className="mt-4 text-[36px] font-semibold leading-[1.02] sm:text-[46px] xl:text-[54px]">
+            Welcome back, {data.greeting.artistName}.
+          </h1>
+          <p className="mt-4 text-sm text-muted-foreground sm:text-[15px]">
+            Here’s what’s happening around your work.
+          </p>
+        </div>
+        <div
+          aria-hidden="true"
+          className="relative hidden h-20 w-20 shrink-0 rotate-12 border border-studio-green/30 xl:grid xl:place-items-center"
+        >
+          <div className="absolute inset-2 border border-studio-green/25" />
+          <span className="note text-studio-green">
+            make
+            <br />
+            your mark.
+          </span>
+        </div>
+      </div>
+      <div className="grid gap-x-12 gap-y-10 xl:grid-cols-[minmax(0,1fr)_280px] 2xl:grid-cols-[minmax(0,1fr)_320px]">
+        <section className="order-1" aria-labelledby="attention-title">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
+            <h2 id="attention-title" className="flex items-center gap-3 text-[20px] font-semibold">
+              Needs your attention
+              {attention.length > 0 && (
+                <span className="grid h-6 w-6 place-items-center rounded-full bg-studio-copper/10 text-xs text-studio-copper">
+                  {attention.length}
+                </span>
+              )}
+            </h2>
+            <span className="note hidden text-muted-foreground sm:inline">
+              things worth looking at
+            </span>
+          </div>
+          {attention.length ? (
+            <div className="border-b border-border">
+              {attention.map((item) => (
+                <article
+                  key={item.id}
+                  className="flex flex-col gap-4 border-t border-border py-6 sm:flex-row sm:items-center sm:gap-5"
+                >
+                  {item.thumbnail ? (
+                    <img src={item.thumbnail} alt="" className="h-16 w-16 shrink-0 object-cover" />
+                  ) : (
+                    <span className="grid h-16 w-16 shrink-0 place-items-center bg-studio-green/5 text-studio-green">
+                      <ArrowUpRight strokeWidth={1} size={28} />
+                    </span>
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <p
+                      className={`mb-2 text-[10px] font-semibold uppercase ${item.type === "purchase" ? "text-studio-copper" : "text-studio-green"}`}
+                    >
+                      {item.type === "purchase"
+                        ? "Artwork purchased"
+                        : item.type === "commission"
+                          ? "New commission request"
+                          : item.type === "booking"
+                            ? "New booking request"
+                            : "Project update"}
+                    </p>
+                    <h3 className="text-lg font-medium">{item.title}</h3>
+                    <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                      {item.description}
+                    </p>
+                    <p className="mt-2 text-[11px] text-muted-foreground">{item.createdAt}</p>
+                  </div>
+                  <StudioLink section={item.action.href} className="shrink-0 text-xs">
+                    {item.action.label}
+                  </StudioLink>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="border-y border-border py-10">
+              <Check size={24} strokeWidth={1.3} className="mb-5 text-studio-green" />
+              <h3 className="text-xl font-medium">You’re all caught up.</h3>
+              <p className="mb-6 mt-2 text-sm text-muted-foreground">
+                Nothing needs your attention right now.
+              </p>
+              <StudioLink section="portfolio">
+                {state === "new" ? "Add your first project" : "Add new work"}
+              </StudioLink>
+            </div>
+          )}
+        </section>
+        <section
+          className="order-3 border-b border-border pb-8 xl:order-2 xl:border-b-0 xl:border-l xl:pl-8"
+          aria-label="Your profile"
+        >
+          <SectionTitle
+            action={
+              <StudioLink section="profile">
+                <span className="sr-only">Edit profile</span>
+              </StudioLink>
+            }
+          >
+            Your profile
+          </SectionTitle>
+          <div className="relative mb-5 aspect-[16/9] overflow-hidden bg-studio-green">
+            <img
+              src={artist.heroMedia}
+              alt={`${artist.name}'s public profile cover`}
+              className="h-full w-full object-cover opacity-80"
+            />
+            <div className="absolute bottom-3 left-3 flex items-center gap-2 bg-studio-surface px-3 py-2">
+              <img src={artist.portrait} alt="" className="h-7 w-7 rounded-full object-cover" />
+              <span className="text-xs font-medium">{artist.name}</span>
+            </div>
+          </div>
+          <div className="flex justify-between text-[13px]">
+            <span className="font-medium">Your profile is live.</span>
+            <span className="text-muted-foreground">{data.profile.completion}% complete</span>
+          </div>
+          <div
+            role="progressbar"
+            aria-label="Profile strength"
+            aria-valuenow={data.profile.completion}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            className="mt-3 h-0.5 overflow-hidden bg-foreground/10"
+          >
+            <div className={state === "new" ? "h-full w-[24%] bg-ink" : "h-full w-[72%] bg-ink"} />
+          </div>
+          <p className="mb-5 mt-5 text-sm leading-relaxed text-muted-foreground">
+            {data.profile.suggestions[0]}
+          </p>
+          <StudioLink section="portfolio">Add project</StudioLink>
+        </section>
+        <div className="order-2 md:hidden">
+          <SiteButton
+            onClick={openCreate}
+            variant="outline"
+            className="w-full justify-between px-5 py-3"
+          >
+            <span className="flex items-center gap-2">
+              <Plus size={18} />
+              Create something new
+            </span>
+            <ArrowRight size={16} />
+          </SiteButton>
+        </div>
+        <section className="order-4 xl:col-span-2" aria-label="Discovery">
+          <SectionTitle action={<span className="text-xs text-muted-foreground">Last 7 days</span>}>
+            Discovery
+          </SectionTitle>
+          <div className="grid grid-cols-1 border-y border-border py-1 sm:grid-cols-4 sm:py-7">
+            {[
+              { label: "Profile views", value: data.discovery.profileViews },
+              { label: "Work views", value: data.discovery.workViews },
+              { label: "Saves", value: data.discovery.saves },
+              { label: "Enquiries", value: data.discovery.enquiries },
+            ].map((s, i) => (
+              <div
+                key={s.label}
+                className={`flex items-baseline justify-between py-4 sm:block sm:py-0 ${i > 0 ? "border-t border-border sm:border-l sm:border-t-0 sm:pl-7" : ""}`}
+              >
+                <p className="text-[32px] font-medium leading-none">{s.value}</p>
+                <p className="mt-3 text-[13px] text-muted-foreground">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+        {monetizationEnabled && data.earnings && (
+          <section
+            className="order-5 border-b border-border pb-8 xl:col-span-2"
+            aria-label="Earnings"
+          >
+            <SectionTitle action={<StudioLink section="earnings">View earnings</StudioLink>}>
+              Earnings
+            </SectionTitle>
+            {data.earnings.available + data.earnings.pending + data.earnings.thisMonth === 0 ? (
+              <div>
+                <h3 className="text-xl font-medium">
+                  Your first earning starts with something people can discover.
+                </h3>
+                <p className="my-3 text-sm text-muted-foreground">
+                  Let people know when they can book you.
+                </p>
+                <StudioLink section="availability">Set your availability</StudioLink>
+              </div>
+            ) : (
+              <div className="flex flex-wrap items-baseline gap-x-16 gap-y-5">
+                <div>
+                  <span className="text-[36px] font-medium">{money(data.earnings.available)}</span>
+                  <span className="ml-3 text-sm text-muted-foreground">available</span>
+                </div>
+                <div className="text-sm">
+                  <span className="font-medium">{money(data.earnings.pending)}</span>
+                  <span className="ml-2 text-muted-foreground">pending</span>
+                </div>
+                <div className="text-sm">
+                  <span className="font-medium">{money(data.earnings.thisMonth)}</span>
+                  <span className="ml-2 text-muted-foreground">this month</span>
+                </div>
+              </div>
+            )}
+            <p className="mt-5 text-xs text-muted-foreground">
+              Sample earnings · No live transactions
+            </p>
+          </section>
+        )}
+        <section className="order-6 xl:col-span-2" aria-label="Your work">
+          <SectionTitle action={<StudioLink section="work">View all</StudioLink>}>
+            Your work
+          </SectionTitle>
+          {data.recentWork.length ? (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+              {data.recentWork.map((w) => (
+                <article key={w.id}>
+                  <StudioLink section="portfolio" arrow={false} className="block">
+                    <div className="relative mb-4 aspect-[4/3] overflow-hidden">
+                      <img
+                        loading="lazy"
+                        src={w.image}
+                        alt={w.title}
+                        className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                      />
+                      <span className="absolute left-3 top-3 bg-studio-surface px-2 py-1 text-[10px] font-medium">
+                        {w.status}
+                      </span>
+                    </div>
+                    <h3 className="text-[16px] font-medium">{w.title}</h3>
+                    <div className="mt-2 flex items-center justify-between gap-3 text-xs text-muted-foreground">
+                      <span>{w.category}</span>
+                      <span>{w.views} views</span>
+                    </div>
+                  </StudioLink>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="relative overflow-hidden border-y border-border py-10">
+              <div
+                aria-hidden
+                className="studio-pattern absolute right-0 top-0 h-full w-16 opacity-[0.06]"
+              />
+              <h3 className="text-2xl font-medium">The first piece gets all the attention.</h3>
+              <p className="mb-6 mt-3 text-sm text-muted-foreground">
+                Nothing here yet. Start with work that feels like you.
+              </p>
+              <StudioLink section="portfolio">Add your first project</StudioLink>
+            </div>
+          )}
+        </section>
+        <section className="order-7 xl:col-span-2" aria-label="Recent activity">
+          <SectionTitle>Recent activity</SectionTitle>
+          {data.recentActivity.length ? (
+            <div>
+              {data.recentActivity.map((a) => {
+                const Icon = { work: Eye, save: Heart, enquiry: MessageSquare, payment: Wallet }[
+                  a.kind
+                ];
+                return (
+                  <div
+                    key={a.id}
+                    className="flex items-start gap-4 border-t border-border py-4 text-sm"
+                  >
+                    <Icon
+                      size={16}
+                      strokeWidth={1.5}
+                      className="mt-0.5 shrink-0 text-muted-foreground"
+                    />
+                    <p className="flex-1">{a.title}</p>
+                    <time className="shrink-0 text-[11px] text-muted-foreground">{a.time}</time>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="border-t border-border py-6 text-sm text-muted-foreground">
+              Your creative story starts here. Activity will appear as people discover your work.
+            </p>
+          )}
+        </section>
+        <section
+          className="relative order-8 mt-2 overflow-hidden border-t border-studio-green/20 py-8 xl:col-span-2"
+          aria-label="Your next step"
+        >
+          <span className="note text-studio-green">one good next step</span>
+          <div className="mt-4 flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
+            <div className="max-w-xl">
+              <h2 className="text-[26px] font-medium leading-tight">
+                {data.recommendedNextAction.title}
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {data.recommendedNextAction.description}
+              </p>
+            </div>
+            <StudioLink section={data.recommendedNextAction.href} className="shrink-0">
+              Add project
+            </StudioLink>
+          </div>
+        </section>
+      </div>
+      <p className="mt-8 text-[11px] text-muted-foreground">
+        Artist preview · Illustrative activity and figures
+      </p>
+    </motion.div>
+  );
+}
+export function StudioSkeleton() {
+  return (
+    <div
+      role="status"
+      aria-label="Loading your studio"
+      className="space-y-10 motion-safe:animate-pulse"
+    >
+      <div className="h-12 w-2/3 bg-foreground/5" />
+      <div className="space-y-1">
+        {[1, 2, 3].map((n) => (
+          <div key={n} className="flex gap-5 border-t border-border py-6">
+            <div className="h-16 w-16 bg-foreground/5" />
+            <div className="flex-1 space-y-3">
+              <div className="h-3 w-1/4 bg-foreground/5" />
+              <div className="h-5 w-1/2 bg-foreground/5" />
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="grid grid-cols-3 gap-5">
+        {[1, 2, 3].map((n) => (
+          <div key={n} className="aspect-[4/3] bg-foreground/5" />
+        ))}
+      </div>
+      <span className="sr-only">Loading your studio</span>
+    </div>
+  );
+}

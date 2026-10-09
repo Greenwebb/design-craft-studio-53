@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useBag } from "@/lib/bag";
 
 export const Route = createFileRoute("/checkout/contact")({
-  head: () => ({ meta: [{ title: "Contact — Checkout — I Am An Artist" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Contact — Checkout — I Am An Artist" }, { name: "description", content: "Contact details for your artwork acquisition." }, { property: "og:title", content: "Contact — Checkout — I Am An Artist" }, { property: "og:description", content: "Contact details for your artwork acquisition." }, { name: "robots", content: "noindex" }] }),
   component: ContactStep,
 });
 
