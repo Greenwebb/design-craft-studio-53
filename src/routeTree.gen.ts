@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PublicRouteRouteImport } from './routes/_public/route'
 import { Route as AccountRouteImport } from './routes/account'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CreatorRouteImport } from './routes/creator'
 import { Route as DashboardRouteImport } from './routes/dashboard'
@@ -48,6 +49,11 @@ const PublicRouteRoute = PublicRouteRouteImport.update({
 const AccountRoute = AccountRouteImport.update({
   id: '/account',
   path: '/account',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckoutRoute = CheckoutRouteImport.update({
@@ -199,6 +205,7 @@ const CreatorProjectsIdRoute = CreatorProjectsIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
   '/account': typeof AccountRouteWithChildren
+  '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRouteWithChildren
   '/creator': typeof CreatorRouteWithChildren
   '/dashboard': typeof DashboardRouteWithChildren
@@ -229,6 +236,7 @@ export interface FileRoutesByFullPath {
   '/shop/': typeof PublicShopIndexRoute
 }
 export interface FileRoutesByTo {
+  '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRouteWithChildren
   '/join': typeof JoinRoute
   '/art-for-spaces': typeof PublicArtForSpacesRoute
@@ -261,6 +269,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_public': typeof PublicRouteRouteWithChildren
   '/account': typeof AccountRouteWithChildren
+  '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRouteWithChildren
   '/creator': typeof CreatorRouteWithChildren
   '/dashboard': typeof DashboardRouteWithChildren
@@ -296,6 +305,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/account'
+    | '/auth'
     | '/checkout'
     | '/creator'
     | '/dashboard'
@@ -326,6 +336,7 @@ export interface FileRouteTypes {
     | '/shop/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/auth'
     | '/checkout'
     | '/join'
     | '/art-for-spaces'
@@ -357,6 +368,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_public'
     | '/account'
+    | '/auth'
     | '/checkout'
     | '/creator'
     | '/dashboard'
@@ -391,6 +403,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   PublicRouteRoute: typeof PublicRouteRouteWithChildren
   AccountRoute: typeof AccountRouteWithChildren
+  AuthRoute: typeof AuthRoute
   CheckoutRoute: typeof CheckoutRouteWithChildren
   CreatorRoute: typeof CreatorRouteWithChildren
   DashboardRoute: typeof DashboardRouteWithChildren
@@ -411,6 +424,13 @@ declare module '@tanstack/react-router' {
       path: '/account'
       fullPath: '/account'
       preLoaderRoute: typeof AccountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/checkout': {
@@ -720,6 +740,7 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   PublicRouteRoute: PublicRouteRouteWithChildren,
   AccountRoute: AccountRouteWithChildren,
+  AuthRoute: AuthRoute,
   CheckoutRoute: CheckoutRouteWithChildren,
   CreatorRoute: CreatorRouteWithChildren,
   DashboardRoute: DashboardRouteWithChildren,
