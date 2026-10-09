@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { AdminPage, AuditTrail, Fact, FactGrid, SectionCard, StatusPill } from '@/components/admin/admin-ui';
-import { bookingSeed, money } from '@/data/admin-data';
+import { ActionsPanel, InternalNotes, AdminPage, AuditTrail, Fact, FactGrid, SectionCard, StatusPill } from '@/components/admin/admin-ui';
+import { money } from '@/data/admin-data';
+import { useAdminOps } from '@/stores/admin-ops';
 import { pageHead } from '@/lib/page-head';
 
 export const Route = createFileRoute('/admin/bookings/$id')({
@@ -10,7 +11,7 @@ export const Route = createFileRoute('/admin/bookings/$id')({
 
 function BookingDetail() {
   const { id } = Route.useParams();
-  const b = bookingSeed.find((x) => x.id === id);
+  const b = useAdminOps((st) => st.bookings.find((x) => x.id === id));
   if (!b) {
     return <AdminPage title="Booking not found" back><p className="text-[15px] text-muted-foreground">No booking with ID {id}. Search with Ctrl+K.</p></AdminPage>;
   }
@@ -26,6 +27,8 @@ function BookingDetail() {
           <Fact label="Policy">{b.policy}</Fact>
         </FactGrid>
       </SectionCard>
+      <ActionsPanel resource="bookings" record={b} />
+      <InternalNotes resource="bookings" record={b} />
       <AuditTrail resource="bookings" id={b.id} seeded={[{ at: 'Booked', what: `${b.customer} booked ${b.service}` }]} />
     </AdminPage>
   );

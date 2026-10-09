@@ -1,3 +1,4 @@
+import { AdminAccountMenu } from './admin-account';
 import { useState, type ReactNode } from 'react';
 import { create } from 'zustand';
 import { Link } from '@tanstack/react-router';
@@ -225,7 +226,7 @@ export function AdminPageHeader({ title, back, actions, children, secondaryConte
         {actions}
         <SearchButton onClick={() => useAdminSearch.getState().setOpen(true)} label="Search operations" />
         <NotificationButton unread label="Operations alerts" />
-        <AccountMenu context="public" />
+        <AdminAccountMenu />
       </>}>
       {children}
     </MobilePageHeader>

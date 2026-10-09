@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { AdminPage, AuditTrail, Fact, FactGrid, SectionCard, StatusPill } from '@/components/admin/admin-ui';
-import { serviceSeed } from '@/data/admin-data';
+import { ActionsPanel, InternalNotes, AdminPage, AuditTrail, Fact, FactGrid, SectionCard, StatusPill } from '@/components/admin/admin-ui';
+import { useAdminOps } from '@/stores/admin-ops';
 import { pageHead } from '@/lib/page-head';
 
 export const Route = createFileRoute('/admin/services/$id')({
@@ -10,7 +10,7 @@ export const Route = createFileRoute('/admin/services/$id')({
 
 function ServiceDetail() {
   const { id } = Route.useParams();
-  const s = serviceSeed.find((x) => x.id === id);
+  const s = useAdminOps((st) => st.services.find((x) => x.id === id));
   if (!s) {
     return <AdminPage title="Service not found" back><p className="text-[15px] text-muted-foreground">No service with ID {id}. It may have been removed — search with Ctrl+K.</p></AdminPage>;
   }
@@ -28,6 +28,8 @@ function ServiceDetail() {
       <SectionCard title="Reports">
         <p className="text-[15px] text-muted-foreground">{s.reports ? `${s.reports} open report${s.reports > 1 ? 's' : ''} — review in Moderation before restoring.` : 'No reports on this service.'}</p>
       </SectionCard>
+      <ActionsPanel resource="services" record={s} />
+      <InternalNotes resource="services" record={s} />
       <AuditTrail resource="services" id={s.id} seeded={[{ at: 'Listed', what: `Service published by ${s.creator}` }]} />
     </AdminPage>
   );

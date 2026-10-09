@@ -1,11 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { AdminPage, AdminTable, StatusPill } from '@/components/admin/admin-ui';
-import { serviceSeed } from '@/data/admin-data';
+import { useAdminOps } from '@/stores/admin-ops';
 import { pageHead } from '@/lib/page-head';
 
 export const Route = createFileRoute('/admin/services/')({ head: () => pageHead('Services', 'Service listings, pricing models and reports.', true), component: ServicesQueue });
 
 function ServicesQueue() {
+  const serviceSeed = useAdminOps((s) => s.services);
   return (
     <AdminPage title="Services">
       <AdminTable
@@ -21,7 +22,7 @@ function ServicesQueue() {
         hrefFor={(s) => `/admin/services/${s.id}`}
         emptyTitle="No services listed."
       />
-      <p className="text-sm text-muted-foreground">Actions (review, hide, restore, flag) live on the work detail view and in Moderation; hidden services keep their history for appeal.</p>
+      <p className="text-sm text-muted-foreground">Open a service to hide, restore or send it to moderation. Hidden services keep their history for appeal.</p>
     </AdminPage>
   );
 }
