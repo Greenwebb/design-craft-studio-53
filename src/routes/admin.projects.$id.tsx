@@ -37,9 +37,9 @@ function ProjectAdminView() {
         <SectionCard title="Milestones">
           <ol className="space-y-3">
             {projectMilestones.map((m, i) => (
-              <li key={m.name} className="flex items-start gap-3">
+              <li key={m.title} className="flex items-start gap-3">
                 <span className={`mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full text-[13px] font-semibold ${i <= 1 ? 'bg-studio-green text-paper' : 'border border-border text-muted-foreground'}`}>{i + 1}</span>
-                <div><p className="font-medium">{m.name}</p><p className="text-sm text-muted-foreground">{money(m.amount)}</p></div>
+                <div><p className="font-medium">{m.title}</p><p className="text-sm text-muted-foreground">{m.amount} · {m.share} · {m.state.replaceAll('-', ' ')}</p></div>
               </li>
             ))}
           </ol>

@@ -357,7 +357,7 @@ export function WalletDetail({ id }: { id: string }) {
             { key: 'date', label: 'Date' },
             { key: 'state', label: 'State', render: (r) => <StatusPill state={String(r.state)} /> },
           ]}
-          rows={ledger as unknown as (BaseRow & Record<string, unknown>)[]}
+          rows={ledger}
           hrefFor={() => `/admin/wallets/${wallet.id}`}
           emptyTitle="No ledger entries."
           emptyDetail="Balances appear once sales or payouts are recorded."
