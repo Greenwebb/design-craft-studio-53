@@ -27,7 +27,7 @@ function AdminShell() {
       </aside>
       <div className="min-w-0">
         <DashboardTopBar eyebrow="Operations" title={adminSections.find((s) => path === `/admin/${s.id}`)?.label ?? 'Overview'}><AccountMenu /></DashboardTopBar>
-        <main className="p-5 pb-32 sm:p-10 lg:pb-10"><Outlet /></main>
+        <main className="px-5 pb-32 pt-5 sm:px-10 sm:pt-7 lg:pb-10"><Outlet /></main>
       </div>
       <FloatingNav label="Mobile operations navigation" className="lg:hidden">
         <Link to="/admin" activeOptions={{ exact: true }} className={floatingNavItem(path === '/admin')}><LayoutGrid size={20} />Overview</Link>
