@@ -69,18 +69,31 @@ import { Route as AccountOrdersIdRouteImport } from './routes/account.orders.$id
 import { Route as AccountProjectsIdRouteImport } from './routes/account.projects.$id'
 import { Route as AccountSettingsIndexRouteImport } from './routes/account.settings.index'
 import { Route as AccountSettingsPageRouteImport } from './routes/account.settings.$page'
+import { Route as AdminCreatorsIndexRouteImport } from './routes/admin.creators.index'
 import { Route as AdminCreatorsIdRouteImport } from './routes/admin.creators.$id'
+import { Route as AdminDisputesIndexRouteImport } from './routes/admin.disputes.index'
 import { Route as AdminDisputesIdRouteImport } from './routes/admin.disputes.$id'
+import { Route as AdminModerationIndexRouteImport } from './routes/admin.moderation.index'
 import { Route as AdminModerationIdRouteImport } from './routes/admin.moderation.$id'
+import { Route as AdminOrdersIndexRouteImport } from './routes/admin.orders.index'
 import { Route as AdminOrdersIdRouteImport } from './routes/admin.orders.$id'
+import { Route as AdminPaymentsIndexRouteImport } from './routes/admin.payments.index'
 import { Route as AdminPaymentsIdRouteImport } from './routes/admin.payments.$id'
+import { Route as AdminPayoutsIndexRouteImport } from './routes/admin.payouts.index'
 import { Route as AdminPayoutsIdRouteImport } from './routes/admin.payouts.$id'
+import { Route as AdminProjectsIndexRouteImport } from './routes/admin.projects.index'
 import { Route as AdminProjectsIdRouteImport } from './routes/admin.projects.$id'
+import { Route as AdminRefundsIndexRouteImport } from './routes/admin.refunds.index'
 import { Route as AdminRefundsIdRouteImport } from './routes/admin.refunds.$id'
+import { Route as AdminSupportIndexRouteImport } from './routes/admin.support.index'
 import { Route as AdminSupportIdRouteImport } from './routes/admin.support.$id'
+import { Route as AdminUsersIndexRouteImport } from './routes/admin.users.index'
 import { Route as AdminUsersIdRouteImport } from './routes/admin.users.$id'
+import { Route as AdminVerificationIndexRouteImport } from './routes/admin.verification.index'
 import { Route as AdminVerificationIdRouteImport } from './routes/admin.verification.$id'
+import { Route as AdminWalletsIndexRouteImport } from './routes/admin.wallets.index'
 import { Route as AdminWalletsIdRouteImport } from './routes/admin.wallets.$id'
+import { Route as AdminWorksIndexRouteImport } from './routes/admin.works.index'
 import { Route as AdminWorksIdRouteImport } from './routes/admin.works.$id'
 import { Route as CreatorCommissionsIdRouteImport } from './routes/creator.commissions.$id'
 import { Route as CreatorNewKindRouteImport } from './routes/creator.new.$kind'
@@ -387,65 +400,130 @@ const AccountSettingsPageRoute = AccountSettingsPageRouteImport.update({
   path: '/settings/$page',
   getParentRoute: () => AccountRoute,
 } as any)
+const AdminCreatorsIndexRoute = AdminCreatorsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminCreatorsRoute,
+} as any)
 const AdminCreatorsIdRoute = AdminCreatorsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => AdminCreatorsRoute,
+} as any)
+const AdminDisputesIndexRoute = AdminDisputesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminDisputesRoute,
 } as any)
 const AdminDisputesIdRoute = AdminDisputesIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => AdminDisputesRoute,
 } as any)
+const AdminModerationIndexRoute = AdminModerationIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminModerationRoute,
+} as any)
 const AdminModerationIdRoute = AdminModerationIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => AdminModerationRoute,
+} as any)
+const AdminOrdersIndexRoute = AdminOrdersIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminOrdersRoute,
 } as any)
 const AdminOrdersIdRoute = AdminOrdersIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => AdminOrdersRoute,
 } as any)
+const AdminPaymentsIndexRoute = AdminPaymentsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminPaymentsRoute,
+} as any)
 const AdminPaymentsIdRoute = AdminPaymentsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => AdminPaymentsRoute,
+} as any)
+const AdminPayoutsIndexRoute = AdminPayoutsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminPayoutsRoute,
 } as any)
 const AdminPayoutsIdRoute = AdminPayoutsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => AdminPayoutsRoute,
 } as any)
+const AdminProjectsIndexRoute = AdminProjectsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminProjectsRoute,
+} as any)
 const AdminProjectsIdRoute = AdminProjectsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => AdminProjectsRoute,
+} as any)
+const AdminRefundsIndexRoute = AdminRefundsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRefundsRoute,
 } as any)
 const AdminRefundsIdRoute = AdminRefundsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => AdminRefundsRoute,
 } as any)
+const AdminSupportIndexRoute = AdminSupportIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminSupportRoute,
+} as any)
 const AdminSupportIdRoute = AdminSupportIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => AdminSupportRoute,
+} as any)
+const AdminUsersIndexRoute = AdminUsersIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminUsersRoute,
 } as any)
 const AdminUsersIdRoute = AdminUsersIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => AdminUsersRoute,
 } as any)
+const AdminVerificationIndexRoute = AdminVerificationIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminVerificationRoute,
+} as any)
 const AdminVerificationIdRoute = AdminVerificationIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => AdminVerificationRoute,
 } as any)
+const AdminWalletsIndexRoute = AdminWalletsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminWalletsRoute,
+} as any)
 const AdminWalletsIdRoute = AdminWalletsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => AdminWalletsRoute,
+} as any)
+const AdminWorksIndexRoute = AdminWorksIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminWorksRoute,
 } as any)
 const AdminWorksIdRoute = AdminWorksIdRouteImport.update({
   id: '/$id',
@@ -555,6 +633,19 @@ export interface FileRoutesByFullPath {
   '/artists/': typeof PublicArtistsIndexRoute
   '/shop/': typeof PublicShopIndexRoute
   '/account/settings/': typeof AccountSettingsIndexRoute
+  '/admin/creators/': typeof AdminCreatorsIndexRoute
+  '/admin/disputes/': typeof AdminDisputesIndexRoute
+  '/admin/moderation/': typeof AdminModerationIndexRoute
+  '/admin/orders/': typeof AdminOrdersIndexRoute
+  '/admin/payments/': typeof AdminPaymentsIndexRoute
+  '/admin/payouts/': typeof AdminPayoutsIndexRoute
+  '/admin/projects/': typeof AdminProjectsIndexRoute
+  '/admin/refunds/': typeof AdminRefundsIndexRoute
+  '/admin/support/': typeof AdminSupportIndexRoute
+  '/admin/users/': typeof AdminUsersIndexRoute
+  '/admin/verification/': typeof AdminVerificationIndexRoute
+  '/admin/wallets/': typeof AdminWalletsIndexRoute
+  '/admin/works/': typeof AdminWorksIndexRoute
   '/creator/settings/': typeof CreatorSettingsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -574,22 +665,9 @@ export interface FileRoutesByTo {
   '/account/security': typeof AccountSecurityRoute
   '/admin/bookings': typeof AdminBookingsRoute
   '/admin/collections': typeof AdminCollectionsRoute
-  '/admin/creators': typeof AdminCreatorsRouteWithChildren
-  '/admin/disputes': typeof AdminDisputesRouteWithChildren
-  '/admin/moderation': typeof AdminModerationRouteWithChildren
   '/admin/notifications': typeof AdminNotificationsRoute
-  '/admin/orders': typeof AdminOrdersRouteWithChildren
-  '/admin/payments': typeof AdminPaymentsRouteWithChildren
-  '/admin/payouts': typeof AdminPayoutsRouteWithChildren
-  '/admin/projects': typeof AdminProjectsRouteWithChildren
-  '/admin/refunds': typeof AdminRefundsRouteWithChildren
   '/admin/services': typeof AdminServicesRoute
   '/admin/settings': typeof AdminSettingsRoute
-  '/admin/support': typeof AdminSupportRouteWithChildren
-  '/admin/users': typeof AdminUsersRouteWithChildren
-  '/admin/verification': typeof AdminVerificationRouteWithChildren
-  '/admin/wallets': typeof AdminWalletsRouteWithChildren
-  '/admin/works': typeof AdminWorksRouteWithChildren
   '/checkout/contact': typeof CheckoutContactRoute
   '/checkout/delivery': typeof CheckoutDeliveryRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
@@ -630,6 +708,19 @@ export interface FileRoutesByTo {
   '/artists': typeof PublicArtistsIndexRoute
   '/shop': typeof PublicShopIndexRoute
   '/account/settings': typeof AccountSettingsIndexRoute
+  '/admin/creators': typeof AdminCreatorsIndexRoute
+  '/admin/disputes': typeof AdminDisputesIndexRoute
+  '/admin/moderation': typeof AdminModerationIndexRoute
+  '/admin/orders': typeof AdminOrdersIndexRoute
+  '/admin/payments': typeof AdminPaymentsIndexRoute
+  '/admin/payouts': typeof AdminPayoutsIndexRoute
+  '/admin/projects': typeof AdminProjectsIndexRoute
+  '/admin/refunds': typeof AdminRefundsIndexRoute
+  '/admin/support': typeof AdminSupportIndexRoute
+  '/admin/users': typeof AdminUsersIndexRoute
+  '/admin/verification': typeof AdminVerificationIndexRoute
+  '/admin/wallets': typeof AdminWalletsIndexRoute
+  '/admin/works': typeof AdminWorksIndexRoute
   '/creator/settings': typeof CreatorSettingsIndexRoute
 }
 export interface FileRoutesById {
@@ -711,6 +802,19 @@ export interface FileRoutesById {
   '/_public/artists/': typeof PublicArtistsIndexRoute
   '/_public/shop/': typeof PublicShopIndexRoute
   '/account/settings/': typeof AccountSettingsIndexRoute
+  '/admin/creators/': typeof AdminCreatorsIndexRoute
+  '/admin/disputes/': typeof AdminDisputesIndexRoute
+  '/admin/moderation/': typeof AdminModerationIndexRoute
+  '/admin/orders/': typeof AdminOrdersIndexRoute
+  '/admin/payments/': typeof AdminPaymentsIndexRoute
+  '/admin/payouts/': typeof AdminPayoutsIndexRoute
+  '/admin/projects/': typeof AdminProjectsIndexRoute
+  '/admin/refunds/': typeof AdminRefundsIndexRoute
+  '/admin/support/': typeof AdminSupportIndexRoute
+  '/admin/users/': typeof AdminUsersIndexRoute
+  '/admin/verification/': typeof AdminVerificationIndexRoute
+  '/admin/wallets/': typeof AdminWalletsIndexRoute
+  '/admin/works/': typeof AdminWorksIndexRoute
   '/creator/settings/': typeof CreatorSettingsIndexRoute
 }
 export interface FileRouteTypes {
@@ -792,6 +896,19 @@ export interface FileRouteTypes {
     | '/artists/'
     | '/shop/'
     | '/account/settings/'
+    | '/admin/creators/'
+    | '/admin/disputes/'
+    | '/admin/moderation/'
+    | '/admin/orders/'
+    | '/admin/payments/'
+    | '/admin/payouts/'
+    | '/admin/projects/'
+    | '/admin/refunds/'
+    | '/admin/support/'
+    | '/admin/users/'
+    | '/admin/verification/'
+    | '/admin/wallets/'
+    | '/admin/works/'
     | '/creator/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -811,22 +928,9 @@ export interface FileRouteTypes {
     | '/account/security'
     | '/admin/bookings'
     | '/admin/collections'
-    | '/admin/creators'
-    | '/admin/disputes'
-    | '/admin/moderation'
     | '/admin/notifications'
-    | '/admin/orders'
-    | '/admin/payments'
-    | '/admin/payouts'
-    | '/admin/projects'
-    | '/admin/refunds'
     | '/admin/services'
     | '/admin/settings'
-    | '/admin/support'
-    | '/admin/users'
-    | '/admin/verification'
-    | '/admin/wallets'
-    | '/admin/works'
     | '/checkout/contact'
     | '/checkout/delivery'
     | '/checkout/payment'
@@ -867,6 +971,19 @@ export interface FileRouteTypes {
     | '/artists'
     | '/shop'
     | '/account/settings'
+    | '/admin/creators'
+    | '/admin/disputes'
+    | '/admin/moderation'
+    | '/admin/orders'
+    | '/admin/payments'
+    | '/admin/payouts'
+    | '/admin/projects'
+    | '/admin/refunds'
+    | '/admin/support'
+    | '/admin/users'
+    | '/admin/verification'
+    | '/admin/wallets'
+    | '/admin/works'
     | '/creator/settings'
   id:
     | '__root__'
@@ -947,6 +1064,19 @@ export interface FileRouteTypes {
     | '/_public/artists/'
     | '/_public/shop/'
     | '/account/settings/'
+    | '/admin/creators/'
+    | '/admin/disputes/'
+    | '/admin/moderation/'
+    | '/admin/orders/'
+    | '/admin/payments/'
+    | '/admin/payouts/'
+    | '/admin/projects/'
+    | '/admin/refunds/'
+    | '/admin/support/'
+    | '/admin/users/'
+    | '/admin/verification/'
+    | '/admin/wallets/'
+    | '/admin/works/'
     | '/creator/settings/'
   fileRoutesById: FileRoutesById
 }
@@ -1389,12 +1519,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountSettingsPageRouteImport
       parentRoute: typeof AccountRoute
     }
+    '/admin/creators/': {
+      id: '/admin/creators/'
+      path: '/'
+      fullPath: '/admin/creators/'
+      preLoaderRoute: typeof AdminCreatorsIndexRouteImport
+      parentRoute: typeof AdminCreatorsRoute
+    }
     '/admin/creators/$id': {
       id: '/admin/creators/$id'
       path: '/$id'
       fullPath: '/admin/creators/$id'
       preLoaderRoute: typeof AdminCreatorsIdRouteImport
       parentRoute: typeof AdminCreatorsRoute
+    }
+    '/admin/disputes/': {
+      id: '/admin/disputes/'
+      path: '/'
+      fullPath: '/admin/disputes/'
+      preLoaderRoute: typeof AdminDisputesIndexRouteImport
+      parentRoute: typeof AdminDisputesRoute
     }
     '/admin/disputes/$id': {
       id: '/admin/disputes/$id'
@@ -1403,12 +1547,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDisputesIdRouteImport
       parentRoute: typeof AdminDisputesRoute
     }
+    '/admin/moderation/': {
+      id: '/admin/moderation/'
+      path: '/'
+      fullPath: '/admin/moderation/'
+      preLoaderRoute: typeof AdminModerationIndexRouteImport
+      parentRoute: typeof AdminModerationRoute
+    }
     '/admin/moderation/$id': {
       id: '/admin/moderation/$id'
       path: '/$id'
       fullPath: '/admin/moderation/$id'
       preLoaderRoute: typeof AdminModerationIdRouteImport
       parentRoute: typeof AdminModerationRoute
+    }
+    '/admin/orders/': {
+      id: '/admin/orders/'
+      path: '/'
+      fullPath: '/admin/orders/'
+      preLoaderRoute: typeof AdminOrdersIndexRouteImport
+      parentRoute: typeof AdminOrdersRoute
     }
     '/admin/orders/$id': {
       id: '/admin/orders/$id'
@@ -1417,12 +1575,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminOrdersIdRouteImport
       parentRoute: typeof AdminOrdersRoute
     }
+    '/admin/payments/': {
+      id: '/admin/payments/'
+      path: '/'
+      fullPath: '/admin/payments/'
+      preLoaderRoute: typeof AdminPaymentsIndexRouteImport
+      parentRoute: typeof AdminPaymentsRoute
+    }
     '/admin/payments/$id': {
       id: '/admin/payments/$id'
       path: '/$id'
       fullPath: '/admin/payments/$id'
       preLoaderRoute: typeof AdminPaymentsIdRouteImport
       parentRoute: typeof AdminPaymentsRoute
+    }
+    '/admin/payouts/': {
+      id: '/admin/payouts/'
+      path: '/'
+      fullPath: '/admin/payouts/'
+      preLoaderRoute: typeof AdminPayoutsIndexRouteImport
+      parentRoute: typeof AdminPayoutsRoute
     }
     '/admin/payouts/$id': {
       id: '/admin/payouts/$id'
@@ -1431,12 +1603,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPayoutsIdRouteImport
       parentRoute: typeof AdminPayoutsRoute
     }
+    '/admin/projects/': {
+      id: '/admin/projects/'
+      path: '/'
+      fullPath: '/admin/projects/'
+      preLoaderRoute: typeof AdminProjectsIndexRouteImport
+      parentRoute: typeof AdminProjectsRoute
+    }
     '/admin/projects/$id': {
       id: '/admin/projects/$id'
       path: '/$id'
       fullPath: '/admin/projects/$id'
       preLoaderRoute: typeof AdminProjectsIdRouteImport
       parentRoute: typeof AdminProjectsRoute
+    }
+    '/admin/refunds/': {
+      id: '/admin/refunds/'
+      path: '/'
+      fullPath: '/admin/refunds/'
+      preLoaderRoute: typeof AdminRefundsIndexRouteImport
+      parentRoute: typeof AdminRefundsRoute
     }
     '/admin/refunds/$id': {
       id: '/admin/refunds/$id'
@@ -1445,12 +1631,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRefundsIdRouteImport
       parentRoute: typeof AdminRefundsRoute
     }
+    '/admin/support/': {
+      id: '/admin/support/'
+      path: '/'
+      fullPath: '/admin/support/'
+      preLoaderRoute: typeof AdminSupportIndexRouteImport
+      parentRoute: typeof AdminSupportRoute
+    }
     '/admin/support/$id': {
       id: '/admin/support/$id'
       path: '/$id'
       fullPath: '/admin/support/$id'
       preLoaderRoute: typeof AdminSupportIdRouteImport
       parentRoute: typeof AdminSupportRoute
+    }
+    '/admin/users/': {
+      id: '/admin/users/'
+      path: '/'
+      fullPath: '/admin/users/'
+      preLoaderRoute: typeof AdminUsersIndexRouteImport
+      parentRoute: typeof AdminUsersRoute
     }
     '/admin/users/$id': {
       id: '/admin/users/$id'
@@ -1459,6 +1659,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersIdRouteImport
       parentRoute: typeof AdminUsersRoute
     }
+    '/admin/verification/': {
+      id: '/admin/verification/'
+      path: '/'
+      fullPath: '/admin/verification/'
+      preLoaderRoute: typeof AdminVerificationIndexRouteImport
+      parentRoute: typeof AdminVerificationRoute
+    }
     '/admin/verification/$id': {
       id: '/admin/verification/$id'
       path: '/$id'
@@ -1466,12 +1673,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminVerificationIdRouteImport
       parentRoute: typeof AdminVerificationRoute
     }
+    '/admin/wallets/': {
+      id: '/admin/wallets/'
+      path: '/'
+      fullPath: '/admin/wallets/'
+      preLoaderRoute: typeof AdminWalletsIndexRouteImport
+      parentRoute: typeof AdminWalletsRoute
+    }
     '/admin/wallets/$id': {
       id: '/admin/wallets/$id'
       path: '/$id'
       fullPath: '/admin/wallets/$id'
       preLoaderRoute: typeof AdminWalletsIdRouteImport
       parentRoute: typeof AdminWalletsRoute
+    }
+    '/admin/works/': {
+      id: '/admin/works/'
+      path: '/'
+      fullPath: '/admin/works/'
+      preLoaderRoute: typeof AdminWorksIndexRouteImport
+      parentRoute: typeof AdminWorksRoute
     }
     '/admin/works/$id': {
       id: '/admin/works/$id'
@@ -1577,10 +1798,12 @@ const AccountRouteWithChildren =
 
 interface AdminCreatorsRouteChildren {
   AdminCreatorsIdRoute: typeof AdminCreatorsIdRoute
+  AdminCreatorsIndexRoute: typeof AdminCreatorsIndexRoute
 }
 
 const AdminCreatorsRouteChildren: AdminCreatorsRouteChildren = {
   AdminCreatorsIdRoute: AdminCreatorsIdRoute,
+  AdminCreatorsIndexRoute: AdminCreatorsIndexRoute,
 }
 
 const AdminCreatorsRouteWithChildren = AdminCreatorsRoute._addFileChildren(
@@ -1589,10 +1812,12 @@ const AdminCreatorsRouteWithChildren = AdminCreatorsRoute._addFileChildren(
 
 interface AdminDisputesRouteChildren {
   AdminDisputesIdRoute: typeof AdminDisputesIdRoute
+  AdminDisputesIndexRoute: typeof AdminDisputesIndexRoute
 }
 
 const AdminDisputesRouteChildren: AdminDisputesRouteChildren = {
   AdminDisputesIdRoute: AdminDisputesIdRoute,
+  AdminDisputesIndexRoute: AdminDisputesIndexRoute,
 }
 
 const AdminDisputesRouteWithChildren = AdminDisputesRoute._addFileChildren(
@@ -1601,10 +1826,12 @@ const AdminDisputesRouteWithChildren = AdminDisputesRoute._addFileChildren(
 
 interface AdminModerationRouteChildren {
   AdminModerationIdRoute: typeof AdminModerationIdRoute
+  AdminModerationIndexRoute: typeof AdminModerationIndexRoute
 }
 
 const AdminModerationRouteChildren: AdminModerationRouteChildren = {
   AdminModerationIdRoute: AdminModerationIdRoute,
+  AdminModerationIndexRoute: AdminModerationIndexRoute,
 }
 
 const AdminModerationRouteWithChildren = AdminModerationRoute._addFileChildren(
@@ -1613,10 +1840,12 @@ const AdminModerationRouteWithChildren = AdminModerationRoute._addFileChildren(
 
 interface AdminOrdersRouteChildren {
   AdminOrdersIdRoute: typeof AdminOrdersIdRoute
+  AdminOrdersIndexRoute: typeof AdminOrdersIndexRoute
 }
 
 const AdminOrdersRouteChildren: AdminOrdersRouteChildren = {
   AdminOrdersIdRoute: AdminOrdersIdRoute,
+  AdminOrdersIndexRoute: AdminOrdersIndexRoute,
 }
 
 const AdminOrdersRouteWithChildren = AdminOrdersRoute._addFileChildren(
@@ -1625,10 +1854,12 @@ const AdminOrdersRouteWithChildren = AdminOrdersRoute._addFileChildren(
 
 interface AdminPaymentsRouteChildren {
   AdminPaymentsIdRoute: typeof AdminPaymentsIdRoute
+  AdminPaymentsIndexRoute: typeof AdminPaymentsIndexRoute
 }
 
 const AdminPaymentsRouteChildren: AdminPaymentsRouteChildren = {
   AdminPaymentsIdRoute: AdminPaymentsIdRoute,
+  AdminPaymentsIndexRoute: AdminPaymentsIndexRoute,
 }
 
 const AdminPaymentsRouteWithChildren = AdminPaymentsRoute._addFileChildren(
@@ -1637,10 +1868,12 @@ const AdminPaymentsRouteWithChildren = AdminPaymentsRoute._addFileChildren(
 
 interface AdminPayoutsRouteChildren {
   AdminPayoutsIdRoute: typeof AdminPayoutsIdRoute
+  AdminPayoutsIndexRoute: typeof AdminPayoutsIndexRoute
 }
 
 const AdminPayoutsRouteChildren: AdminPayoutsRouteChildren = {
   AdminPayoutsIdRoute: AdminPayoutsIdRoute,
+  AdminPayoutsIndexRoute: AdminPayoutsIndexRoute,
 }
 
 const AdminPayoutsRouteWithChildren = AdminPayoutsRoute._addFileChildren(
@@ -1649,10 +1882,12 @@ const AdminPayoutsRouteWithChildren = AdminPayoutsRoute._addFileChildren(
 
 interface AdminProjectsRouteChildren {
   AdminProjectsIdRoute: typeof AdminProjectsIdRoute
+  AdminProjectsIndexRoute: typeof AdminProjectsIndexRoute
 }
 
 const AdminProjectsRouteChildren: AdminProjectsRouteChildren = {
   AdminProjectsIdRoute: AdminProjectsIdRoute,
+  AdminProjectsIndexRoute: AdminProjectsIndexRoute,
 }
 
 const AdminProjectsRouteWithChildren = AdminProjectsRoute._addFileChildren(
@@ -1661,10 +1896,12 @@ const AdminProjectsRouteWithChildren = AdminProjectsRoute._addFileChildren(
 
 interface AdminRefundsRouteChildren {
   AdminRefundsIdRoute: typeof AdminRefundsIdRoute
+  AdminRefundsIndexRoute: typeof AdminRefundsIndexRoute
 }
 
 const AdminRefundsRouteChildren: AdminRefundsRouteChildren = {
   AdminRefundsIdRoute: AdminRefundsIdRoute,
+  AdminRefundsIndexRoute: AdminRefundsIndexRoute,
 }
 
 const AdminRefundsRouteWithChildren = AdminRefundsRoute._addFileChildren(
@@ -1673,10 +1910,12 @@ const AdminRefundsRouteWithChildren = AdminRefundsRoute._addFileChildren(
 
 interface AdminSupportRouteChildren {
   AdminSupportIdRoute: typeof AdminSupportIdRoute
+  AdminSupportIndexRoute: typeof AdminSupportIndexRoute
 }
 
 const AdminSupportRouteChildren: AdminSupportRouteChildren = {
   AdminSupportIdRoute: AdminSupportIdRoute,
+  AdminSupportIndexRoute: AdminSupportIndexRoute,
 }
 
 const AdminSupportRouteWithChildren = AdminSupportRoute._addFileChildren(
@@ -1685,10 +1924,12 @@ const AdminSupportRouteWithChildren = AdminSupportRoute._addFileChildren(
 
 interface AdminUsersRouteChildren {
   AdminUsersIdRoute: typeof AdminUsersIdRoute
+  AdminUsersIndexRoute: typeof AdminUsersIndexRoute
 }
 
 const AdminUsersRouteChildren: AdminUsersRouteChildren = {
   AdminUsersIdRoute: AdminUsersIdRoute,
+  AdminUsersIndexRoute: AdminUsersIndexRoute,
 }
 
 const AdminUsersRouteWithChildren = AdminUsersRoute._addFileChildren(
@@ -1697,10 +1938,12 @@ const AdminUsersRouteWithChildren = AdminUsersRoute._addFileChildren(
 
 interface AdminVerificationRouteChildren {
   AdminVerificationIdRoute: typeof AdminVerificationIdRoute
+  AdminVerificationIndexRoute: typeof AdminVerificationIndexRoute
 }
 
 const AdminVerificationRouteChildren: AdminVerificationRouteChildren = {
   AdminVerificationIdRoute: AdminVerificationIdRoute,
+  AdminVerificationIndexRoute: AdminVerificationIndexRoute,
 }
 
 const AdminVerificationRouteWithChildren =
@@ -1708,10 +1951,12 @@ const AdminVerificationRouteWithChildren =
 
 interface AdminWalletsRouteChildren {
   AdminWalletsIdRoute: typeof AdminWalletsIdRoute
+  AdminWalletsIndexRoute: typeof AdminWalletsIndexRoute
 }
 
 const AdminWalletsRouteChildren: AdminWalletsRouteChildren = {
   AdminWalletsIdRoute: AdminWalletsIdRoute,
+  AdminWalletsIndexRoute: AdminWalletsIndexRoute,
 }
 
 const AdminWalletsRouteWithChildren = AdminWalletsRoute._addFileChildren(
@@ -1720,10 +1965,12 @@ const AdminWalletsRouteWithChildren = AdminWalletsRoute._addFileChildren(
 
 interface AdminWorksRouteChildren {
   AdminWorksIdRoute: typeof AdminWorksIdRoute
+  AdminWorksIndexRoute: typeof AdminWorksIndexRoute
 }
 
 const AdminWorksRouteChildren: AdminWorksRouteChildren = {
   AdminWorksIdRoute: AdminWorksIdRoute,
+  AdminWorksIndexRoute: AdminWorksIndexRoute,
 }
 
 const AdminWorksRouteWithChildren = AdminWorksRoute._addFileChildren(
