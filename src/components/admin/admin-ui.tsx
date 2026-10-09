@@ -383,6 +383,7 @@ export function AdminTable<T extends { id: string }>({ columns, rows: allRows, h
           );
         })}
       </ul>
+      {pager}
     </>
   );
 }
