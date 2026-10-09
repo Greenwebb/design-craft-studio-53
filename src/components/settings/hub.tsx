@@ -279,16 +279,16 @@ function Body({ context, page, portrait, artistName }: { context: SettingsContex
     }
     case "payouts":
       return <>{preview}
-        <Block title="Payout methods" lede="Where your earnings are sent. The default receives each payout.">
-          <MethodsManager title="Your payout methods" kinds={["Mobile money", "Bank transfer"]} initial={[{ id: "p1", kind: "Mobile money", label: "Airtel Money", detail: "+260 97 *** **21", primary: true }, { id: "p2", kind: "Bank transfer", label: "Zanaco savings", detail: "•••• 8812", primary: false }]} />
-        </Block>
+        <section className="pb-8">
+          <MethodsManager title="Payout methods" kinds={["Mobile money", "Bank transfer"]} initial={[{ id: "p1", kind: "Mobile money", label: "Airtel Money", detail: "+260 97 *** **21", primary: true }, { id: "p2", kind: "Bank transfer", label: "Zanaco savings", detail: "•••• 8812", primary: false }]} />
+        </section>
         <Block title="Verification"><p className="text-sm">Identity check · <span className="font-medium text-studio-green">Verified</span></p><p className="mt-2 text-sm">Payout status · <span className="font-medium">Active, paid weekly</span></p></Block>
       </>;
     case "payments":
       return <>{preview}
-        <Block title="Payment methods" lede="Choose how you pay for works and commissions.">
-          <MethodsManager title="Saved methods" kinds={["Card", "Mobile money", "Bank transfer"]} initial={[{ id: "c1", kind: "Card", label: "Visa", detail: "•••• 4242 · expires 08/28", primary: true }, { id: "c2", kind: "Mobile money", label: "MTN MoMo", detail: "+260 96 *** **07", primary: false }]} />
-        </Block>
+        <section className="pb-8">
+          <MethodsManager title="Payment methods" kinds={["Card", "Mobile money", "Bank transfer"]} initial={[{ id: "c1", kind: "Card", label: "Visa", detail: "•••• 4242 · expires 08/28", primary: true }, { id: "c2", kind: "Mobile money", label: "MTN MoMo", detail: "+260 96 *** **07", primary: false }]} />
+        </section>
         <Block title="Billing details"><AuthField label="Billing name" defaultValue={user.displayName} /><AuthField label="Billing address" defaultValue="Plot 12, Kabulonga Road, Lusaka" /><SaveBar /></Block>
         <Block title="Receipts"><Link to="/account/$section" params={{ section: "orders" }} className="text-sm font-medium underline underline-offset-4">See receipts in your orders</Link></Block>
       </>;
