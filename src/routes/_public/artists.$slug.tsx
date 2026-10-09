@@ -186,7 +186,7 @@ function Services({ a, n }: { a: Artist; n: number }) {
                   <p className="opacity-70">{s.description}</p>
                   <p className="mt-3 text-[14px] opacity-60">{s.delivery} · <span className="font-medium opacity-100">{s.price ?? "Custom pricing"}</span></p>
                 </div>
-                <SiteButton variant="outline-light" href="#services" className="px-6 py-3 group-hover:bg-ink-foreground group-hover:text-ink">
+                <SiteButton variant="outline-light" href={`/commission/${a.slug}`} className="px-6 py-3 group-hover:bg-ink-foreground group-hover:text-ink">
                   {s.cta} <ArrowUpRight className="h-4 w-4" />
                 </SiteButton>
               </li>
