@@ -364,7 +364,7 @@ function ShopPage() {
                   ))}
                 </FilterGroup>
                 <FilterGroup title="Availability">
-                  <Option label="Available only" selected={!!search.available} onClick={() => set({ available: search.available ? undefined : true })} />
+                  <Option label="Available only" selected={!!search.available} onClick={() => set({ available: search.available ? undefined : true } as Partial<SearchState>)} />
                 </FilterGroup>
               </div>
               <div className="flex items-center gap-3 border-t border-border px-6 py-5">
