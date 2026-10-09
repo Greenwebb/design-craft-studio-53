@@ -76,8 +76,8 @@ function AdminOverview() {
             <div><h2 className="text-xl font-semibold">Sales this week</h2><p className="mt-1 text-sm text-muted-foreground">Gross sales and platform fees by day</p></div>
             <div className="flex gap-4 text-sm"><span className="inline-flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full bg-studio-green" />Sales</span><span className="inline-flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full bg-studio-copper" />Fees</span></div>
           </div>
-          <div className="mt-6 h-64 flex-1 xl:min-h-72">
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="mt-6 min-h-64 flex-1 xl:min-h-72">
+            <ResponsiveContainer width="100%" height="100%" minHeight={256}>
               <AreaChart data={revenueTrend} margin={{ left: -12, right: 4, top: 4 }}>
                 <defs>
                   <linearGradient id="gms" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="var(--studio-green)" stopOpacity={0.25} /><stop offset="100%" stopColor="var(--studio-green)" stopOpacity={0} /></linearGradient>
