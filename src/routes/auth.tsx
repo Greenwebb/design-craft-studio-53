@@ -63,7 +63,7 @@ function AuthPage() {
       </header>
       <main className="flex flex-1 items-center justify-center px-[18px] pb-24">
         <div className="w-full max-w-[420px] text-center">
-          <p className="font-hand text-2xl text-muted-foreground">welcome back</p>
+          <p className="note">welcome back</p>
           <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
             One account for the whole ecosystem.
           </h1>
