@@ -170,7 +170,8 @@ function Artwork({ w }: { w: (typeof works)[number] }) {
 
 function Works() {
   return (
-    <section className="container-x section-y pt-0">
+    <section className="bg-paper">
+      <div className="container-x section-y pt-0">
       <div className="mb-16 flex flex-col justify-between gap-8 md:flex-row md:items-end">
         <div>
           <Reveal><p className="eyebrow text-muted-foreground"><span className="mr-3 text-foreground">02</span>Selected Works</p></Reveal>
@@ -182,6 +183,7 @@ function Works() {
         {works.map((w, i) => (
           <Reveal key={w.t} delay={(i % 2) * 0.1} className={w.span}><Artwork w={w} /></Reveal>
         ))}
+      </div>
       </div>
     </section>
   );
@@ -272,7 +274,8 @@ const collections = [
 
 function Collections() {
   return (
-    <section className="container-x section-y">
+    <section className="bg-paper">
+      <div className="container-x section-y">
       <Reveal><p className="eyebrow text-muted-foreground"><span className="mr-3 text-foreground">05</span>Discover</p></Reveal>
       <Reveal delay={0.1}><h2 className="display-lg mt-6 mb-16 max-w-3xl">Find something that speaks to you.</h2></Reveal>
       <div className="grid gap-x-6 gap-y-14 md:grid-cols-2">
@@ -296,6 +299,7 @@ function Collections() {
           <a key={t} href={`${SITE}/shop`} className="link-line hover:text-foreground">{t}</a>
         ))}
       </Reveal>
+      </div>
     </section>
   );
 }
