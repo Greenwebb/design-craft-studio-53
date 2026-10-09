@@ -29,7 +29,7 @@ function PaymentsQueue() {
           { key: 'id', label: 'Payment', render: (p) => <div><p className="font-medium">{p.id}</p><p className="text-sm text-muted-foreground">{p.customer} · {p.date}</p></div> },
           { key: 'provider', label: 'Provider' },
           { key: 'amount', label: 'Amount', render: (p) => money(p.amount) },
-          { key: 'linked', label: 'Linked', render: (p) => p.linkedKind === 'Order' ? <Link to="/admin/orders/$id" params={{ id: p.linked }} className="text-studio-green underline-offset-4 hover:underline">{p.linked}</Link> : p.linked },
+          { key: 'linked', label: 'Linked', render: (p) => p.linkedKind === 'Order' ? <span className="text-studio-green">{p.linked}</span> : p.linked },
           { key: 'settlement', label: 'Settlement' },
           { key: 'state', label: 'Status', render: (p) => <div className="flex flex-col items-start gap-1.5"><StatusPill state={p.state} />{p.issue && <span className="max-w-56 text-[13px] text-studio-danger">{p.issue}</span>}</div> },
         ]}
