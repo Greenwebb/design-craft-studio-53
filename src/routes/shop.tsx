@@ -69,7 +69,7 @@ function applyFilters(list: Work[], f: SearchState): Work[] {
 function WorkCard({ w, eager }: { w: Work; eager?: boolean }) {
   return (
     <Reveal>
-      <a href={`/artists/${w.artist.slug}`} data-cursor className="group block" aria-label={`${w.title} by ${w.artist.name}`}>
+      <a href={`/work/${w.slug}`} data-cursor className="group block" aria-label={`${w.title} by ${w.artist.name}`}>
         <div className="overflow-hidden rounded-sm bg-secondary/40">
           <img
             src={w.image}
@@ -301,7 +301,7 @@ function ShopPage() {
           <Reveal delay={0.12}><p className="mt-4 max-w-md text-muted-foreground">Works about stillness, memory and spaces that stay with us.</p></Reveal>
           <div className="mt-12 grid gap-6 md:grid-cols-12">
             <Reveal className="md:col-span-8">
-              <a href={`/artists/${featuredMain.artist.slug}`} data-cursor className="group block" aria-label={`${featuredMain.title} by ${featuredMain.artist.name}`}>
+              <a href={`/work/${featuredMain.slug}`} data-cursor className="group block" aria-label={`${featuredMain.title} by ${featuredMain.artist.name}`}>
                 <div className="overflow-hidden rounded-sm">
                   <img src={featuredMain.image} alt={`${featuredMain.title} by ${featuredMain.artist.name}`} loading="lazy" decoding="async" className="h-[320px] w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.02] md:h-[560px]" />
                 </div>
@@ -312,7 +312,7 @@ function ShopPage() {
             <div className="grid gap-6 md:col-span-4 md:grid-rows-2">
               {featuredSide.map((w) => (
                 <Reveal key={w.id}>
-                  <a href={`/artists/${w.artist.slug}`} data-cursor className="group block" aria-label={`${w.title} by ${w.artist.name}`}>
+                  <a href={`/work/${w.slug}`} data-cursor className="group block" aria-label={`${w.title} by ${w.artist.name}`}>
                     <div className="overflow-hidden rounded-sm">
                       <img src={w.image} alt={`${w.title} by ${w.artist.name}`} loading="lazy" decoding="async" className="h-[220px] w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.02] md:h-[268px]" />
                     </div>
@@ -404,7 +404,7 @@ function ShopPage() {
                     <p className="eyebrow text-muted-foreground">Works</p>
                     <ul className="mt-5 flex flex-col gap-3">
                       {searchResults.w.slice(0, 5).map((w) => (
-                        <li key={w.id}><a href={`/artists/${w.artist.slug}`} className="link-line text-lg">{w.title}</a></li>
+                        <li key={w.id}><a href={`/work/${w.slug}`} className="link-line text-lg">{w.title}</a></li>
                       ))}
                       {searchResults.w.length === 0 && <li className="text-muted-foreground">We couldn't find that yet.</li>}
                     </ul>
