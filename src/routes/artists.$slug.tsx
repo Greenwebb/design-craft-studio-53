@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Play, Pause, Star, MapPin, Heart, Share2 } from "lucide-react";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { ArrowUpRight, Play, Pause, Star } from "lucide-react";
 import { HeroProfile as Hero } from "@/components/artist-hero";
 import { EASE, Reveal, Cursor, TextLink, Nav, Footer, Grain } from "@/components/site";
 import { getArtist, artistProfiles, type Artist, type PortfolioProject } from "@/data/artists";
