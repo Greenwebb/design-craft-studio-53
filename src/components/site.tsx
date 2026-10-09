@@ -3,7 +3,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { ArrowRight, ArrowUpRight, Search, User, Menu, X } from "lucide-react";
 import logoAsset from "@/assets/logo.png.asset.json";
 
-export function Logo({ className = "h-9" }: { className?: string }) {
+export function Logo({ className = "h-11 md:h-12" }: { className?: string }) {
   return <img src={logoAsset.url} alt="I Am An Artist" className={`w-auto ${className}`} />;
 }
 
