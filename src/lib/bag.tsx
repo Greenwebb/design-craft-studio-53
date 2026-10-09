@@ -79,12 +79,25 @@ function writeJSON(key: string, value: unknown) {
 }
 
 export function BagProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<string[]>(() => readJSON("iaaa-bag", []));
-  const [saved, setSaved] = useState<string[]>(() => readJSON("iaaa-saved", []));
-  const [draft, setDraftState] = useState<CheckoutDraft>(() => readJSON("iaaa-checkout", emptyDraft));
-  const [lastOrder, setLastOrder] = useState<LastOrder | null>(() => readJSON("iaaa-last-order", null));
+  // Start empty so SSR and the first client render match; restore from
+  // localStorage after hydration to avoid hydration mismatches.
+  const [hydrated, setHydrated] = useState(false);
+  const [items, setItems] = useState<string[]>([]);
+  const [saved, setSaved] = useState<string[]>([]);
+  const [draft, setDraftState] = useState<CheckoutDraft>(emptyDraft);
+  const [lastOrder, setLastOrder] = useState<LastOrder | null>(null);
 
-  useEffect(() => writeJSON("iaaa-bag", items), [items]);
+  useEffect(() => {
+    setItems(readJSON("iaaa-bag", []));
+    setSaved(readJSON("iaaa-saved", []));
+    setDraftState(readJSON("iaaa-checkout", emptyDraft));
+    setLastOrder(readJSON("iaaa-last-order", null));
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (hydrated) writeJSON("iaaa-bag", items);
+  }, [items, hydrated]);
   useEffect(() => writeJSON("iaaa-saved", saved), [saved]);
   useEffect(() => writeJSON("iaaa-checkout", draft), [draft]);
   useEffect(() => writeJSON("iaaa-last-order", lastOrder), [lastOrder]);
