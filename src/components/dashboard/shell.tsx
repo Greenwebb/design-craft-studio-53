@@ -40,6 +40,7 @@ import { StudioLink } from "./controls";
 import { StudioNotifications } from "./notifications";
 import { StudioCommandSearch } from "./command-search";
 import { ContextSwitch } from "@/components/ecosystem/context-switch";
+import { FloatingNav, floatingNavItem, floatingNavAction } from "@/components/ecosystem/floating-nav";
 export function StudioShell({ state }: { state: PreviewState }) {
   const { user, setContext } = useEcosystem();
   useEffect(() => { setContext("creator"); }, []);
@@ -258,7 +259,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
               </Link>
             ),
           )}
-        </nav>
+        </FloatingNav>
         <Dialog.Root open={create} onOpenChange={setCreate}>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 z-50 bg-ink/35" />
