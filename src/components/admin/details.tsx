@@ -2,37 +2,13 @@ import { Link } from '@tanstack/react-router';
 import { AlertTriangle, ArrowUpRight, ShieldAlert } from 'lucide-react';
 import { AdminPage, ActionsPanel, AdminTable, AuditTrail, Fact, FactGrid, InternalNotes, SectionCard, StatusPill, ThreadSection } from './admin-ui';
 import { useAdminOps } from '@/stores/admin-ops';
-import { money, walletLedger, walletSeed, priorityMeta, type BaseRow, type DisputeRow, type SupportRow, type PaymentRow } from '@/data/admin-data';
+import { money, paymentSeed, priorityMeta, walletLedger, walletSeed, type BaseRow } from '@/data/admin-data';
 
 const NotFound = ({ title }: { title: string }) => (
   <AdminPage title={title}><p className="text-muted-foreground">This record is no longer available.</p></AdminPage>
 );
 
-function DetailFrame({ title, subtitle, status, priority, fundsHeld, facts, actions, children, audit, back }: {
-  title: string; subtitle?: string; status?: string; priority?: string; fundsHeld?: boolean;
-  facts: React.ReactNode; actions?: React.ReactNode; children?: React.ReactNode;
-  audit?: { at: string; what: string; who?: string; reason?: string }[]; back?: boolean;
-}) {
-  return (
-    <AdminPage title={title} back={back ?? true}>
-      <div className="flex flex-wrap items-center gap-3">
-        {status && <StatusPill state={status} />}
-        {priority && priority !== 'normal' && <span className={`rounded-full px-3 py-1 text-[13px] font-semibold ${priorityMeta[priority as keyof typeof priorityMeta].className}`}>{priorityMeta[priority as keyof typeof priorityMeta].label} priority</span>}
-        {fundsHeld && <span className="inline-flex items-center gap-1.5 rounded-full bg-studio-copper/10 px-3 py-1 text-[13px] font-medium text-studio-copper"><ShieldAlert size={16} aria-hidden />Funds on hold</span>}
-        {subtitle && <span className="text-[15px] text-muted-foreground">{subtitle}</span>}
-      </div>
-      <SectionCard title="Record">
-        <FactGrid>{facts}</FactGrid>
-      </SectionCard>
-      {actions}
-      {children}
-      <AuditTrail seeded={audit}>{null as never}</AuditTrail>
-    </AdminPage>
-  );
-}
-
-// Wrap AuditTrail correctly (it takes props, not children)
-function Trail(props: { resource: string; id: string; seeded?: { at: string; what: string; who?: string; reason?: string }[] }) {
+function Trail(props: { resource: string; id: string }) {
   return <div className="studio-panel p-6 sm:p-7"><AuditTrail {...props} /></div>;
 }
 
@@ -288,9 +264,7 @@ export function VerificationDetail({ id }: { id: string }) {
           <Fact label="Creator">{item.creator}</Fact>
           <Fact label="Type">{item.type}</Fact>
           <Fact label="Submitted">{item.submitted}</Fact>
-          <Fact label="Documents">
-            <ul className="space-y-1">{item.documents.map((d) => <li key={d}>{d}</li>)}</ul>
-          </Fact>
+          <Fact label="Documents"><ul className="space-y-1">{item.documents.map((d) => <li key={d}>{d}</li>)}</ul></Fact>
           {item.waiting && <Fact label="Previous note" className="sm:col-span-2">{item.waiting}</Fact>}
         </FactGrid>
       </SectionCard>
@@ -329,7 +303,6 @@ export function ModerationDetail({ id }: { id: string }) {
 
 // ---------- read-only financial views ----------
 export function PaymentDetail({ id }: { id: string }) {
-  const { paymentSeed } = require('@/data/admin-data') as typeof import('@/data/admin-data');
   const payment = paymentSeed.find((p) => p.id === id);
   if (!payment) return <NotFound title="Payment" />;
   const net = payment.amount - payment.fee - payment.platformFee - payment.refunded;
@@ -360,7 +333,6 @@ export function PaymentDetail({ id }: { id: string }) {
 }
 
 export function WalletDetail({ id }: { id: string }) {
-  const { walletSeed, walletLedger } = require('@/data/admin-data') as typeof import('@/data/admin-data');
   const wallet = walletSeed.find((w) => w.id === id);
   if (!wallet) return <NotFound title="Wallet" />;
   const ledger = walletLedger[wallet.id] ?? [];
@@ -378,15 +350,15 @@ export function WalletDetail({ id }: { id: string }) {
       <SectionCard title="Transaction ledger">
         <AdminTable
           columns={[
-            { key: 'id', label: 'Transaction', render: (r) => <span className="font-medium">{r.id}</span> },
+            { key: 'id', label: 'Transaction', render: (r) => <span className="font-medium">{String(r.id)}</span> },
             { key: 'type', label: 'Type' },
-            { key: 'amount', label: 'Amount', render: (r) => <span className={r.amount < 0 ? 'text-studio-danger' : ''}>{money(r.amount)}</span> },
+            { key: 'amount', label: 'Amount', render: (r) => <span className={Number(r.amount) < 0 ? 'text-studio-danger' : ''}>{money(Number(r.amount))}</span> },
             { key: 'source', label: 'Source' },
             { key: 'date', label: 'Date' },
-            { key: 'state', label: 'State', render: (r) => <StatusPill state={r.state} /> },
+            { key: 'state', label: 'State', render: (r) => <StatusPill state={String(r.state)} /> },
           ]}
           rows={ledger as unknown as (BaseRow & Record<string, unknown>)[]}
-          hrefFor={(r) => `/admin/wallets/${wallet.id}`}
+          hrefFor={() => `/admin/wallets/${wallet.id}`}
           emptyTitle="No ledger entries."
           emptyDetail="Balances appear once sales or payouts are recorded."
         />

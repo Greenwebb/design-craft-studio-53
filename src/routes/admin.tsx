@@ -92,7 +92,6 @@ function AdminShell() {
         </div>
       </AdminDialog>
       <AdminSearch />
-      <div className="hidden">{AccountMenu.length} </div>
     </div>
   );
 }
