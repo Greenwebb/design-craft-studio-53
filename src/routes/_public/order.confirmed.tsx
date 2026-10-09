@@ -5,14 +5,14 @@ import { EASE, Footer, Nav, SiteButton } from "@/components/site";
 import { works } from "@/data/works";
 import { useBag } from "@/lib/bag";
 
-export const Route = createFileRoute("/order/confirmed")({
+export const Route = createFileRoute("/_public/order/confirmed")({
   head: () => ({
     meta: [
       { title: "It's Yours — I Am An Artist" },
       { property: "og:title", content: "It's Yours — I Am An Artist" },
       { property: "og:description", content: "Your acquisition is confirmed. What happens next with your work." },
       { name: "description", content: "Your acquisition is confirmed. What happens next with your work." },
-      { name: "robots", content: "noindex" },
+      { name: "robots", content: "noindex" }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: ConfirmedPage,
@@ -34,7 +34,7 @@ function ConfirmedPage() {
 
   return (
     <main className="bg-paper">
-      <Nav />
+
       <section className="container-x min-h-[80vh] pb-24 pt-32 md:pt-44">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE }}>
           <p className="font-hand text-3xl text-muted-foreground">it's yours</p>
@@ -107,7 +107,7 @@ function ConfirmedPage() {
           </div>
         )}
       </section>
-      <Footer />
+
     </main>
   );
 }

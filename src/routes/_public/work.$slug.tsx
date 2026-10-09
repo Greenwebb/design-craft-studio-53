@@ -6,7 +6,7 @@ import { EASE, Footer, Nav, Reveal, SiteButton } from "@/components/site";
 import { formatPrice, works, TYPE_LABELS, type Work } from "@/data/works";
 import { useBag } from "@/lib/bag";
 
-export const Route = createFileRoute("/work/$slug")({
+export const Route = createFileRoute("/_public/work/$slug")({
   head: ({ params }) => {
     const w = works.find((x) => x.slug === params.slug);
     const title = w ? `${w.title} by ${w.artist.name} — I Am An Artist` : "Artwork — I Am An Artist";
@@ -38,7 +38,7 @@ function dims(w: Work) {
 function WorkNotFound() {
   return (
     <main className="bg-paper">
-      <Nav />
+
       <div className="container-x flex min-h-[70vh] flex-col items-start justify-center pt-32">
         <p className="font-hand text-2xl text-muted-foreground">this one has moved on</p>
         <h1 className="mt-4 text-5xl font-semibold tracking-[-0.03em]">Work not found</h1>
@@ -46,7 +46,7 @@ function WorkNotFound() {
           Back to the shop <ArrowRight className="h-4 w-4" />
         </SiteButton>
       </div>
-      <Footer />
+
     </main>
   );
 }
@@ -75,7 +75,7 @@ function WorkPage() {
 
   return (
     <main className="bg-paper">
-      <Nav />
+
 
       {/* ————— Above the fold ————— */}
       <section className="container-x grid gap-12 pb-24 pt-32 md:pt-40 lg:grid-cols-[minmax(0,1.35fr)_minmax(360px,0.65fr)] lg:gap-[clamp(48px,6vw,100px)]">
@@ -319,7 +319,6 @@ function WorkPage() {
         </div>
       )}
 
-      <Footer />
     </main>
   );
 }

@@ -12,7 +12,7 @@ import work3 from "@/assets/work-3.jpg";
 import work4 from "@/assets/work-4.jpg";
 import { SiteButton, IconButton } from "@/components/site";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_public/")({
   head: () => ({
     meta: [
       { title: "I Am An Artist — Original contemporary art from Zambia" },
@@ -65,7 +65,7 @@ function Hero() {
               Explore the collection
               <ArrowUpRight className="h-4 w-4" />
             </SiteButton>
-            <TextLink href={`${SITE}/artists`}>Meet the artists</TextLink>
+            <TextLink href="/artists">Meet the artists</TextLink>
           </div>
         </motion.div>
       </motion.div>
@@ -130,7 +130,7 @@ function Story() {
           <p className="text-muted-foreground">Oil on canvas</p>
           <p className="text-muted-foreground">Lusaka, Zambia</p>
         </Reveal>
-        <Reveal delay={0.3} className="mt-10"><TextLink href={`${SITE}/artists`}>Discover the story</TextLink></Reveal>
+        <Reveal delay={0.3} className="mt-10"><TextLink href="/artists">Discover the story</TextLink></Reveal>
       </div>
       <Reveal delay={0.15}>
         <img src={artist1} alt="Mwansa Chileshe in her Lusaka studio" width={896} height={1120} loading="lazy" className="aspect-[4/5] w-full rounded-sm object-cover" />
@@ -367,9 +367,9 @@ function Closing() {
 function Index() {
   return (
     <div className="bg-background text-foreground">
-      <Grain />
-      <Cursor />
-      <Nav />
+
+
+
       <main>
         <Hero />
         <Story />
@@ -380,7 +380,7 @@ function Index() {
         <ForArtists />
         <Closing />
       </main>
-      <Footer />
+
     </div>
   );
 }

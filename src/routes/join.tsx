@@ -1,10 +1,11 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   ArrowLeft, ArrowRight, Check, X, Palette, Camera, Music, Clapperboard, Shirt, Drama, PenTool, Feather, Sparkles,
   Image as ImageIcon, Video, AudioLines, FolderOpen, LayoutGrid, ShoppingBag, Brush, Briefcase, CalendarCheck, MapPin,
 } from "lucide-react";
+import { useEcosystem } from "@/components/ecosystem/context";
 import { EASE, Logo, SiteButton } from "@/components/site";
 import { HeroProfile } from "@/components/artist-hero";
 import type { Artist } from "@/data/artists";
@@ -111,6 +112,8 @@ function usePicker(onChange: (v: string) => void) {
 
 /* ---------------- page ---------------- */
 function JoinPage() {
+  const { becomeCreator } = useEcosystem();
+  const navigate = useNavigate();
   const [d, setD] = useState<Data>(EMPTY);
   const [step, setStep] = useState<StepId>("intro");
   const [hasDraft, setHasDraft] = useState<StepId | null>(null);
@@ -347,7 +350,7 @@ function JoinPage() {
               <section>
                 <div className="container-x pt-12">
                   <p className="note -rotate-1">{step === "live" ? "welcome in" : "this is you"}</p>
-                  <h1 className="display-lg mt-3 max-w-3xl">{step === "live" ? "Your creative space is live." : "This is how people will meet you."}</h1>
+                  <h1 className="display-lg mt-3 max-w-3xl">{step === "live" ? "Your creative space is ready to preview." : "This is how people will meet you."}</h1>
                 </div>
                 <div className="mt-8 border-y border-border"><HeroProfile a={preview} preview /></div>
                 {d.work?.img && (
@@ -362,12 +365,12 @@ function JoinPage() {
                 <div className="container-x flex flex-wrap gap-3 pb-24 pt-6">
                   {step === "preview" ? (
                     <>
-                      <SiteButton onClick={() => setSaveOpen(true)}>Publish my profile <ArrowRight className="h-4 w-4" /></SiteButton>
+                      <SiteButton onClick={() => { becomeCreator(d.name); goTo("live"); }}>Preview my studio <ArrowRight className="h-4 w-4" /></SiteButton>
                       <SiteButton variant="outline" onClick={() => goTo("create", -1)}>Go back and edit</SiteButton>
                     </>
                   ) : (
                     <>
-                      <SiteButton onClick={() => window.scrollTo({ top: 200, behavior: "smooth" })}>View my profile <ArrowRight className="h-4 w-4" /></SiteButton>
+                      <SiteButton onClick={() => { void navigate({to:"/creator",search:{artist:"new"}}); }}>Enter your studio <ArrowRight className="h-4 w-4" /></SiteButton>
                       <SiteButton variant="outline" onClick={() => goTo("work", -1)}>Add another project</SiteButton>
                       {d.offers.includes("sell") && <SiteButton variant="outline" href="/shop">List something for sale</SiteButton>}
                       {d.offers.some((o) => o === "services" || o === "bookings" || o === "commission") && <SiteButton variant="outline" onClick={() => goTo("discover", -1)}>Add a service</SiteButton>}

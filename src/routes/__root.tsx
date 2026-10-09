@@ -11,6 +11,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { EcosystemProvider } from "@/components/ecosystem/context";
 import { BagProvider } from "../lib/bag";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
@@ -118,10 +119,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <BagProvider>
+      <EcosystemProvider><BagProvider>
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
-      </BagProvider>
+      </BagProvider></EcosystemProvider>
     </QueryClientProvider>
   );
 }

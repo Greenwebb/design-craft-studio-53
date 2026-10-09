@@ -1,0 +1,18 @@
+import { works } from './works';
+import { artistProfiles } from './artists';
+export type UserRole = 'customer' | 'creator';
+export type AccountContext = 'customer' | 'creator';
+export type PreviewScenario = 'artist-collector' | 'customer' | 'creator' | 'hotel' | 'new';
+export type EcosystemUser = { id: string; displayName: string; roles: UserRole[]; activeContext: AccountContext; creatorProfile?: { slug: string }; customerProfile: { organisation?: string } };
+export type Project = { id: string; customerId: string; creatorId: string; source: 'commission' | 'service' | 'booking' | 'custom-quote'; title: string; status: 'requested' | 'discussing' | 'awaiting-payment' | 'confirmed' | 'in-progress' | 'awaiting-review' | 'completed' | 'cancelled'; nextMilestone: string; customerName: string; creatorName: string; artistSlug: string; image: string };
+export type Conversation = { id: string; projectId: string; context: { type: 'project'; title: string }; messages: { id: string; author: string; body: string; time: string }[] };
+export type ContextNotification = { id: string; context: AccountContext | 'global'; title: string; detail: string };
+export function previewUser(scenario: PreviewScenario): EcosystemUser {
+  const both = scenario === 'artist-collector';
+  const creator = both || scenario === 'creator';
+  return { id: creator ? 'preview-artist' : 'preview-collector', displayName: creator ? 'Mwansa Chileshe' : scenario === 'hotel' ? 'Latitude Hotel' : scenario === 'new' ? 'Alex' : 'Sarah Banda', roles: creator ? (both ? ['customer', 'creator'] : ['creator']) : ['customer'], activeContext: scenario === 'creator' ? 'creator' : 'customer', ...(creator ? { creatorProfile: { slug: 'mwansa-chileshe' } } : {}), customerProfile: scenario === 'hotel' ? { organisation: 'Latitude Hotel' } : {} };
+}
+export const sharedProjects: Project[] = [{ id: 'hotel-lobby-mural', customerId: 'preview-collector', creatorId: 'preview-artist', source: 'commission', title: 'Hotel Lobby Mural', status: 'awaiting-review', nextMilestone: 'Concept approval', customerName: 'Latitude Hotel', creatorName: 'Mwansa Chileshe', artistSlug: 'mwansa-chileshe', image: works[0]?.image ?? '' }, { id: 'portrait-session', customerId: 'preview-collector', creatorId: 'preview-photographer', source: 'booking', title: 'Portrait Photography', status: 'confirmed', nextMilestone: 'Session · 18 October', customerName: 'Sarah Banda', creatorName: artistProfiles.find(a => a.disciplines.includes('Photographer'))?.name ?? 'Natasha Banda', artistSlug: artistProfiles.find(a => a.disciplines.includes('Photographer'))?.slug ?? 'mwansa-chileshe', image: works[2]?.image ?? '' }];
+export const sharedConversations: Conversation[] = [{ id: 'mural-conversation', projectId: 'hotel-lobby-mural', context: { type: 'project', title: 'Hotel Lobby Mural' }, messages: [{ id: 'm1', author: 'Mwansa Chileshe', body: 'The second concept is ready. I’ve brought in more of the landscape around Lusaka.', time: '10:24' }, { id: 'm2', author: 'Latitude Hotel', body: 'Could we use more green in the second concept?', time: '11:08' }] }];
+export const contextNotifications: ContextNotification[] = [{ id: 'n1', context: 'creator', title: 'A new commission enquiry', detail: 'Hotel Lobby Mural · Concept feedback' }, { id: 'n2', context: 'customer', title: 'Your work is being prepared', detail: 'Home Again · Artist update' }];
+export const scenarioLabels: Record<PreviewScenario,string> = { 'artist-collector': 'Artist & collector', customer: 'Collector', creator: 'Portfolio creator', hotel: 'Hotel & projects', new: 'New collector' };

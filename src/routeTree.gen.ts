@@ -9,35 +9,54 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as BagRouteImport } from './routes/bag'
+import { Route as PublicRouteRouteImport } from './routes/_public/route'
+import { Route as AccountRouteImport } from './routes/account'
 import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as CreatorRouteImport } from './routes/creator'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as JoinRouteImport } from './routes/join'
-import { Route as ShopRouteImport } from './routes/shop'
-import { Route as ArtistsSlugRouteImport } from './routes/artists.$slug'
+import { Route as PublicIndexRouteImport } from './routes/_public/index'
+import { Route as PublicArtForSpacesRouteImport } from './routes/_public/art-for-spaces'
+import { Route as PublicBagRouteImport } from './routes/_public/bag'
+import { Route as PublicSearchRouteImport } from './routes/_public/search'
+import { Route as AccountIndexRouteImport } from './routes/account.index'
+import { Route as AccountSectionRouteImport } from './routes/account.$section'
 import { Route as CheckoutContactRouteImport } from './routes/checkout.contact'
 import { Route as CheckoutDeliveryRouteImport } from './routes/checkout.delivery'
 import { Route as CheckoutPaymentRouteImport } from './routes/checkout.payment'
 import { Route as CheckoutReviewRouteImport } from './routes/checkout.review'
+import { Route as CreatorIndexRouteImport } from './routes/creator.index'
+import { Route as CreatorSectionRouteImport } from './routes/creator.$section'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardSectionRouteImport } from './routes/dashboard.$section'
-import { Route as OrderConfirmedRouteImport } from './routes/order.confirmed'
-import { Route as WorkSlugRouteImport } from './routes/work.$slug'
+import { Route as PublicArtistsIndexRouteImport } from './routes/_public/artists.index'
+import { Route as PublicArtistsSlugRouteImport } from './routes/_public/artists.$slug'
+import { Route as PublicOrderConfirmedRouteImport } from './routes/_public/order.confirmed'
+import { Route as PublicServicesSlugRouteImport } from './routes/_public/services.$slug'
+import { Route as PublicShopIndexRouteImport } from './routes/_public/shop.index'
+import { Route as PublicShopCollectionRouteImport } from './routes/_public/shop.$collection'
+import { Route as PublicWorkSlugRouteImport } from './routes/_public/work.$slug'
+import { Route as AccountOrdersIdRouteImport } from './routes/account.orders.$id'
+import { Route as AccountProjectsIdRouteImport } from './routes/account.projects.$id'
+import { Route as CreatorProjectsIdRouteImport } from './routes/creator.projects.$id'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const PublicRouteRoute = PublicRouteRouteImport.update({
+  id: '/_public',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BagRoute = BagRouteImport.update({
-  id: '/bag',
-  path: '/bag',
+const AccountRoute = AccountRouteImport.update({
+  id: '/account',
+  path: '/account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckoutRoute = CheckoutRouteImport.update({
   id: '/checkout',
   path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreatorRoute = CreatorRouteImport.update({
+  id: '/creator',
+  path: '/creator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -50,15 +69,35 @@ const JoinRoute = JoinRouteImport.update({
   path: '/join',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ShopRoute = ShopRouteImport.update({
-  id: '/shop',
-  path: '/shop',
-  getParentRoute: () => rootRouteImport,
+const PublicIndexRoute = PublicIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PublicRouteRoute,
 } as any)
-const ArtistsSlugRoute = ArtistsSlugRouteImport.update({
-  id: '/artists/$slug',
-  path: '/artists/$slug',
-  getParentRoute: () => rootRouteImport,
+const PublicArtForSpacesRoute = PublicArtForSpacesRouteImport.update({
+  id: '/art-for-spaces',
+  path: '/art-for-spaces',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const PublicBagRoute = PublicBagRouteImport.update({
+  id: '/bag',
+  path: '/bag',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const PublicSearchRoute = PublicSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const AccountIndexRoute = AccountIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountSectionRoute = AccountSectionRouteImport.update({
+  id: '/$section',
+  path: '/$section',
+  getParentRoute: () => AccountRoute,
 } as any)
 const CheckoutContactRoute = CheckoutContactRouteImport.update({
   id: '/contact',
@@ -80,6 +119,16 @@ const CheckoutReviewRoute = CheckoutReviewRouteImport.update({
   path: '/review',
   getParentRoute: () => CheckoutRoute,
 } as any)
+const CreatorIndexRoute = CreatorIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CreatorRoute,
+} as any)
+const CreatorSectionRoute = CreatorSectionRouteImport.update({
+  id: '/$section',
+  path: '/$section',
+  getParentRoute: () => CreatorRoute,
+} as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -90,147 +139,266 @@ const DashboardSectionRoute = DashboardSectionRouteImport.update({
   path: '/$section',
   getParentRoute: () => DashboardRoute,
 } as any)
-const OrderConfirmedRoute = OrderConfirmedRouteImport.update({
+const PublicArtistsIndexRoute = PublicArtistsIndexRouteImport.update({
+  id: '/artists/',
+  path: '/artists/',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const PublicArtistsSlugRoute = PublicArtistsSlugRouteImport.update({
+  id: '/artists/$slug',
+  path: '/artists/$slug',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const PublicOrderConfirmedRoute = PublicOrderConfirmedRouteImport.update({
   id: '/order/confirmed',
   path: '/order/confirmed',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => PublicRouteRoute,
 } as any)
-const WorkSlugRoute = WorkSlugRouteImport.update({
+const PublicServicesSlugRoute = PublicServicesSlugRouteImport.update({
+  id: '/services/$slug',
+  path: '/services/$slug',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const PublicShopIndexRoute = PublicShopIndexRouteImport.update({
+  id: '/shop/',
+  path: '/shop/',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const PublicShopCollectionRoute = PublicShopCollectionRouteImport.update({
+  id: '/shop/$collection',
+  path: '/shop/$collection',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const PublicWorkSlugRoute = PublicWorkSlugRouteImport.update({
   id: '/work/$slug',
   path: '/work/$slug',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const AccountOrdersIdRoute = AccountOrdersIdRouteImport.update({
+  id: '/orders/$id',
+  path: '/orders/$id',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountProjectsIdRoute = AccountProjectsIdRouteImport.update({
+  id: '/projects/$id',
+  path: '/projects/$id',
+  getParentRoute: () => AccountRoute,
+} as any)
+const CreatorProjectsIdRoute = CreatorProjectsIdRouteImport.update({
+  id: '/projects/$id',
+  path: '/projects/$id',
+  getParentRoute: () => CreatorRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/bag': typeof BagRoute
+  '/': typeof PublicIndexRoute
+  '/account': typeof AccountRouteWithChildren
   '/checkout': typeof CheckoutRouteWithChildren
+  '/creator': typeof CreatorRouteWithChildren
   '/dashboard': typeof DashboardRouteWithChildren
   '/join': typeof JoinRoute
-  '/shop': typeof ShopRoute
-  '/artists/$slug': typeof ArtistsSlugRoute
+  '/art-for-spaces': typeof PublicArtForSpacesRoute
+  '/bag': typeof PublicBagRoute
+  '/search': typeof PublicSearchRoute
+  '/account/$section': typeof AccountSectionRoute
   '/checkout/contact': typeof CheckoutContactRoute
   '/checkout/delivery': typeof CheckoutDeliveryRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
   '/checkout/review': typeof CheckoutReviewRoute
+  '/creator/$section': typeof CreatorSectionRoute
   '/dashboard/$section': typeof DashboardSectionRoute
-  '/order/confirmed': typeof OrderConfirmedRoute
-  '/work/$slug': typeof WorkSlugRoute
+  '/account/': typeof AccountIndexRoute
+  '/creator/': typeof CreatorIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/artists/$slug': typeof PublicArtistsSlugRoute
+  '/order/confirmed': typeof PublicOrderConfirmedRoute
+  '/services/$slug': typeof PublicServicesSlugRoute
+  '/shop/$collection': typeof PublicShopCollectionRoute
+  '/work/$slug': typeof PublicWorkSlugRoute
+  '/account/orders/$id': typeof AccountOrdersIdRoute
+  '/account/projects/$id': typeof AccountProjectsIdRoute
+  '/creator/projects/$id': typeof CreatorProjectsIdRoute
+  '/artists/': typeof PublicArtistsIndexRoute
+  '/shop/': typeof PublicShopIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/bag': typeof BagRoute
   '/checkout': typeof CheckoutRouteWithChildren
   '/join': typeof JoinRoute
-  '/shop': typeof ShopRoute
-  '/artists/$slug': typeof ArtistsSlugRoute
+  '/art-for-spaces': typeof PublicArtForSpacesRoute
+  '/bag': typeof PublicBagRoute
+  '/search': typeof PublicSearchRoute
+  '/account/$section': typeof AccountSectionRoute
   '/checkout/contact': typeof CheckoutContactRoute
   '/checkout/delivery': typeof CheckoutDeliveryRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
   '/checkout/review': typeof CheckoutReviewRoute
+  '/creator/$section': typeof CreatorSectionRoute
   '/dashboard/$section': typeof DashboardSectionRoute
-  '/order/confirmed': typeof OrderConfirmedRoute
-  '/work/$slug': typeof WorkSlugRoute
+  '/': typeof PublicIndexRoute
+  '/account': typeof AccountIndexRoute
+  '/creator': typeof CreatorIndexRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/artists/$slug': typeof PublicArtistsSlugRoute
+  '/order/confirmed': typeof PublicOrderConfirmedRoute
+  '/services/$slug': typeof PublicServicesSlugRoute
+  '/shop/$collection': typeof PublicShopCollectionRoute
+  '/work/$slug': typeof PublicWorkSlugRoute
+  '/account/orders/$id': typeof AccountOrdersIdRoute
+  '/account/projects/$id': typeof AccountProjectsIdRoute
+  '/creator/projects/$id': typeof CreatorProjectsIdRoute
+  '/artists': typeof PublicArtistsIndexRoute
+  '/shop': typeof PublicShopIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/bag': typeof BagRoute
+  '/_public': typeof PublicRouteRouteWithChildren
+  '/account': typeof AccountRouteWithChildren
   '/checkout': typeof CheckoutRouteWithChildren
+  '/creator': typeof CreatorRouteWithChildren
   '/dashboard': typeof DashboardRouteWithChildren
   '/join': typeof JoinRoute
-  '/shop': typeof ShopRoute
-  '/artists/$slug': typeof ArtistsSlugRoute
+  '/_public/art-for-spaces': typeof PublicArtForSpacesRoute
+  '/_public/bag': typeof PublicBagRoute
+  '/_public/search': typeof PublicSearchRoute
+  '/account/$section': typeof AccountSectionRoute
   '/checkout/contact': typeof CheckoutContactRoute
   '/checkout/delivery': typeof CheckoutDeliveryRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
   '/checkout/review': typeof CheckoutReviewRoute
+  '/creator/$section': typeof CreatorSectionRoute
   '/dashboard/$section': typeof DashboardSectionRoute
-  '/order/confirmed': typeof OrderConfirmedRoute
-  '/work/$slug': typeof WorkSlugRoute
+  '/_public/': typeof PublicIndexRoute
+  '/account/': typeof AccountIndexRoute
+  '/creator/': typeof CreatorIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/_public/artists/$slug': typeof PublicArtistsSlugRoute
+  '/_public/order/confirmed': typeof PublicOrderConfirmedRoute
+  '/_public/services/$slug': typeof PublicServicesSlugRoute
+  '/_public/shop/$collection': typeof PublicShopCollectionRoute
+  '/_public/work/$slug': typeof PublicWorkSlugRoute
+  '/account/orders/$id': typeof AccountOrdersIdRoute
+  '/account/projects/$id': typeof AccountProjectsIdRoute
+  '/creator/projects/$id': typeof CreatorProjectsIdRoute
+  '/_public/artists/': typeof PublicArtistsIndexRoute
+  '/_public/shop/': typeof PublicShopIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/bag'
+    | '/account'
     | '/checkout'
+    | '/creator'
     | '/dashboard'
     | '/join'
-    | '/shop'
-    | '/artists/$slug'
+    | '/art-for-spaces'
+    | '/bag'
+    | '/search'
+    | '/account/$section'
     | '/checkout/contact'
     | '/checkout/delivery'
     | '/checkout/payment'
     | '/checkout/review'
+    | '/creator/$section'
     | '/dashboard/$section'
-    | '/order/confirmed'
-    | '/work/$slug'
+    | '/account/'
+    | '/creator/'
     | '/dashboard/'
+    | '/artists/$slug'
+    | '/order/confirmed'
+    | '/services/$slug'
+    | '/shop/$collection'
+    | '/work/$slug'
+    | '/account/orders/$id'
+    | '/account/projects/$id'
+    | '/creator/projects/$id'
+    | '/artists/'
+    | '/shop/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | '/bag'
     | '/checkout'
     | '/join'
-    | '/shop'
-    | '/artists/$slug'
+    | '/art-for-spaces'
+    | '/bag'
+    | '/search'
+    | '/account/$section'
     | '/checkout/contact'
     | '/checkout/delivery'
     | '/checkout/payment'
     | '/checkout/review'
+    | '/creator/$section'
     | '/dashboard/$section'
-    | '/order/confirmed'
-    | '/work/$slug'
+    | '/'
+    | '/account'
+    | '/creator'
     | '/dashboard'
+    | '/artists/$slug'
+    | '/order/confirmed'
+    | '/services/$slug'
+    | '/shop/$collection'
+    | '/work/$slug'
+    | '/account/orders/$id'
+    | '/account/projects/$id'
+    | '/creator/projects/$id'
+    | '/artists'
+    | '/shop'
   id:
     | '__root__'
-    | '/'
-    | '/bag'
+    | '/_public'
+    | '/account'
     | '/checkout'
+    | '/creator'
     | '/dashboard'
     | '/join'
-    | '/shop'
-    | '/artists/$slug'
+    | '/_public/art-for-spaces'
+    | '/_public/bag'
+    | '/_public/search'
+    | '/account/$section'
     | '/checkout/contact'
     | '/checkout/delivery'
     | '/checkout/payment'
     | '/checkout/review'
+    | '/creator/$section'
     | '/dashboard/$section'
-    | '/order/confirmed'
-    | '/work/$slug'
+    | '/_public/'
+    | '/account/'
+    | '/creator/'
     | '/dashboard/'
+    | '/_public/artists/$slug'
+    | '/_public/order/confirmed'
+    | '/_public/services/$slug'
+    | '/_public/shop/$collection'
+    | '/_public/work/$slug'
+    | '/account/orders/$id'
+    | '/account/projects/$id'
+    | '/creator/projects/$id'
+    | '/_public/artists/'
+    | '/_public/shop/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  BagRoute: typeof BagRoute
+  PublicRouteRoute: typeof PublicRouteRouteWithChildren
+  AccountRoute: typeof AccountRouteWithChildren
   CheckoutRoute: typeof CheckoutRouteWithChildren
+  CreatorRoute: typeof CreatorRouteWithChildren
   DashboardRoute: typeof DashboardRouteWithChildren
   JoinRoute: typeof JoinRoute
-  ShopRoute: typeof ShopRoute
-  ArtistsSlugRoute: typeof ArtistsSlugRoute
-  OrderConfirmedRoute: typeof OrderConfirmedRoute
-  WorkSlugRoute: typeof WorkSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
+    '/_public': {
+      id: '/_public'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof PublicRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/bag': {
-      id: '/bag'
-      path: '/bag'
-      fullPath: '/bag'
-      preLoaderRoute: typeof BagRouteImport
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/checkout': {
@@ -238,6 +406,13 @@ declare module '@tanstack/react-router' {
       path: '/checkout'
       fullPath: '/checkout'
       preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/creator': {
+      id: '/creator'
+      path: '/creator'
+      fullPath: '/creator'
+      preLoaderRoute: typeof CreatorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -254,19 +429,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JoinRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/shop': {
-      id: '/shop'
-      path: '/shop'
-      fullPath: '/shop'
-      preLoaderRoute: typeof ShopRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_public/': {
+      id: '/_public/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof PublicIndexRouteImport
+      parentRoute: typeof PublicRouteRoute
     }
-    '/artists/$slug': {
-      id: '/artists/$slug'
-      path: '/artists/$slug'
-      fullPath: '/artists/$slug'
-      preLoaderRoute: typeof ArtistsSlugRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_public/art-for-spaces': {
+      id: '/_public/art-for-spaces'
+      path: '/art-for-spaces'
+      fullPath: '/art-for-spaces'
+      preLoaderRoute: typeof PublicArtForSpacesRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/bag': {
+      id: '/_public/bag'
+      path: '/bag'
+      fullPath: '/bag'
+      preLoaderRoute: typeof PublicBagRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/search': {
+      id: '/_public/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof PublicSearchRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/account/': {
+      id: '/account/'
+      path: '/'
+      fullPath: '/account/'
+      preLoaderRoute: typeof AccountIndexRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/$section': {
+      id: '/account/$section'
+      path: '/$section'
+      fullPath: '/account/$section'
+      preLoaderRoute: typeof AccountSectionRouteImport
+      parentRoute: typeof AccountRoute
     }
     '/checkout/contact': {
       id: '/checkout/contact'
@@ -296,6 +499,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CheckoutReviewRouteImport
       parentRoute: typeof CheckoutRoute
     }
+    '/creator/': {
+      id: '/creator/'
+      path: '/'
+      fullPath: '/creator/'
+      preLoaderRoute: typeof CreatorIndexRouteImport
+      parentRoute: typeof CreatorRoute
+    }
+    '/creator/$section': {
+      id: '/creator/$section'
+      path: '/$section'
+      fullPath: '/creator/$section'
+      preLoaderRoute: typeof CreatorSectionRouteImport
+      parentRoute: typeof CreatorRoute
+    }
     '/dashboard/': {
       id: '/dashboard/'
       path: '/'
@@ -310,22 +527,127 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardSectionRouteImport
       parentRoute: typeof DashboardRoute
     }
-    '/order/confirmed': {
-      id: '/order/confirmed'
+    '/_public/artists/': {
+      id: '/_public/artists/'
+      path: '/artists'
+      fullPath: '/artists/'
+      preLoaderRoute: typeof PublicArtistsIndexRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/artists/$slug': {
+      id: '/_public/artists/$slug'
+      path: '/artists/$slug'
+      fullPath: '/artists/$slug'
+      preLoaderRoute: typeof PublicArtistsSlugRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/order/confirmed': {
+      id: '/_public/order/confirmed'
       path: '/order/confirmed'
       fullPath: '/order/confirmed'
-      preLoaderRoute: typeof OrderConfirmedRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof PublicOrderConfirmedRouteImport
+      parentRoute: typeof PublicRouteRoute
     }
-    '/work/$slug': {
-      id: '/work/$slug'
+    '/_public/services/$slug': {
+      id: '/_public/services/$slug'
+      path: '/services/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof PublicServicesSlugRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/shop/': {
+      id: '/_public/shop/'
+      path: '/shop'
+      fullPath: '/shop/'
+      preLoaderRoute: typeof PublicShopIndexRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/shop/$collection': {
+      id: '/_public/shop/$collection'
+      path: '/shop/$collection'
+      fullPath: '/shop/$collection'
+      preLoaderRoute: typeof PublicShopCollectionRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/work/$slug': {
+      id: '/_public/work/$slug'
       path: '/work/$slug'
       fullPath: '/work/$slug'
-      preLoaderRoute: typeof WorkSlugRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof PublicWorkSlugRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/account/orders/$id': {
+      id: '/account/orders/$id'
+      path: '/orders/$id'
+      fullPath: '/account/orders/$id'
+      preLoaderRoute: typeof AccountOrdersIdRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/projects/$id': {
+      id: '/account/projects/$id'
+      path: '/projects/$id'
+      fullPath: '/account/projects/$id'
+      preLoaderRoute: typeof AccountProjectsIdRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/creator/projects/$id': {
+      id: '/creator/projects/$id'
+      path: '/projects/$id'
+      fullPath: '/creator/projects/$id'
+      preLoaderRoute: typeof CreatorProjectsIdRouteImport
+      parentRoute: typeof CreatorRoute
     }
   }
 }
+
+interface PublicRouteRouteChildren {
+  PublicArtForSpacesRoute: typeof PublicArtForSpacesRoute
+  PublicBagRoute: typeof PublicBagRoute
+  PublicSearchRoute: typeof PublicSearchRoute
+  PublicIndexRoute: typeof PublicIndexRoute
+  PublicArtistsSlugRoute: typeof PublicArtistsSlugRoute
+  PublicOrderConfirmedRoute: typeof PublicOrderConfirmedRoute
+  PublicServicesSlugRoute: typeof PublicServicesSlugRoute
+  PublicShopCollectionRoute: typeof PublicShopCollectionRoute
+  PublicWorkSlugRoute: typeof PublicWorkSlugRoute
+  PublicArtistsIndexRoute: typeof PublicArtistsIndexRoute
+  PublicShopIndexRoute: typeof PublicShopIndexRoute
+}
+
+const PublicRouteRouteChildren: PublicRouteRouteChildren = {
+  PublicArtForSpacesRoute: PublicArtForSpacesRoute,
+  PublicBagRoute: PublicBagRoute,
+  PublicSearchRoute: PublicSearchRoute,
+  PublicIndexRoute: PublicIndexRoute,
+  PublicArtistsSlugRoute: PublicArtistsSlugRoute,
+  PublicOrderConfirmedRoute: PublicOrderConfirmedRoute,
+  PublicServicesSlugRoute: PublicServicesSlugRoute,
+  PublicShopCollectionRoute: PublicShopCollectionRoute,
+  PublicWorkSlugRoute: PublicWorkSlugRoute,
+  PublicArtistsIndexRoute: PublicArtistsIndexRoute,
+  PublicShopIndexRoute: PublicShopIndexRoute,
+}
+
+const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
+  PublicRouteRouteChildren,
+)
+
+interface AccountRouteChildren {
+  AccountSectionRoute: typeof AccountSectionRoute
+  AccountIndexRoute: typeof AccountIndexRoute
+  AccountOrdersIdRoute: typeof AccountOrdersIdRoute
+  AccountProjectsIdRoute: typeof AccountProjectsIdRoute
+}
+
+const AccountRouteChildren: AccountRouteChildren = {
+  AccountSectionRoute: AccountSectionRoute,
+  AccountIndexRoute: AccountIndexRoute,
+  AccountOrdersIdRoute: AccountOrdersIdRoute,
+  AccountProjectsIdRoute: AccountProjectsIdRoute,
+}
+
+const AccountRouteWithChildren =
+  AccountRoute._addFileChildren(AccountRouteChildren)
 
 interface CheckoutRouteChildren {
   CheckoutContactRoute: typeof CheckoutContactRoute
@@ -345,6 +667,21 @@ const CheckoutRouteWithChildren = CheckoutRoute._addFileChildren(
   CheckoutRouteChildren,
 )
 
+interface CreatorRouteChildren {
+  CreatorSectionRoute: typeof CreatorSectionRoute
+  CreatorIndexRoute: typeof CreatorIndexRoute
+  CreatorProjectsIdRoute: typeof CreatorProjectsIdRoute
+}
+
+const CreatorRouteChildren: CreatorRouteChildren = {
+  CreatorSectionRoute: CreatorSectionRoute,
+  CreatorIndexRoute: CreatorIndexRoute,
+  CreatorProjectsIdRoute: CreatorProjectsIdRoute,
+}
+
+const CreatorRouteWithChildren =
+  CreatorRoute._addFileChildren(CreatorRouteChildren)
+
 interface DashboardRouteChildren {
   DashboardSectionRoute: typeof DashboardSectionRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
@@ -360,15 +697,12 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  BagRoute: BagRoute,
+  PublicRouteRoute: PublicRouteRouteWithChildren,
+  AccountRoute: AccountRouteWithChildren,
   CheckoutRoute: CheckoutRouteWithChildren,
+  CreatorRoute: CreatorRouteWithChildren,
   DashboardRoute: DashboardRouteWithChildren,
   JoinRoute: JoinRoute,
-  ShopRoute: ShopRoute,
-  ArtistsSlugRoute: ArtistsSlugRoute,
-  OrderConfirmedRoute: OrderConfirmedRoute,
-  WorkSlugRoute: WorkSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,5 +1,5 @@
 import { Link, Outlet, useRouterState, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Home,
   Image,
@@ -33,9 +33,13 @@ import {
   previewStates,
   type PreviewState,
 } from "@/data/dashboard";
+import { AccountMenu } from "@/components/ecosystem/account-menu";
+import { useEcosystem } from "@/components/ecosystem/context";
 import { StudioContext } from "./context";
 import { StudioLink } from "./controls";
 export function StudioShell({ state }: { state: PreviewState }) {
+  const { user, setContext } = useEcosystem();
+  useEffect(() => { setContext("creator"); }, []);
   const studio = getStudio(state);
   const nav = navigation(studio.capabilities);
   const navigate = useNavigate();
@@ -59,7 +63,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
     setDrawer(false);
     setSearch(false);
     setNotifications(false);
-    void navigate({ to: "/dashboard/$section", params: { section: s }, search: { artist: state } });
+    void navigate({ to: "/creator/$section", params: { section: s }, search: { artist: state } });
   };
   const navBody = (
     <>
@@ -69,7 +73,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
       <div className="mb-9 mt-9 flex items-center gap-3">
         <img src={studio.artist.portrait} alt="" className="h-10 w-10 rounded-full object-cover" />
         <div>
-          <p className="text-sm font-semibold">{studio.artist.name}</p>
+          <p className="text-sm font-semibold">{user.displayName}</p>
           <p className="mt-1 text-xs text-muted-foreground">
             {studio.artist.disciplines.join(" · ")}
           </p>
@@ -79,12 +83,12 @@ export function StudioShell({ state }: { state: PreviewState }) {
         {nav.map((n) => (
           <Link
             key={n.id}
-            to={n.id === "home" ? "/dashboard" : "/dashboard/$section"}
+            to={n.id === "home" ? "/creator" : "/creator/$section"}
             params={{ section: n.id }}
             search={{ artist: state }}
             onClick={() => setDrawer(false)}
             aria-current={section === n.id ? "page" : undefined}
-            className={`flex h-[42px] items-center gap-3 rounded-[2px] px-3 text-sm font-medium ${section === n.id ? "bg-ink text-paper" : "hover:bg-foreground/[0.035]"}`}
+            className={`flex h-[42px] items-center gap-3 rounded-full px-3 text-sm font-medium ${section === n.id ? "bg-ink text-paper" : "hover:bg-foreground/[0.035]"}`}
           >
             {n.id === "home" ? <Home size={17} /> : <span className="w-[17px]" />}
             {n.label}
@@ -98,11 +102,11 @@ export function StudioShell({ state }: { state: PreviewState }) {
         ].map((n) => (
           <Link
             key={n.id}
-            to="/dashboard/$section"
+            to="/creator/$section"
             params={{ section: n.id }}
             search={{ artist: state }}
             onClick={() => setDrawer(false)}
-            className={`flex h-[42px] items-center gap-3 rounded-[2px] px-3 text-sm ${section === n.id ? "bg-ink text-paper" : "hover:bg-foreground/[0.035]"}`}
+            className={`flex h-[42px] items-center gap-3 rounded-full px-3 text-sm ${section === n.id ? "bg-ink text-paper" : "hover:bg-foreground/[0.035]"}`}
           >
             <n.icon size={17} />
             {n.label}
@@ -160,15 +164,16 @@ export function StudioShell({ state }: { state: PreviewState }) {
                   <span className="absolute right-2 top-1 h-1.5 w-1.5 rounded-full bg-studio-copper" />
                 )}
               </IconButton>
+              <AccountMenu context="creator" />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <IconButton
-                    ariaLabel="Artist account and preview states"
+                    ariaLabel="Creative discipline previews"
                     className="h-9 w-9 overflow-hidden border-0"
                   >
                     <img
                       src={studio.artist.portrait}
-                      alt="Artist account"
+                      alt="Creative discipline"
                       className="h-full w-full object-cover"
                     />
                   </IconButton>
@@ -182,7 +187,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
                       key={s}
                       onSelect={() => {
                         setRead(false);
-                        void navigate({ to: "/dashboard", search: { artist: s } });
+                        void navigate({ to: "/creator", search: { artist: s } });
                       }}
                       className="capitalize"
                     >
@@ -195,7 +200,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
               <div className="hidden md:block">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <SiteButton className="h-10 rounded-[2px] px-4 py-0">
+                    <SiteButton className="h-10 rounded-full px-4 py-0">
                       <Plus size={17} />
                       Create
                       <ChevronDown size={13} />
@@ -243,7 +248,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
         </div>
         <nav
           aria-label="Mobile studio navigation"
-          className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-border bg-studio-surface pb-[env(safe-area-inset-bottom)] md:hidden"
+          className="fixed inset-x-0 bottom-0 z-40 grid grid-flow-col auto-cols-fr border-t border-border bg-studio-surface pb-[env(safe-area-inset-bottom)] md:hidden"
         >
           {[
             { id: "home", label: "Home", icon: Home },
@@ -251,7 +256,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
             { id: "create", label: "Create", icon: Plus },
             { id: "projects", label: "Projects", icon: Briefcase },
             { id: "profile", label: "Profile", icon: User },
-          ].map((n) =>
+          ].filter(n => n.id !== "projects" || nav.some(item => item.id === "projects")).map((n) =>
             n.id === "create" ? (
               <IconButton
                 key={n.id}
@@ -265,7 +270,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
             ) : (
               <Link
                 key={n.id}
-                to={n.id === "home" ? "/dashboard" : "/dashboard/$section"}
+                to={n.id === "home" ? "/creator" : "/creator/$section"}
                 params={{ section: n.id }}
                 search={{ artist: state }}
                 aria-current={section === n.id ? "page" : undefined}
@@ -299,7 +304,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
                     key={o.section}
                     variant="outline"
                     onClick={() => go(o.section)}
-                    className="w-full justify-start rounded-none border-0 px-0 py-5 text-left"
+                    className="w-full justify-start rounded-full border-0 px-0 py-5 text-left"
                   >
                     <Plus size={19} className="mr-2 text-studio-green" />
                     <span>
@@ -410,7 +415,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
                     <SiteButton
                       variant="outline"
                       onClick={() => go(item.action.href)}
-                      className="rounded-none border-0 p-0 text-xs"
+                      className="rounded-full border-0 p-0 text-xs"
                     >
                       {item.action.label}
                       <ArrowUpRight size={14} />

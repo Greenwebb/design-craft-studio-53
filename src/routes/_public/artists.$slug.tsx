@@ -6,7 +6,7 @@ import { HeroProfile as Hero } from "@/components/artist-hero";
 import { EASE, Reveal, Cursor, TextLink, Nav, Footer, Grain, SiteButton } from "@/components/site";
 import { getArtist, artistProfiles, type Artist, type PortfolioProject } from "@/data/artists";
 
-export const Route = createFileRoute("/artists/$slug")({
+export const Route = createFileRoute("/_public/artists/$slug")({
   loader: ({ params }) => {
     const artist = getArtist(params.slug);
     if (!artist) throw notFound();
@@ -310,9 +310,9 @@ function ArtistPage() {
   const num = (id: string) => sections.findIndex((s) => s.id === id) + 1;
   return (
     <div className="bg-background text-foreground">
-      <Grain />
-      <Cursor />
-      <Nav />
+
+
+
       <main>
         <Hero a={a} />
         <SubNav sections={sections} />
@@ -324,7 +324,7 @@ function ArtistPage() {
         {num("reviews") > 0 && <Reviews a={a} n={num("reviews")} />}
         <Related a={a} />
       </main>
-      <Footer />
+
       <MobileCta a={a} />
     </div>
   );
