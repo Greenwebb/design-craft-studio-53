@@ -31,8 +31,10 @@ function ReviewStep() {
     setProcessing(true);
     // Demo checkout: simulate payment processing, then confirm.
     window.setTimeout(() => {
-      placeOrder(total);
-      navigate({ to: "/order/confirmed" });
+      void navigate({ to: "/order/confirmed" });
+      // Record the order after leaving checkout, so emptying the bag
+      // doesn't trigger the checkout layout's empty-bag redirect.
+      window.setTimeout(() => placeOrder(total), 50);
     }, 1600);
   };
 
