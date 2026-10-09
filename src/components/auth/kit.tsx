@@ -64,7 +64,7 @@ export function AuthShell({ note, title, lede, children, footer, art = true }: {
   );
 }
 
-type FieldProps = ComponentProps<"input"> & { label: string; error?: string; hint?: ReactNode };
+type FieldProps = ComponentProps<"input"> & { label: string; error?: string | undefined; hint?: ReactNode };
 
 export function AuthField({ label, error, hint, id, ...props }: FieldProps) {
   const gen = useId();
@@ -146,7 +146,7 @@ export function FormNotice({ children, tone = "error" }: { children: ReactNode; 
   );
 }
 
-export function GoogleButton({ returnTo }: { returnTo?: string }) {
+export function GoogleButton({ returnTo }: { returnTo?: string | undefined }) {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState(false);
   const go = async () => {
