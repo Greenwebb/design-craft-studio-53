@@ -8,6 +8,9 @@ import { SiteButton } from "@/components/site";
 import { AuthField, PasswordField, FormNotice, simulate } from "@/components/auth/kit";
 import { useEcosystem } from "@/components/ecosystem/context";
 import { supabase } from "@/integrations/supabase/client";
+import * as Dialog from "@radix-ui/react-dialog";
+import { Select as UiSelect, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { CreditCard, Plus, Pencil, Trash2, X, Star } from "lucide-react";
 
 export type SettingsContext = "creator" | "customer";
 export type SettingsPage = "account" | "profile" | "security" | "notifications" | "payouts" | "payments" | "preferences" | "privacy";
@@ -113,8 +116,68 @@ function Toggle({ label, defaultOn = true }: { label: string; defaultOn?: boolea
   const [on, setOn] = useState(defaultOn);
   return <button type="button" role="switch" aria-checked={on} aria-label={label} onClick={() => setOn(!on)} className={`relative h-6 w-11 rounded-full transition-colors ${on ? "bg-studio-green" : "bg-border"}`}><span className={`absolute top-0.5 h-5 w-5 rounded-full bg-background shadow-sm transition-all ${on ? "left-[22px]" : "left-0.5"}`} /></button>;
 }
-function Select({ label, options }: { label: string; options: string[] }) {
-  return <label className="mb-5 block"><span className="mb-2 block text-sm font-medium">{label}</span><select className="h-12 w-full rounded-full border border-border bg-background px-5 text-[15px]">{options.map((o) => <option key={o}>{o}</option>)}</select></label>;
+function Select({ label, options, value, onChange }: { label: string; options: string[]; value?: string; onChange?: (v: string) => void }) {
+  const [inner, setInner] = useState(options[0] ?? "");
+  const v = value ?? inner;
+  return <div className="mb-5"><span className="mb-2 block text-sm font-medium">{label}</span>
+    <UiSelect value={v} onValueChange={(x) => { setInner(x); onChange?.(x); }}>
+      <SelectTrigger aria-label={label} className="h-12 rounded-full border-border bg-background px-5 text-[15px]"><SelectValue /></SelectTrigger>
+      <SelectContent position="popper" sideOffset={8} className="rounded-3xl border-border bg-background p-1.5 shadow-xl">
+        {options.map((o) => <SelectItem key={o} value={o} className="rounded-full py-2.5 pl-8 text-[15px]">{o}</SelectItem>)}
+      </SelectContent>
+    </UiSelect></div>;
+}
+
+type Method = { id: string; kind: string; label: string; detail: string; primary: boolean };
+function MethodsManager({ title, kinds, initial }: { title: string; kinds: string[]; initial: Method[] }) {
+  const [items, setItems] = useState<Method[]>(initial);
+  const [edit, setEdit] = useState<Method | null>(null);
+  const [del, setDel] = useState<Method | null>(null);
+  const blank = (): Method => ({ id: "", kind: kinds[0] ?? "", label: "", detail: "", primary: items.length === 0 });
+  const save = () => {
+    if (!edit || !edit.label.trim() || !edit.detail.trim()) return;
+    setItems((list) => {
+      let next = edit.id ? list.map((m) => (m.id === edit.id ? edit : m)) : [...list, { ...edit, id: crypto.randomUUID() }];
+      if (edit.primary) { const id = edit.id || next[next.length - 1]!.id; next = next.map((m) => ({ ...m, primary: m.id === id })); }
+      return next;
+    });
+    setEdit(null);
+  };
+  const remove = (m: Method) => { setItems((list) => { const rest = list.filter((x) => x.id !== m.id); if (m.primary && rest[0]) rest[0] = { ...rest[0], primary: true }; return rest; }); setDel(null); };
+  const panel = "fixed inset-x-0 bottom-0 z-50 max-h-[90svh] overflow-y-auto rounded-t-[28px] bg-background p-6 outline-none sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:w-[min(480px,calc(100vw-3rem))] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-[28px] sm:p-8 sm:shadow-2xl";
+  return <>
+    <div className="flex items-center justify-between gap-4"><h2 className="text-lg font-semibold">{title}</h2><SiteButton onClick={() => setEdit(blank())} className="h-10 px-4 py-0"><Plus size={18} />Add</SiteButton></div>
+    {items.length === 0 ? (
+      <div className="mt-5 rounded-3xl border border-dashed border-border px-6 py-10 text-center"><CreditCard className="mx-auto text-muted-foreground" size={28} /><p className="mt-3 text-sm text-muted-foreground">Nothing added yet.</p></div>
+    ) : (
+      <ul className="mt-5 divide-y divide-border overflow-hidden rounded-3xl border border-border">
+        {items.map((m) => <li key={m.id} className="flex items-center gap-4 px-5 py-4">
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-secondary"><CreditCard size={19} /></span>
+          <div className="min-w-0 flex-1"><p className="flex flex-wrap items-center gap-2 text-[15px] font-medium">{m.label}{m.primary && <span className="rounded-full bg-studio-green/10 px-2.5 py-0.5 text-xs text-studio-green">Default</span>}</p><p className="truncate text-xs text-muted-foreground">{m.kind} · {m.detail}</p></div>
+          {!m.primary && <button type="button" aria-label={`Make ${m.label} default`} title="Make default" onClick={() => setItems((l) => l.map((x) => ({ ...x, primary: x.id === m.id })))} className="grid h-9 w-9 place-items-center rounded-full hover:bg-secondary"><Star size={17} /></button>}
+          <button type="button" aria-label={`Edit ${m.label}`} onClick={() => setEdit(m)} className="grid h-9 w-9 place-items-center rounded-full hover:bg-secondary"><Pencil size={17} /></button>
+          <button type="button" aria-label={`Remove ${m.label}`} onClick={() => setDel(m)} className="grid h-9 w-9 place-items-center rounded-full text-destructive hover:bg-secondary"><Trash2 size={17} /></button>
+        </li>)}
+      </ul>
+    )}
+    <Dialog.Root open={!!edit} onOpenChange={(o) => !o && setEdit(null)}><Dialog.Portal><Dialog.Overlay className="fixed inset-0 z-50 bg-ink/35" /><Dialog.Content className={panel}>
+      <Dialog.Title className="text-xl font-semibold">{edit?.id ? "Edit method" : "Add a method"}</Dialog.Title>
+      <Dialog.Description className="mt-1 text-sm text-muted-foreground">Preview only · nothing is charged or stored.</Dialog.Description>
+      <Dialog.Close asChild><button type="button" aria-label="Close" className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full hover:bg-secondary"><X size={19} /></button></Dialog.Close>
+      {edit && <div className="mt-6">
+        <Select label="Type" options={kinds} value={edit.kind} onChange={(kind) => setEdit({ ...edit, kind })} />
+        <AuthField label="Name" placeholder="e.g. Personal card" value={edit.label} onChange={(e) => setEdit({ ...edit, label: e.target.value })} />
+        <AuthField label={edit.kind.includes("Card") ? "Card number" : edit.kind.includes("Bank") ? "Account number" : "Phone number"} value={edit.detail} onChange={(e) => setEdit({ ...edit, detail: e.target.value })} />
+        <label className="mb-6 flex items-center justify-between text-[15px]">Use as default<input type="checkbox" checked={edit.primary} onChange={(e) => setEdit({ ...edit, primary: e.target.checked })} className="h-5 w-5 accent-[var(--studio-green)]" /></label>
+        <SiteButton onClick={save} disabled={!edit.label.trim() || !edit.detail.trim()} className="h-12 w-full py-0">{edit.id ? "Save changes" : "Add method"}</SiteButton>
+      </div>}
+    </Dialog.Content></Dialog.Portal></Dialog.Root>
+    <Dialog.Root open={!!del} onOpenChange={(o) => !o && setDel(null)}><Dialog.Portal><Dialog.Overlay className="fixed inset-0 z-50 bg-ink/35" /><Dialog.Content className={panel}>
+      <Dialog.Title className="text-xl font-semibold">Remove {del?.label}?</Dialog.Title>
+      <Dialog.Description className="mt-2 text-sm text-muted-foreground">You can add it again anytime.</Dialog.Description>
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row-reverse"><SiteButton onClick={() => del && remove(del)} className="h-12 py-0">Remove</SiteButton><SiteButton variant="outline" onClick={() => setDel(null)} className="h-12 py-0">Cancel</SiteButton></div>
+    </Dialog.Content></Dialog.Portal></Dialog.Root>
+  </>;
 }
 function Area({ label, defaultValue }: { label: string; defaultValue?: string }) {
   return <label className="mb-5 block"><span className="mb-2 block text-sm font-medium">{label}</span><textarea defaultValue={defaultValue} rows={4} className="w-full rounded-3xl border border-border bg-background px-5 py-4 text-[15px] outline-none focus:border-foreground" /></label>;
@@ -216,16 +279,16 @@ function Body({ context, page, portrait, artistName }: { context: SettingsContex
     }
     case "payouts":
       return <>{preview}
-        <Block title="Payout method" lede="Where your earnings are sent.">
-          <Select label="Method" options={["Mobile money", "Bank transfer"]} />
-          <AuthField label="Mobile money number" type="tel" defaultValue="+260 97 *** **21" />
-          <SaveBar />
+        <Block title="Payout methods" lede="Where your earnings are sent. The default receives each payout.">
+          <MethodsManager title="Your payout methods" kinds={["Mobile money", "Bank transfer"]} initial={[{ id: "p1", kind: "Mobile money", label: "Airtel Money", detail: "+260 97 *** **21", primary: true }, { id: "p2", kind: "Bank transfer", label: "Zanaco savings", detail: "•••• 8812", primary: false }]} />
         </Block>
         <Block title="Verification"><p className="text-sm">Identity check · <span className="font-medium text-studio-green">Verified</span></p><p className="mt-2 text-sm">Payout status · <span className="font-medium">Active, paid weekly</span></p></Block>
       </>;
     case "payments":
       return <>{preview}
-        <Block title="Payment methods"><div className="rounded-3xl border border-border p-5 text-sm"><p className="font-medium">Visa ending 4242</p><p className="mt-1 text-muted-foreground">Expires 08/28</p></div><SiteButton variant="outline" className="mt-4 h-11 py-0">Add a payment method</SiteButton></Block>
+        <Block title="Payment methods" lede="Choose how you pay for works and commissions.">
+          <MethodsManager title="Saved methods" kinds={["Card", "Mobile money", "Bank transfer"]} initial={[{ id: "c1", kind: "Card", label: "Visa", detail: "•••• 4242 · expires 08/28", primary: true }, { id: "c2", kind: "Mobile money", label: "MTN MoMo", detail: "+260 96 *** **07", primary: false }]} />
+        </Block>
         <Block title="Billing details"><AuthField label="Billing name" defaultValue={user.displayName} /><AuthField label="Billing address" defaultValue="Plot 12, Kabulonga Road, Lusaka" /><SaveBar /></Block>
         <Block title="Receipts"><Link to="/account/$section" params={{ section: "orders" }} className="text-sm font-medium underline underline-offset-4">See receipts in your orders</Link></Block>
       </>;
