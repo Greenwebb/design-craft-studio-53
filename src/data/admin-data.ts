@@ -484,3 +484,22 @@ export const searchIndex: { group: string; label: string; sub: string; to: strin
   ...bookingSeed.map((b) => ({ group: 'Bookings', label: `${b.id} · ${b.service}`, sub: `${b.creator} → ${b.customer} · ${b.when}`, to: `/admin/bookings/${b.id}` })),
   ...payoutSeed.map((p) => ({ group: 'Payouts', label: `${p.id} · ${money(p.amount)}`, sub: `${p.creator} · ${p.state.replaceAll('-', ' ')}`, to: `/admin/payouts/${p.id}` })),
 ];
+
+// ---------------- Overview trends (mock) ----------------
+export const revenueTrend = [
+  { day: 'Mon', gms: 48200, fees: 5780 }, { day: 'Tue', gms: 52900, fees: 6340 }, { day: 'Wed', gms: 41300, fees: 4950 },
+  { day: 'Thu', gms: 63800, fees: 7650 }, { day: 'Fri', gms: 71400, fees: 8560 }, { day: 'Sat', gms: 88600, fees: 10630 }, { day: 'Sun', gms: 46600, fees: 5630 },
+];
+export const kpiTiles = [
+  { label: 'Orders today', value: '9', delta: '+3 vs yesterday', up: true, spark: [4, 6, 5, 7, 6, 8, 9], to: '/admin/orders' },
+  { label: 'Payments received', value: 'K186,400', delta: '+12% this week', up: true, spark: [12, 14, 11, 16, 18, 22, 19], to: '/admin/payments' },
+  { label: 'Payouts pending', value: '7', delta: '2 over 48h', up: false, spark: [3, 4, 4, 6, 5, 7, 7], to: '/admin/payouts' },
+  { label: 'Active projects', value: '24', delta: '+4 this week', up: true, spark: [18, 19, 20, 20, 22, 23, 24], to: '/admin/projects' },
+];
+export const activityFeed = [
+  { id: 'af-1', who: 'Natasha Phiri', what: 'approved payout P-318', when: '8 min ago', tone: 'success' },
+  { id: 'af-2', who: 'System', what: 'flagged PM-1094 for reconciliation', when: '22 min ago', tone: 'danger' },
+  { id: 'af-3', who: 'Kelvin Zulu', what: 'verified creator Chanda Mulenga', when: '1 h ago', tone: 'info' },
+  { id: 'af-4', who: 'Latitude Hotel', what: 'added evidence to dispute D-104', when: '2 h ago', tone: 'warning' },
+  { id: 'af-5', who: 'George Mwale', what: 'featured “Copper Dusk” in a collection', when: '3 h ago', tone: 'info' },
+] as const;
