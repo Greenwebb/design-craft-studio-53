@@ -275,7 +275,7 @@ const collections = [
 
 function Collections() {
   return (
-    <section className="bg-paper">
+    <section className="bg-cream">
       <div className="container-x section-y">
       <Reveal><p className="eyebrow text-muted-foreground"><span className="mr-3 text-foreground">05</span>Discover</p></Reveal>
       <Reveal delay={0.1}><h2 className="display-lg mt-6 mb-16 max-w-3xl">Find something that speaks to you.</h2></Reveal>
