@@ -1,4 +1,6 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export type DeliveryMethod = "collect" | "local" | "national" | "international" | "";
 export type PaymentMethod = "card" | "mobile-money" | "bank-transfer" | "";
@@ -58,85 +60,48 @@ type BagContextValue = {
   placeOrder: (total: number) => void;
 };
 
-const BagContext = createContext<BagContextValue | null>(null);
+type BagState = Omit<BagContextValue, "hydrated"> & { hydrated: boolean };
 
-function readJSON<T>(key: string, fallback: T): T {
-  if (typeof window === "undefined") return fallback;
-  try {
-    const raw = window.localStorage.getItem(key);
-    return raw ? (JSON.parse(raw) as T) : fallback;
-  } catch {
-    return fallback;
-  }
-}
+// Global Zustand store. Persisted to localStorage, rehydrated after mount so
+// SSR and the first client render match.
+export const useBagStore = create<BagState>()(
+  persist(
+    (set, get) => ({
+      hydrated: false,
+      items: [],
+      saved: [],
+      draft: emptyDraft,
+      lastOrder: null,
+      add: (slug) => set((s) => ({ items: s.items.includes(slug) ? s.items : [...s.items, slug] })),
+      remove: (slug) => set((s) => ({ items: s.items.filter((x) => x !== slug) })),
+      toggleSave: (slug) => set((s) => ({ saved: s.saved.includes(slug) ? s.saved.filter((x) => x !== slug) : [...s.saved, slug] })),
+      clear: () => set({ items: [] }),
+      setDraft: (patch) => set((s) => ({ draft: { ...s.draft, ...patch } })),
+      resetDraft: () => set({ draft: emptyDraft }),
+      placeOrder: (total) => {
+        const { items, draft } = get();
+        const orderNo = `IAA-${Math.floor(1000 + Math.random() * 9000)}`;
+        set({ lastOrder: { orderNo, items, total, deliveryMethod: draft.deliveryMethod, email: draft.email }, items: [], draft: emptyDraft });
+      },
+    }),
+    {
+      name: "iaaa-bag-store",
+      skipHydration: true,
+      partialize: (s) => ({ items: s.items, saved: s.saved, draft: s.draft, lastOrder: s.lastOrder }),
+    },
+  ),
+);
 
-function writeJSON(key: string, value: unknown) {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage.setItem(key, JSON.stringify(value));
-  } catch {
-    /* storage full / unavailable */
-  }
-}
-
+/** Kept as a thin mount point: triggers rehydration once on the client. */
 export function BagProvider({ children }: { children: ReactNode }) {
-  // Start empty so SSR and the first client render match; restore from
-  // localStorage after hydration to avoid hydration mismatches.
-  const [hydrated, setHydrated] = useState(false);
-  const [items, setItems] = useState<string[]>([]);
-  const [saved, setSaved] = useState<string[]>([]);
-  const [draft, setDraftState] = useState<CheckoutDraft>(emptyDraft);
-  const [lastOrder, setLastOrder] = useState<LastOrder | null>(null);
-
   useEffect(() => {
-    setItems(readJSON("iaaa-bag", []));
-    setSaved(readJSON("iaaa-saved", []));
-    setDraftState(readJSON("iaaa-checkout", emptyDraft));
-    setLastOrder(readJSON("iaaa-last-order", null));
-    setHydrated(true);
+    Promise.resolve(useBagStore.persist.rehydrate()).then(() => useBagStore.setState({ hydrated: true }));
   }, []);
-
-  useEffect(() => {
-    if (hydrated) writeJSON("iaaa-bag", items);
-  }, [items, hydrated]);
-  useEffect(() => {
-    if (hydrated) writeJSON("iaaa-saved", saved);
-  }, [saved, hydrated]);
-  useEffect(() => {
-    if (hydrated) writeJSON("iaaa-checkout", draft);
-  }, [draft, hydrated]);
-  useEffect(() => {
-    if (hydrated) writeJSON("iaaa-last-order", lastOrder);
-  }, [lastOrder, hydrated]);
-
-  const add = (slug: string) => setItems((prev) => (prev.includes(slug) ? prev : [...prev, slug]));
-  const remove = (slug: string) => setItems((prev) => prev.filter((s) => s !== slug));
-  const toggleSave = (slug: string) =>
-    setSaved((prev) => (prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]));
-  const clear = () => setItems([]);
-  const setDraft = (patch: Partial<CheckoutDraft>) => setDraftState((prev) => ({ ...prev, ...patch }));
-  const resetDraft = () => setDraftState(emptyDraft);
-
-  const placeOrder = (total: number) => {
-    const orderNo = `IAA-${Math.floor(1000 + Math.random() * 9000)}`;
-    setLastOrder({ orderNo, items, total, deliveryMethod: draft.deliveryMethod, email: draft.email });
-    setItems([]);
-    setDraftState(emptyDraft);
-  };
-
-  return (
-    <BagContext.Provider
-      value={{ hydrated, items, saved, add, remove, toggleSave, clear, draft, setDraft, resetDraft, lastOrder, placeOrder }}
-    >
-      {children}
-    </BagContext.Provider>
-  );
+  return <>{children}</>;
 }
 
 export function useBag() {
-  const ctx = useContext(BagContext);
-  if (!ctx) throw new Error("useBag must be used within BagProvider");
-  return ctx;
+  return useBagStore();
 }
 
 export const DELIVERY_PRICES: Record<Exclude<DeliveryMethod, "">, number> = {
