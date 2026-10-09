@@ -146,7 +146,7 @@ function ShopPage() {
   const [loading, setLoading] = useState(false);
   const filterRef = useRef<HTMLDivElement>(null);
 
-  const set = (patch: Partial<SearchState>) => navigate({ search: (prev: SearchState) => ({ ...prev, ...patch }) as SearchState, replace: true });
+  const set = (patch: Record<string, unknown>) => navigate({ search: (prev: SearchState) => ({ ...prev, ...patch }) as SearchState, replace: true });
   const clear = () => navigate({ search: {}, replace: true });
 
   const filtered = useMemo(() => applyFilters(works, search), [search]);
