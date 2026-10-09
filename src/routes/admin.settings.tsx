@@ -59,7 +59,7 @@ function SettingsAdmin() {
               {capabilityMatrix.caps.map((cap) => (
                 <tr key={cap} className="border-b border-border/60">
                   <td className="px-3 py-3 font-medium">{cap}</td>
-                  {capabilityMatrix.grid[cap].map((on, i) => <td key={i} className="px-3 py-3">{on ? <span className="text-studio-success">✓</span> : <span className="text-muted-foreground/50">—</span>}</td>)}
+                  {(capabilityMatrix.grid[cap] ?? []).map((on, i) => <td key={i} className="px-3 py-3">{on ? <span className="text-studio-success">✓</span> : <span className="text-muted-foreground/50">—</span>}</td>)}
                 </tr>
               ))}
             </tbody>

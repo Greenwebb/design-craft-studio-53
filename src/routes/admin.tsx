@@ -42,7 +42,7 @@ function AdminShell() {
               {group.group && <p className="mb-2 px-4 text-[12px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{group.group}</p>}
               <div className="flex flex-col gap-1">
                 {group.items.map((item) => (
-                  <Link key={item.id} to={item.to} activeOptions={item.to === '/admin' ? { exact: true } : undefined}
+                  <Link key={item.id} to={item.to} activeOptions={...(item.to === '/admin' ? [{ exact: true }] : [])[0] ? { exact: true } : {}}
                     activeProps={{ className: 'bg-ink text-ink-foreground' }}
                     className="flex shrink-0 items-center gap-3 rounded-full px-4 py-2.5 text-[15px] font-medium">
                     <span className="flex-1">{item.label}</span>

@@ -27,8 +27,8 @@ function ProjectsQueue() {
       <AdminTable
         columns={[
           { key: 'title', label: 'Project', render: (p) => <div><p className="font-medium">{p.title}</p><p className="text-sm text-muted-foreground">{p.customerName} ↔ {p.creatorName} · {p.source}</p></div> },
-          { key: 'agreed', label: 'Agreed', render: (p) => ops[p.id] ? money(ops[p.id].agreed) : '—' },
-          { key: 'paid', label: 'Paid in', render: (p) => ops[p.id] ? money(ops[p.id].paid) : '—' },
+          { key: 'agreed', label: 'Agreed', render: (p) => money(ops[p.id]?.agreed ?? 0) },
+          { key: 'paid', label: 'Paid in', render: (p) => money(ops[p.id]?.paid ?? 0) },
           { key: 'nextMilestone', label: 'Next step', render: (p) => ops[p.id]?.nextAction ?? p.nextMilestone },
           { key: 'status', label: 'Status', render: (p) => <div className="flex flex-col items-start gap-1.5"><StatusPill state={p.status} />{ops[p.id]?.dispute && <span className="text-[13px] text-studio-copper">Dispute {ops[p.id]?.dispute}</span>}</div> },
         ]}

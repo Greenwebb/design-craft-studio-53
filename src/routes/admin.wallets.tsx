@@ -21,7 +21,7 @@ function WalletsQueue() {
         hrefFor={(w) => `/admin/wallets/${w.id}`}
         emptyTitle="No wallets."
       />
-      <p className="text-sm text-muted-foreground">Balances are ledger-only and cannot be typed in. Every movement appears in the {<Link to="/admin/wallets/W-71" className="text-studio-green underline-offset-4 hover:underline">wallet ledger</Link>} with its source, state and — if manual — the acting staff member.</p>
+      <p className="text-sm text-muted-foreground">Balances are ledger-only and cannot be typed in. Every movement appears in the {<Link to="/admin/wallets/$id" params={{ id: 'W-71' }} className="text-studio-green underline-offset-4 hover:underline">wallet ledger</Link>} with its source, state and — if manual — the acting staff member.</p>
     </AdminPage>
   );
 }

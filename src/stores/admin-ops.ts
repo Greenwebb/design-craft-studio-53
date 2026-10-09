@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { create } from 'zustand';
 import {
   actionsByResource, creatorSeed, currentStaff, disputeSeed, moderationSeed, nid, orderSeed, payoutSeed,
   refundSeed, stamp, supportSeed, userSeed, verificationSeed, workSeed,
@@ -16,7 +15,7 @@ export type AdminResources = {
 type AdminState = AdminResources & {
   audit: AuditEvent[];
   record: <K extends keyof AdminResources>(resource: K, id: string) => AdminResources[K][number] | undefined;
-  act: (resource: keyof AdminResources, id: string, action: ActionDef, opts?: { reason?: string }) => void;
+  act: (resource: keyof AdminResources, id: string, action: ActionDef, opts?: { reason?: string | undefined }) => void;
   addNote: (resource: keyof AdminResources, id: string, body: string) => void;
   reply: (resource: 'disputes' | 'support', id: string, body: string, from?: string) => void;
   refundFromOrder: (order: OrderRow, reason: string) => RefundRow | undefined;
@@ -39,7 +38,7 @@ const logAudit = (audit: AuditEvent[], action: string, resource: string, resourc
 export const useAdminOps = create<AdminState>()((set, get) => ({
   ...structuredClone(seeds),
   audit: [],
-  record: (resource, id) => (get()[resource] as BaseRow[]).find((r) => r.id === id),
+  record: (resource, id) => (get()[resource] as BaseRow[]).find((r) => r.id === id) as AdminResources[typeof resource][number] | undefined,
   act: (resource, id, action, opts) => {
     const reason = opts?.reason;
     set((s) => {
@@ -48,8 +47,8 @@ export const useAdminOps = create<AdminState>()((set, get) => ({
       if (i === -1) return {};
       const prev = { ...rows[i] } as Record<string, unknown>;
       const next = { ...prev, ...(action.set ?? {}) } as Record<string, unknown>;
-      if (action.to) next.state = action.to;
-      if (action.id === 'suspend-user') next.state = 'suspended';
+      if (action.to) next['state'] = action.to;
+      if (action.id === 'suspend-user') next['state'] = 'suspended';
       rows[i] = next as never;
       const audit = logAudit(s.audit, action.label, resource, id, reason);
       // Cross-resource consequences kept explicit and auditable:
@@ -57,7 +56,7 @@ export const useAdminOps = create<AdminState>()((set, get) => ({
         const order = next as unknown as OrderRow;
         const dispute: DisputeRow = {
           id: `D-${105 + s.disputes.length}`, title: `${order.artwork} · ${reason ?? 'Operational issue'}`, type: 'Other',
-          customer: order.buyer, creator: order.creator, amount: order.total, opened: stamp().split(',')[0], state: 'open',
+          customer: order.buyer, creator: order.creator, amount: order.total, opened: stamp().split(',')[0] ?? '', state: 'open',
           priority: 'high', fundsHeld: false, customerPosition: 'Opened by operations — awaiting both parties’ statements.',
           creatorPosition: 'Awaiting the creator’s response.', evidence: [`Opened from order ${order.id}`],
           linked: order.id, linkedKind: 'Order', paymentState: `K${order.total.toLocaleString('en-US')} at risk`, thread: [
@@ -92,7 +91,8 @@ export const useAdminOps = create<AdminState>()((set, get) => ({
       const rows = [...(s[resource] as BaseRow[])];
       const i = rows.findIndex((r) => r.id === id);
       if (i === -1 || !body.trim()) return {};
-      rows[i] = { ...rows[i], notes: [note, ...(rows[i].notes ?? [])] } as never;
+      const cur = rows[i]!;
+      rows[i] = { ...cur, notes: [note, ...(cur.notes ?? [])] } as never;
       return { [resource]: rows };
     });
   },
@@ -103,8 +103,8 @@ export const useAdminOps = create<AdminState>()((set, get) => ({
       const rows = [...(s[resource] as BaseRow[])];
       const i = rows.findIndex((r) => r.id === id);
       if (i === -1) return {};
-      const row = rows[i] as unknown as { thread: ThreadMessage[] };
-      rows[i] = { ...rows[i], thread: [...row.thread, message] } as never;
+      const cur = rows[i] as unknown as { thread: ThreadMessage[] };
+      rows[i] = { ...rows[i]!, thread: [...cur.thread, message] } as never;
       return { [resource]: rows, audit: logAudit(s.audit, 'Reply sent', resource, id) };
     });
   },

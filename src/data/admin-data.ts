@@ -3,6 +3,7 @@
 
 export type Priority = 'critical' | 'high' | 'normal' | 'low';
 export type Note = { id: string; author: string; at: string; body: string };
+export type AuditEvent = { id: string; at: string; actor: string; actorRole: string; action: string; resource: string; resourceId: string; reason?: string | undefined; };
 export type ThreadMessage = { id: string; from: string; body: string; at: string };
 
 export const money = (n: number) => `K${n.toLocaleString('en-US')}`;
