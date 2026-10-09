@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { ArrowUpRight, Play, Pause, Star } from "lucide-react";
 import { HeroProfile as Hero } from "@/components/artist-hero";
-import { EASE, Reveal, Cursor, TextLink, Nav, Footer, Grain } from "@/components/site";
+import { EASE, Reveal, Cursor, TextLink, Nav, Footer, Grain, SiteButton } from "@/components/site";
 import { getArtist, artistProfiles, type Artist, type PortfolioProject } from "@/data/artists";
 
 export const Route = createFileRoute("/artists/$slug")({
@@ -186,9 +186,9 @@ function Services({ a, n }: { a: Artist; n: number }) {
                   <p className="opacity-70">{s.description}</p>
                   <p className="mt-3 text-[13px] opacity-60">{s.delivery} · <span className="font-medium opacity-100">{s.price ?? "Custom pricing"}</span></p>
                 </div>
-                <a href="#services" className="inline-flex w-fit items-center gap-2 rounded-full border border-ink-foreground/30 px-6 py-3 text-sm font-medium transition-colors group-hover:bg-ink-foreground group-hover:text-ink">
+                <SiteButton variant="outline-light" href="#services" className="px-6 py-3 group-hover:bg-ink-foreground group-hover:text-ink">
                   {s.cta} <ArrowUpRight className="h-4 w-4" />
-                </a>
+                </SiteButton>
               </li>
             </Reveal>
           ))}
@@ -299,7 +299,7 @@ function MobileCta({ a }: { a: Artist }) {
         <p className="truncate text-sm font-semibold">{a.name}</p>
         <p className="truncate text-[12px] text-muted-foreground">{a.availability.label}</p>
       </div>
-      <a href={a.services?.length ? "#services" : "#works"} className="shrink-0 rounded-full bg-ink px-5 py-3 text-sm font-medium text-ink-foreground">{a.primaryCta}</a>
+      <SiteButton href={a.services?.length ? "#services" : "#works"} className="shrink-0 px-5 py-3">{a.primaryCta}</SiteButton>
     </motion.div>
   );
 }
