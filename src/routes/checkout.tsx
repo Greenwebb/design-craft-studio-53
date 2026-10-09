@@ -23,7 +23,7 @@ const STEPS = [
 ] as const;
 
 function CheckoutLayout() {
-  const { items, draft } = useBag();
+  const { hydrated, items, draft } = useBag();
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const stepIndex = Math.max(0, STEPS.findIndex((s) => pathname.endsWith(s.id)));
@@ -33,10 +33,10 @@ function CheckoutLayout() {
   const delivery = draft.deliveryMethod ? DELIVERY_PRICES[draft.deliveryMethod] : 0;
 
   useEffect(() => {
-    if (items.length === 0) navigate({ to: "/shop", replace: true });
-  }, [items.length, navigate]);
+    if (hydrated && items.length === 0) navigate({ to: "/shop", replace: true });
+  }, [hydrated, items.length, navigate]);
 
-  if (selected.length === 0) return null;
+  if (!hydrated || selected.length === 0) return null;
 
   return (
     <main className="min-h-screen bg-paper">
