@@ -32,7 +32,7 @@ import {
   createOptions,
   previewStates,
   type PreviewState,
-} from "@/data/creator";
+} from "@/data/dashboard";
 import { AccountMenu } from "@/components/ecosystem/account-menu";
 import { useEcosystem } from "@/components/ecosystem/context";
 import { StudioContext } from "./context";

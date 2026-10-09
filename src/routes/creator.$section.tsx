@@ -2,8 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Image, ArrowUpRight } from "lucide-react";
 import { ProjectSummary, MessageThread } from "@/components/ecosystem/primitives";
 import { sharedProjects } from "@/data/ecosystem";
-import { useStudio } from "@/components/creator/context";
-import { StudioLink } from "@/components/creator/controls";
+import { useStudio } from "@/components/dashboard/context";
+import { StudioLink } from "@/components/dashboard/controls";
 import { SiteButton } from "@/components/site";
 const sections: Record<string, { title: string; description: string; action?: string }> = {
   portfolio: {

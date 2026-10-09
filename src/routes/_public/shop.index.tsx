@@ -24,7 +24,7 @@ const SORTS: { id: Sort; label: string }[] = [
   { id: "price-desc", label: "Price: High to Low" },
 ];
 
-export const Route = createFileRoute("/_public/shop")({
+export const Route = createFileRoute("/_public/shop/")({
   validateSearch: (s: Record<string, unknown>): SearchState => ({
     type: typeof s["type"] === "string" ? (s["type"] as WorkType) : undefined,
     price: typeof s["price"] === "string" ? (s["price"] as string) : undefined,
