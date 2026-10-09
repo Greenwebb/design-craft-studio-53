@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PublicRouteRouteImport } from './routes/_public/route'
 import { Route as AccountRouteImport } from './routes/account'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CreatorRouteImport } from './routes/creator'
@@ -29,6 +30,8 @@ import { Route as PublicSearchRouteImport } from './routes/_public/search'
 import { Route as AccountIndexRouteImport } from './routes/account.index'
 import { Route as AccountSectionRouteImport } from './routes/account.$section'
 import { Route as AccountSecurityRouteImport } from './routes/account.security'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminSectionRouteImport } from './routes/admin.$section'
 import { Route as CheckoutContactRouteImport } from './routes/checkout.contact'
 import { Route as CheckoutDeliveryRouteImport } from './routes/checkout.delivery'
 import { Route as CheckoutPaymentRouteImport } from './routes/checkout.payment'
@@ -39,6 +42,7 @@ import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardSectionRouteImport } from './routes/dashboard.$section'
 import { Route as PublicArtistsIndexRouteImport } from './routes/_public/artists.index'
 import { Route as PublicArtistsSlugRouteImport } from './routes/_public/artists.$slug'
+import { Route as PublicCommissionSlugRouteImport } from './routes/_public/commission.$slug'
 import { Route as PublicOrderConfirmedRouteImport } from './routes/_public/order.confirmed'
 import { Route as PublicServicesSlugRouteImport } from './routes/_public/services.$slug'
 import { Route as PublicShopIndexRouteImport } from './routes/_public/shop.index'
@@ -56,6 +60,11 @@ const PublicRouteRoute = PublicRouteRouteImport.update({
 const AccountRoute = AccountRouteImport.update({
   id: '/account',
   path: '/account',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -148,6 +157,16 @@ const AccountSecurityRoute = AccountSecurityRouteImport.update({
   path: '/security',
   getParentRoute: () => AccountRoute,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSectionRoute = AdminSectionRouteImport.update({
+  id: '/$section',
+  path: '/$section',
+  getParentRoute: () => AdminRoute,
+} as any)
 const CheckoutContactRoute = CheckoutContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -196,6 +215,11 @@ const PublicArtistsIndexRoute = PublicArtistsIndexRouteImport.update({
 const PublicArtistsSlugRoute = PublicArtistsSlugRouteImport.update({
   id: '/artists/$slug',
   path: '/artists/$slug',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const PublicCommissionSlugRoute = PublicCommissionSlugRouteImport.update({
+  id: '/commission/$slug',
+  path: '/commission/$slug',
   getParentRoute: () => PublicRouteRoute,
 } as any)
 const PublicOrderConfirmedRoute = PublicOrderConfirmedRouteImport.update({
@@ -247,6 +271,7 @@ const CreatorProjectsIdRoute = CreatorProjectsIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
   '/account': typeof AccountRouteWithChildren
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRouteWithChildren
   '/creator': typeof CreatorRouteWithChildren
@@ -263,6 +288,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof PublicSearchRoute
   '/account/$section': typeof AccountSectionRoute
   '/account/security': typeof AccountSecurityRoute
+  '/admin/$section': typeof AdminSectionRoute
   '/checkout/contact': typeof CheckoutContactRoute
   '/checkout/delivery': typeof CheckoutDeliveryRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
@@ -270,9 +296,11 @@ export interface FileRoutesByFullPath {
   '/creator/$section': typeof CreatorSectionRoute
   '/dashboard/$section': typeof DashboardSectionRoute
   '/account/': typeof AccountIndexRoute
+  '/admin/': typeof AdminIndexRoute
   '/creator/': typeof CreatorIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/artists/$slug': typeof PublicArtistsSlugRoute
+  '/commission/$slug': typeof PublicCommissionSlugRoute
   '/order/confirmed': typeof PublicOrderConfirmedRoute
   '/services/$slug': typeof PublicServicesSlugRoute
   '/shop/$collection': typeof PublicShopCollectionRoute
@@ -299,6 +327,7 @@ export interface FileRoutesByTo {
   '/search': typeof PublicSearchRoute
   '/account/$section': typeof AccountSectionRoute
   '/account/security': typeof AccountSecurityRoute
+  '/admin/$section': typeof AdminSectionRoute
   '/checkout/contact': typeof CheckoutContactRoute
   '/checkout/delivery': typeof CheckoutDeliveryRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
@@ -307,9 +336,11 @@ export interface FileRoutesByTo {
   '/dashboard/$section': typeof DashboardSectionRoute
   '/': typeof PublicIndexRoute
   '/account': typeof AccountIndexRoute
+  '/admin': typeof AdminIndexRoute
   '/creator': typeof CreatorIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/artists/$slug': typeof PublicArtistsSlugRoute
+  '/commission/$slug': typeof PublicCommissionSlugRoute
   '/order/confirmed': typeof PublicOrderConfirmedRoute
   '/services/$slug': typeof PublicServicesSlugRoute
   '/shop/$collection': typeof PublicShopCollectionRoute
@@ -325,6 +356,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_public': typeof PublicRouteRouteWithChildren
   '/account': typeof AccountRouteWithChildren
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRouteWithChildren
   '/creator': typeof CreatorRouteWithChildren
@@ -341,6 +373,7 @@ export interface FileRoutesById {
   '/_public/search': typeof PublicSearchRoute
   '/account/$section': typeof AccountSectionRoute
   '/account/security': typeof AccountSecurityRoute
+  '/admin/$section': typeof AdminSectionRoute
   '/checkout/contact': typeof CheckoutContactRoute
   '/checkout/delivery': typeof CheckoutDeliveryRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
@@ -349,9 +382,11 @@ export interface FileRoutesById {
   '/dashboard/$section': typeof DashboardSectionRoute
   '/_public/': typeof PublicIndexRoute
   '/account/': typeof AccountIndexRoute
+  '/admin/': typeof AdminIndexRoute
   '/creator/': typeof CreatorIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/_public/artists/$slug': typeof PublicArtistsSlugRoute
+  '/_public/commission/$slug': typeof PublicCommissionSlugRoute
   '/_public/order/confirmed': typeof PublicOrderConfirmedRoute
   '/_public/services/$slug': typeof PublicServicesSlugRoute
   '/_public/shop/$collection': typeof PublicShopCollectionRoute
@@ -368,6 +403,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/account'
+    | '/admin'
     | '/auth'
     | '/checkout'
     | '/creator'
@@ -384,6 +420,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/account/$section'
     | '/account/security'
+    | '/admin/$section'
     | '/checkout/contact'
     | '/checkout/delivery'
     | '/checkout/payment'
@@ -391,9 +428,11 @@ export interface FileRouteTypes {
     | '/creator/$section'
     | '/dashboard/$section'
     | '/account/'
+    | '/admin/'
     | '/creator/'
     | '/dashboard/'
     | '/artists/$slug'
+    | '/commission/$slug'
     | '/order/confirmed'
     | '/services/$slug'
     | '/shop/$collection'
@@ -420,6 +459,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/account/$section'
     | '/account/security'
+    | '/admin/$section'
     | '/checkout/contact'
     | '/checkout/delivery'
     | '/checkout/payment'
@@ -428,9 +468,11 @@ export interface FileRouteTypes {
     | '/dashboard/$section'
     | '/'
     | '/account'
+    | '/admin'
     | '/creator'
     | '/dashboard'
     | '/artists/$slug'
+    | '/commission/$slug'
     | '/order/confirmed'
     | '/services/$slug'
     | '/shop/$collection'
@@ -445,6 +487,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_public'
     | '/account'
+    | '/admin'
     | '/auth'
     | '/checkout'
     | '/creator'
@@ -461,6 +504,7 @@ export interface FileRouteTypes {
     | '/_public/search'
     | '/account/$section'
     | '/account/security'
+    | '/admin/$section'
     | '/checkout/contact'
     | '/checkout/delivery'
     | '/checkout/payment'
@@ -469,9 +513,11 @@ export interface FileRouteTypes {
     | '/dashboard/$section'
     | '/_public/'
     | '/account/'
+    | '/admin/'
     | '/creator/'
     | '/dashboard/'
     | '/_public/artists/$slug'
+    | '/_public/commission/$slug'
     | '/_public/order/confirmed'
     | '/_public/services/$slug'
     | '/_public/shop/$collection'
@@ -487,6 +533,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   PublicRouteRoute: typeof PublicRouteRouteWithChildren
   AccountRoute: typeof AccountRouteWithChildren
+  AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   CheckoutRoute: typeof CheckoutRouteWithChildren
   CreatorRoute: typeof CreatorRouteWithChildren
@@ -514,6 +561,13 @@ declare module '@tanstack/react-router' {
       path: '/account'
       fullPath: '/account'
       preLoaderRoute: typeof AccountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -642,6 +696,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountSecurityRouteImport
       parentRoute: typeof AccountRoute
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/$section': {
+      id: '/admin/$section'
+      path: '/$section'
+      fullPath: '/admin/$section'
+      preLoaderRoute: typeof AdminSectionRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/checkout/contact': {
       id: '/checkout/contact'
       path: '/contact'
@@ -710,6 +778,13 @@ declare module '@tanstack/react-router' {
       path: '/artists/$slug'
       fullPath: '/artists/$slug'
       preLoaderRoute: typeof PublicArtistsSlugRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/commission/$slug': {
+      id: '/_public/commission/$slug'
+      path: '/commission/$slug'
+      fullPath: '/commission/$slug'
+      preLoaderRoute: typeof PublicCommissionSlugRouteImport
       parentRoute: typeof PublicRouteRoute
     }
     '/_public/order/confirmed': {
@@ -784,6 +859,7 @@ interface PublicRouteRouteChildren {
   PublicSearchRoute: typeof PublicSearchRoute
   PublicIndexRoute: typeof PublicIndexRoute
   PublicArtistsSlugRoute: typeof PublicArtistsSlugRoute
+  PublicCommissionSlugRoute: typeof PublicCommissionSlugRoute
   PublicOrderConfirmedRoute: typeof PublicOrderConfirmedRoute
   PublicServicesSlugRoute: typeof PublicServicesSlugRoute
   PublicShopCollectionRoute: typeof PublicShopCollectionRoute
@@ -798,6 +874,7 @@ const PublicRouteRouteChildren: PublicRouteRouteChildren = {
   PublicSearchRoute: PublicSearchRoute,
   PublicIndexRoute: PublicIndexRoute,
   PublicArtistsSlugRoute: PublicArtistsSlugRoute,
+  PublicCommissionSlugRoute: PublicCommissionSlugRoute,
   PublicOrderConfirmedRoute: PublicOrderConfirmedRoute,
   PublicServicesSlugRoute: PublicServicesSlugRoute,
   PublicShopCollectionRoute: PublicShopCollectionRoute,
@@ -828,6 +905,18 @@ const AccountRouteChildren: AccountRouteChildren = {
 
 const AccountRouteWithChildren =
   AccountRoute._addFileChildren(AccountRouteChildren)
+
+interface AdminRouteChildren {
+  AdminSectionRoute: typeof AdminSectionRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminSectionRoute: AdminSectionRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface CheckoutRouteChildren {
   CheckoutContactRoute: typeof CheckoutContactRoute
@@ -881,6 +970,7 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   PublicRouteRoute: PublicRouteRouteWithChildren,
   AccountRoute: AccountRouteWithChildren,
+  AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   CheckoutRoute: CheckoutRouteWithChildren,
   CreatorRoute: CreatorRouteWithChildren,
