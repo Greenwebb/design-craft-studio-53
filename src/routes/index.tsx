@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowRight, ArrowUpRight, ArrowLeft, Search, User, Menu, X } from "lucide-react";
 import heroArt from "@/assets/hero-art.jpg";
@@ -38,6 +38,42 @@ function Reveal({ children, delay = 0, className }: { children: ReactNode; delay
       transition={{ duration: 0.8, ease: EASE, delay }}
     >
       {children}
+    </motion.div>
+  );
+}
+
+function Cursor() {
+  const [active, setActive] = useState(false);
+  const [fine, setFine] = useState(false);
+  const x = useMotionValue(-200);
+  const y = useMotionValue(-200);
+  const sx = useSpring(x, { stiffness: 500, damping: 40, mass: 0.6 });
+  const sy = useSpring(y, { stiffness: 500, damping: 40, mass: 0.6 });
+  useEffect(() => {
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+    setFine(true);
+    const move = (e: MouseEvent) => {
+      x.set(e.clientX);
+      y.set(e.clientY);
+      setActive(!!(e.target as Element | null)?.closest?.("[data-cursor]"));
+    };
+    window.addEventListener("mousemove", move, { passive: true });
+    return () => window.removeEventListener("mousemove", move);
+  }, [x, y]);
+  if (!fine) return null;
+  return (
+    <motion.div
+      aria-hidden
+      style={{ x: sx, y: sy }}
+      className="pointer-events-none fixed left-0 top-0 z-[80] -ml-10 -mt-10"
+    >
+      <motion.div
+        animate={{ scale: active ? 1 : 0, opacity: active ? 1 : 0 }}
+        transition={{ duration: 0.3, ease: EASE }}
+        className="grid h-20 w-20 place-items-center rounded-full bg-ink text-[11px] font-medium uppercase tracking-[0.12em] text-ink-foreground mix-blend-difference"
+      >
+        View
+      </motion.div>
     </motion.div>
   );
 }
