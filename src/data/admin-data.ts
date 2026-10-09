@@ -471,11 +471,14 @@ export const featureFlags = [
 
 // ---------------- Search index helper ----------------
 export const searchIndex: { group: string; label: string; sub: string; to: string }[] = [
-  ...userSeed.map((u) => ({ group: 'Users', label: u.name, sub: `${u.id} · ${u.email}`, to: `/admin/users/${u.id}` })),
+  ...userSeed.map((u) => ({ group: 'Users', label: u.name, sub: `${u.id} · ${u.email} · ${u.phone}`, to: `/admin/users/${u.id}` })),
   ...creatorSeed.map((c) => ({ group: 'Creators', label: c.name, sub: `${c.id} · ${c.discipline}`, to: `/admin/creators/${c.id}` })),
   ...orderSeed.map((o) => ({ group: 'Orders', label: `${o.id} · ${o.artwork}`, sub: `${o.buyer} · ${money(o.total)}`, to: `/admin/orders/${o.id}` })),
   ...paymentSeed.map((p) => ({ group: 'Payments', label: `${p.id} · ${money(p.amount)}`, sub: `${p.customer} · ${p.provider}`, to: `/admin/payments/${p.id}` })),
   ...workSeed.map((w) => ({ group: 'Works', label: w.title, sub: `${w.id} · ${w.artist}`, to: `/admin/works/${w.id}` })),
   ...disputeSeed.map((d) => ({ group: 'Disputes', label: `${d.id} · ${d.title}`, sub: `${money(d.amount)} · ${d.state.replaceAll('-', ' ')}`, to: `/admin/disputes/${d.id}` })),
+  ...workSeed.filter((w) => w.certificate === 'Issued').map((w) => ({ group: 'Certificates', label: `CERT-${w.id} · ${w.title}`, sub: `Certificate of authenticity · ${w.artist}`, to: `/admin/works/${w.id}` })),
+  ...serviceSeed.map((v) => ({ group: 'Services', label: `${v.id} · ${v.title}`, sub: v.creator, to: `/admin/services/${v.id}` })),
+  ...bookingSeed.map((b) => ({ group: 'Bookings', label: `${b.id} · ${b.service}`, sub: `${b.creator} → ${b.customer} · ${b.when}`, to: `/admin/bookings/${b.id}` })),
   ...payoutSeed.map((p) => ({ group: 'Payouts', label: `${p.id} · ${money(p.amount)}`, sub: `${p.creator} · ${p.state.replaceAll('-', ' ')}`, to: `/admin/payouts/${p.id}` })),
 ];
