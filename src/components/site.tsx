@@ -155,7 +155,7 @@ export function Nav() {
               </a>
             ))}
             <button aria-label="Search" onClick={() => window.dispatchEvent(new Event("open-search"))} className="opacity-80 transition-opacity hover:opacity-100"><Search className="h-[18px] w-[18px]" /></button>
-            <button aria-label="Account" className="opacity-80 transition-opacity hover:opacity-100"><User className="h-[18px] w-[18px]" /></button>
+            <a href="/dashboard" aria-label="Creative studio" className="opacity-80 transition-opacity hover:opacity-100"><User className="h-[18px] w-[18px]" /></a>
           </nav>
           <button className="md:hidden" aria-label="Open menu" onClick={() => setOpen(true)}><Menu className="h-6 w-6" /></button>
         </div>
