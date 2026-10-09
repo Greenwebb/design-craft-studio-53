@@ -90,7 +90,6 @@ function AdminShell() {
               </div>
             </div>
           ))}
-          <Link to="/admin/settings" onClick={() => setMore(false)} className="block rounded-full border border-border px-4 py-2.5 text-center text-[15px] font-medium hover:bg-secondary">Settings</Link>
         </div>
       </AdminDialog>
       <AdminSearch />
