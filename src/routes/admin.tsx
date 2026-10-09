@@ -3,6 +3,8 @@ import { FloatingNav, floatingNavItem } from '@/components/ecosystem/floating-na
 import { LayoutGrid, Scale, Undo2, Banknote, ShieldCheck, LifeBuoy } from 'lucide-react';
 import { adminSections } from '@/data/workflows';
 import { Logo } from '@/components/site';
+import { DashboardTopBar } from '@/components/ecosystem/top-bar';
+import { AccountMenu } from '@/components/ecosystem/account-menu';
 
 export const Route = createFileRoute('/admin')({ component: AdminShell });
 
@@ -23,7 +25,10 @@ function AdminShell() {
         </nav>
         <p className="mt-8 hidden text-sm text-muted-foreground lg:block">Preview only. Real access will require a staff role checked by the server.</p>
       </aside>
-      <main className="p-5 pb-32 sm:p-10 lg:pb-10"><Outlet /></main>
+      <div className="min-w-0">
+        <DashboardTopBar eyebrow="Operations" title={adminSections.find((s) => path === `/admin/${s.id}`)?.label ?? 'Overview'}><AccountMenu /></DashboardTopBar>
+        <main className="p-5 pb-32 sm:p-10 lg:pb-10"><Outlet /></main>
+      </div>
       <FloatingNav label="Mobile operations navigation" className="lg:hidden">
         <Link to="/admin" activeOptions={{ exact: true }} className={floatingNavItem(path === '/admin')}><LayoutGrid size={20} />Overview</Link>
         {adminSections.map((s) => { const Icon = icons[s.id]; return <Link key={s.id} to="/admin/$section" params={{ section: s.id }} className={floatingNavItem(path === `/admin/${s.id}`)}><Icon size={20} /><span className="max-w-full truncate px-1">{s.label}</span></Link>; })}
