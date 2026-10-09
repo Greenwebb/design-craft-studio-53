@@ -338,7 +338,7 @@ export function WalletDetail({ id }: { id: string }) {
   const ledger = walletLedger[wallet.id] ?? [];
   return (
     <AdminPage title={`Wallet ${wallet.id}`} back>
-      <SectionCard title="Balances" aside={<Link to={`/admin/creators/${wallet.creatorId}`} className="text-sm font-medium text-studio-green">{wallet.creator}<ArrowUpRight size={16} className="inline" /></Link>}>
+      <SectionCard title="Balances" aside={<Link to="/admin/creators/$id" params={{ id: wallet.creatorId }} className="text-sm font-medium text-studio-green">{wallet.creator}<ArrowUpRight size={16} className="inline" /></Link>}>
         <FactGrid cols={4}>
           <Fact label="Pending">{money(wallet.pending)}</Fact>
           <Fact label="Available">{money(wallet.available)}</Fact>
