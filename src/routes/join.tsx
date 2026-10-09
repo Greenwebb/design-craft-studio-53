@@ -269,7 +269,7 @@ function JoinPage() {
                       <AnimatePresence>
                         {d.offers.includes(o.k) && (
                           <motion.span initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="block overflow-hidden">
-                            <span className="note-sm block pt-1 text-[15px] leading-snug text-foreground/80">{o.v}</span>
+                            <span className="block pt-1 text-[13px] leading-snug text-foreground/80">{o.v}</span>
                           </motion.span>
                         )}
                       </AnimatePresence>
@@ -535,7 +535,7 @@ function SaveModal({ d, set, onClose, onDone }: { d: Data; set: SetFn; onClose: 
           <label className="block"><span className="text-[13px] font-medium">Email</span><input autoFocus type="email" autoComplete="email" className={`${inputCls} text-lg`} value={d.email} onChange={(e) => { set("email", e.target.value); setErr(""); }} /></label>
           <label className="block"><span className="text-[13px] font-medium">Password</span><input type="password" autoComplete="new-password" className={`${inputCls} text-lg`} value={d.password} onChange={(e) => { set("password", e.target.value); setErr(""); }} placeholder="At least 8 characters" /></label>
           {err && <p role="alert" className="text-sm text-destructive">{err}</p>}
-          <SiteButton type="submit" className="w-full justify-center">Save &amp; publish <ArrowRight className="h-4 w-4" /></SiteButton>
+          <SiteButton onClick={submit} className="w-full">Save &amp; publish <ArrowRight className="h-4 w-4" /></SiteButton>
         </form>
       </motion.div>
     </motion.div>
