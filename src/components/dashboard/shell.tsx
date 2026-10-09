@@ -37,6 +37,8 @@ import { AccountMenu } from "@/components/ecosystem/account-menu";
 import { useEcosystem } from "@/components/ecosystem/context";
 import { StudioContext } from "./context";
 import { StudioLink } from "./controls";
+import { StudioNotifications } from "./notifications";
+import { studioProjects } from "@/data/studio-product";
 export function StudioShell({ state }: { state: PreviewState }) {
   const { user, setContext } = useEcosystem();
   useEffect(() => { setContext("creator"); }, []);
@@ -52,6 +54,16 @@ export function StudioShell({ state }: { state: PreviewState }) {
   const [notifications, setNotifications] = useState(false);
   const [read, setRead] = useState(false);
   const options = createOptions(studio.capabilities);
+  useEffect(() => {
+    const handle = (event: KeyboardEvent) => {
+      const target = event.target;
+      const editing = target instanceof HTMLElement && (target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName));
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") { event.preventDefault(); setSearch(v => !v); }
+      if (!editing && !event.metaKey && !event.ctrlKey && !event.altKey && event.key.toLowerCase() === "c") { event.preventDefault(); setCreate(true); }
+    };
+    window.addEventListener("keydown", handle);
+    return () => window.removeEventListener("keydown", handle);
+  }, []);
   const title =
     nav.find((n) => n.id === section)?.label ??
     { work: "Your work", messages: "Messages", settings: "Settings", availability: "Availability" }[
@@ -90,7 +102,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
             aria-current={section === n.id ? "page" : undefined}
             className={`flex h-[42px] items-center gap-3 rounded-full px-3 text-sm font-medium ${section === n.id ? "bg-ink text-paper" : "hover:bg-foreground/[0.035]"}`}
           >
-            {n.id === "home" ? <Home size={17} /> : <span className="w-[17px]" />}
+            {n.id === "home" ? <Home size={17} /> : n.id === "profile" ? <User size={17}/> : n.id === "projects" ? <Briefcase size={17}/> : n.id === "earnings" ? <Layers size={17}/> : n.id === "services" ? <Calendar size={17}/> : <Image size={17}/>}
             {n.label}
           </Link>
         ))}
@@ -197,46 +209,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
-              <div className="hidden md:block">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <SiteButton className="h-10 rounded-full px-4 py-0">
-                      <Plus size={17} />
-                      Create
-                      <ChevronDown size={13} />
-                    </SiteButton>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    align="end"
-                    sideOffset={10}
-                    className="w-80 bg-studio-surface p-2"
-                  >
-                    {options.map((o, i) => (
-                      <DropdownMenuItem
-                        key={o.section}
-                        onSelect={() => go(o.section)}
-                        className="items-start gap-3 p-3"
-                      >
-                        <span className="mt-1 text-studio-green">
-                          {i === 0 ? (
-                            <Image />
-                          ) : o.section === "availability" ? (
-                            <Calendar />
-                          ) : (
-                            <Layers />
-                          )}
-                        </span>
-                        <span>
-                          <span className="block font-medium">{o.title}</span>
-                          <span className="mt-1 block text-xs text-muted-foreground">
-                            {o.description}
-                          </span>
-                        </span>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
+              <div className="hidden md:block"><SiteButton onClick={() => setCreate(true)} className="h-10 px-4 py-0"><Plus size={17}/>Create<ChevronDown size={13}/></SiteButton></div>
             </div>
           </header>
           <main
@@ -285,7 +258,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
         <Dialog.Root open={create} onOpenChange={setCreate}>
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 z-50 bg-ink/35" />
-            <Dialog.Content className="studio fixed inset-x-0 bottom-0 z-50 rounded-t-lg bg-studio-surface p-6 outline-none md:bottom-auto md:left-1/2 md:top-1/3 md:max-w-sm md:-translate-x-1/2 md:rounded-lg">
+            <Dialog.Content className="studio fixed inset-x-0 bottom-0 z-50 max-h-[90svh] overflow-y-auto rounded-t-lg bg-studio-surface p-6 outline-none md:inset-y-0 md:left-auto md:right-0 md:w-[420px] md:rounded-none md:rounded-l-lg">
               <Dialog.Title className="text-xl font-semibold">Create</Dialog.Title>
               <Dialog.Description className="mt-1 text-sm text-muted-foreground">
                 Make your next creative move.
@@ -350,12 +323,16 @@ export function StudioShell({ state }: { state: PreviewState }) {
                 placeholder="Search work, projects, earnings…"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="my-5 h-12 w-full border-b border-border bg-transparent text-sm outline-none"
+                autoFocus
+                className="studio-input my-5"
               />
               <div className="max-h-72 space-y-2 overflow-y-auto">
                 {[
                   ...nav.map((n) => ({ title: n.label, section: n.id })),
                   ...studio.data.recentWork.map((w) => ({ title: w.title, section: "portfolio" })),
+                  ...options.map(o => ({ title: o.title, section: o.section })),
+                  ...studioProjects(state).map(p => ({ title: p.title, section: "projects" })),
+                  { title: "View public profile", section: "profile" },
                 ]
                   .filter((n) => n.title.toLowerCase().includes(query.toLowerCase()))
                   .map((n) => (
@@ -390,46 +367,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
             </Dialog.Content>
           </Dialog.Portal>
         </Dialog.Root>
-        <Dialog.Root open={notifications} onOpenChange={setNotifications}>
-          <Dialog.Portal>
-            <Dialog.Overlay className="fixed inset-0 z-50 bg-ink/20" />
-            <Dialog.Content className="studio fixed bottom-0 right-0 top-0 z-50 w-full max-w-sm overflow-y-auto rounded-l-lg bg-studio-surface p-7">
-              <Dialog.Title className="text-xl font-semibold">Notifications</Dialog.Title>
-              <Dialog.Description className="mt-1 text-sm text-muted-foreground">
-                The important things around your work.
-              </Dialog.Description>
-              <Dialog.Close asChild>
-                <IconButton
-                  ariaLabel="Close notifications"
-                  className="absolute right-3 top-3 h-8 w-8 border-0"
-                >
-                  <X size={16} />
-                </IconButton>
-              </Dialog.Close>
-              <h3 className="mb-2 mt-10 text-xs text-muted-foreground">Today</h3>
-              {studio.data.attention.length ? (
-                studio.data.attention.map((item) => (
-                  <div className="border-t border-border py-5" key={item.id}>
-                    <p className="text-sm font-medium">{item.title}</p>
-                    <p className="mb-3 mt-1 text-xs text-muted-foreground">{item.createdAt}</p>
-                    <SiteButton
-                      variant="outline"
-                      onClick={() => go(item.action.href)}
-                      className="rounded-full border-0 p-0 text-xs"
-                    >
-                      {item.action.label}
-                      <ArrowUpRight size={14} />
-                    </SiteButton>
-                  </div>
-                ))
-              ) : (
-                <p className="py-6 text-sm">You’re all caught up.</p>
-              )}
-              <h3 className="mb-4 mt-8 text-xs text-muted-foreground">Earlier</h3>
-              <p className="text-sm text-muted-foreground">No earlier notifications.</p>
-            </Dialog.Content>
-          </Dialog.Portal>
-        </Dialog.Root>
+        <StudioNotifications open={notifications} onClose={()=>setNotifications(false)} onNavigate={go}/>
       </div>
     </StudioContext.Provider>
   );
