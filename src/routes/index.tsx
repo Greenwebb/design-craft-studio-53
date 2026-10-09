@@ -136,18 +136,21 @@ function Nav() {
               <span className="text-[13px] font-semibold tracking-[0.14em]">I AM AN ARTIST</span>
               <button aria-label="Close menu" onClick={() => setOpen(false)}><X className="h-6 w-6" /></button>
             </div>
-            <nav className="container-x mt-12 flex flex-col gap-4">
+            <nav className="container-x mt-12 flex flex-col">
               {[...links, ["Art for Spaces", "#spaces"]].map(([l, h], i) => (
                 <motion.a
                   key={l}
                   href={h}
                   onClick={() => setOpen(false)}
-                  className="text-[44px] font-semibold leading-none tracking-[-0.04em]"
+                  className="group flex items-baseline gap-4 border-b border-border py-4"
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.08 * i, duration: 0.6, ease: EASE }}
                 >
-                  {l}
+                  <span className="eyebrow text-muted-foreground">0{i + 1}</span>
+                  <span className="text-[44px] font-semibold leading-none tracking-[-0.04em] transition-transform duration-300 group-hover:translate-x-2">
+                    {l}
+                  </span>
                 </motion.a>
               ))}
             </nav>
@@ -200,7 +203,7 @@ function Hero() {
           </div>
         </motion.div>
       </motion.div>
-      <motion.figure style={{ y: imgY }} className="lg:justify-self-end lg:w-full lg:max-w-[760px]">
+      <motion.figure style={{ y: imgY }} className="relative lg:justify-self-end lg:w-full lg:max-w-[760px]">
         <motion.div
           className="overflow-hidden rounded-sm"
           initial={{ opacity: 0, scale: 1.04, clipPath: "inset(10% 0 10% 0)" }}
@@ -223,6 +226,22 @@ function Hero() {
           <span><span className="font-medium">Mwansa Chileshe</span> — <em className="not-italic text-muted-foreground">After the Rain</em></span>
           <span className="text-muted-foreground">Lusaka, Zambia · 2026</span>
         </figcaption>
+        <div aria-hidden className="pointer-events-none absolute -left-12 -top-12 hidden h-32 w-32 lg:block">
+          <motion.svg
+            viewBox="0 0 100 100"
+            className="h-full w-full"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 26, repeat: Infinity, ease: "linear" }}
+          >
+            <defs>
+              <path id="stamp-circle" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" />
+            </defs>
+            <text className="fill-foreground text-[8px] font-medium uppercase" style={{ letterSpacing: "0.24em" }}>
+              <textPath href="#stamp-circle">Original works · Lusaka, Zambia · Est. 2026 ·</textPath>
+            </text>
+            <circle cx="50" cy="50" r="2.5" className="fill-current" />
+          </motion.svg>
+        </div>
       </motion.figure>
     </section>
   );
@@ -232,7 +251,7 @@ function Story() {
   return (
     <section className="container-x section-y grid items-center gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
       <div>
-        <Reveal><p className="eyebrow text-muted-foreground">The Story</p></Reveal>
+        <Reveal><p className="eyebrow text-muted-foreground"><span className="mr-3 text-foreground">01</span>The Story</p></Reveal>
         <Reveal delay={0.1}>
           <blockquote className="display-quote mt-8">
             “I painted this <span className="note-feature">after the first rains came.</span> Everything around me became quieter, greener and somehow new again.”
@@ -288,7 +307,7 @@ function Works() {
     <section className="container-x section-y pt-0">
       <div className="mb-16 flex flex-col justify-between gap-8 md:flex-row md:items-end">
         <div>
-          <Reveal><p className="eyebrow text-muted-foreground">Selected Works</p></Reveal>
+          <Reveal><p className="eyebrow text-muted-foreground"><span className="mr-3 text-foreground">02</span>Selected Works</p></Reveal>
           <Reveal delay={0.1}><h2 className="display-lg mt-6 max-w-3xl">Original works worth living with.</h2></Reveal>
         </div>
         <Reveal delay={0.2}><TextLink href={`${SITE}/shop`}>View all works</TextLink></Reveal>
@@ -316,7 +335,7 @@ function Artists() {
       <div className="container-x section-y">
         <div className="mb-16 flex items-end justify-between gap-6">
           <div>
-            <Reveal><p className="eyebrow text-muted-foreground">Artists</p></Reveal>
+            <Reveal><p className="eyebrow text-muted-foreground"><span className="mr-3 text-foreground">03</span>Artists</p></Reveal>
             <Reveal delay={0.1}><h2 className="display-lg mt-6 max-w-3xl">Meet the people behind the work.</h2></Reveal>
           </div>
           <div className="flex shrink-0 gap-2">
@@ -357,7 +376,7 @@ function Spaces() {
     <section id="spaces" className="bg-ink text-ink-foreground">
       <div className="container-x section-y grid items-center gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
         <div>
-          <Reveal><p className="eyebrow opacity-60">Art for Spaces</p></Reveal>
+          <Reveal><p className="eyebrow opacity-60"><span className="mr-3 opacity-100">04</span>Art for Spaces</p></Reveal>
           <Reveal delay={0.1}><h2 className="display-lg mt-6">Art changes a space.</h2></Reveal>
           <Reveal delay={0.15}><p className="note mt-4">curated for your space</p></Reveal>
           <Reveal delay={0.2}>
@@ -388,7 +407,7 @@ const collections = [
 function Collections() {
   return (
     <section className="container-x section-y">
-      <Reveal><p className="eyebrow text-muted-foreground">Discover</p></Reveal>
+      <Reveal><p className="eyebrow text-muted-foreground"><span className="mr-3 text-foreground">05</span>Discover</p></Reveal>
       <Reveal delay={0.1}><h2 className="display-lg mt-6 mb-16 max-w-3xl">Find something that speaks to you.</h2></Reveal>
       <div className="grid gap-x-6 gap-y-14 md:grid-cols-2">
         {collections.map((c, i) => (
@@ -420,7 +439,7 @@ function ForArtists() {
     <section className="border-t border-border">
       <div className="container-x section-y grid items-center gap-16 lg:grid-cols-[1.2fr_0.8fr]">
         <div>
-          <Reveal><p className="eyebrow text-muted-foreground">For Artists</p></Reveal>
+          <Reveal><p className="eyebrow text-muted-foreground"><span className="mr-3 text-foreground">06</span>For Artists</p></Reveal>
           <Reveal delay={0.1}><h2 className="display-xl mt-6">Your work deserves more than a post.</h2></Reveal>
           <Reveal delay={0.2}>
             <p className="mt-8 max-w-md text-lg leading-relaxed text-muted-foreground">
@@ -498,9 +517,22 @@ function Footer() {
   );
 }
 
+function Grain() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-0 z-[70] opacity-[0.05] mix-blend-multiply"
+      style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")`,
+      }}
+    />
+  );
+}
+
 function Index() {
   return (
     <div className="bg-background text-foreground">
+      <Grain />
       <Cursor />
       <Nav />
       <main>
