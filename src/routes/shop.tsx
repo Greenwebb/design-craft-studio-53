@@ -1,3 +1,4 @@
+import { Logo } from "@/components/site";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -386,7 +387,7 @@ function ShopPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}
             className="fixed inset-0 z-[65] bg-background">
             <div className="container-x flex items-center justify-between py-6">
-              <span className="text-[13px] font-semibold tracking-[0.14em]">I AM AN ARTIST</span>
+              <Logo />
               <button type="button" onClick={() => setSearchOpen(false)} aria-label="Close search"><X className="h-6 w-6" /></button>
             </div>
             <div className="container-x mt-10 md:mt-20">

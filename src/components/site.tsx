@@ -1,6 +1,11 @@
 import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import { useEffect, useState, type ReactNode } from "react";
 import { ArrowRight, ArrowUpRight, Search, User, Menu, X } from "lucide-react";
+import logoAsset from "@/assets/logo.png.asset.json";
+
+export function Logo({ className = "h-11 md:h-12" }: { className?: string }) {
+  return <img src={logoAsset.url} alt="I Am An Artist" className={`w-auto ${className}`} />;
+}
 
 export const SITE = "https://www.iamanartist.art";
 export const EASE = [0.22, 1, 0.36, 1] as const;
@@ -137,7 +142,7 @@ export function Nav() {
         }`}
       >
         <div className="container-x flex items-center justify-between">
-          <a href="/" className="text-[13px] font-semibold tracking-[0.14em]">I AM AN ARTIST</a>
+          <a href="/" aria-label="I Am An Artist home"><Logo /></a>
           <nav className="hidden items-center gap-9 md:flex" aria-label="Main">
             {links.map(([l, h], i) => (
               <a key={l} href={h} className={`link-line text-sm font-medium hover:opacity-70 ${i === 2 ? "inline-flex items-center gap-1" : ""} ${h === pathname ? "font-semibold underline underline-offset-8 decoration-1" : ""}`}>
@@ -161,7 +166,7 @@ export function Nav() {
             transition={{ duration: 0.3 }}
           >
             <div className="container-x flex items-center justify-between py-6">
-              <span className="text-[13px] font-semibold tracking-[0.14em]">I AM AN ARTIST</span>
+              <Logo />
               <button aria-label="Close menu" onClick={() => setOpen(false)}><X className="h-6 w-6" /></button>
             </div>
             <nav className="container-x mt-12 flex flex-col">
@@ -195,7 +200,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border">
       <div className="container-x grid gap-12 py-20 md:grid-cols-4">
-        <p className="text-[13px] font-semibold tracking-[0.14em]">I AM AN ARTIST</p>
+        <div><Logo className="h-16" /></div>
         <nav className={col} aria-label="Footer">
           <a className="link-line w-fit" href="/shop">Shop</a>
           <a className="link-line w-fit" href={`${SITE}/artists`}>Artists</a>
