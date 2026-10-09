@@ -64,12 +64,11 @@ function applyFilters(list: Work[], f: SearchState): Work[] {
   return sorted;
 }
 
-// Editorial 12-col spans: large/medium patterns, never chaotic
-const SPANS = ["md:col-span-6", "md:col-span-3", "md:col-span-3", "md:col-span-4", "md:col-span-8", "md:col-span-4", "md:col-span-4", "md:col-span-4"];
-
-function WorkCard({ w, span, eager }: { w: Work; span: string; eager?: boolean }) {
+// Consistent product grid: every card identical in width, image ratio and info order.
+// Marketplace scannability first — the editorial feel comes from typography and spacing.
+function WorkCard({ w, eager }: { w: Work; eager?: boolean }) {
   return (
-    <Reveal className={span}>
+    <Reveal>
       <a href={`/artists/${w.artist.slug}`} data-cursor className="group block" aria-label={`${w.title} by ${w.artist.name}`}>
         <div className="overflow-hidden rounded-sm bg-secondary/40">
           <img
@@ -77,8 +76,7 @@ function WorkCard({ w, span, eager }: { w: Work; span: string; eager?: boolean }
             alt={`${w.title} by ${w.artist.name}`}
             loading={eager ? "eager" : "lazy"}
             decoding="async"
-            style={{ aspectRatio: `${w.ratio}` }}
-            className="w-full object-cover transition-transform duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.025]"
+            className="aspect-[4/5] w-full object-cover transition-transform duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.025]"
           />
         </div>
         <div className="mt-4">
@@ -91,7 +89,6 @@ function WorkCard({ w, span, eager }: { w: Work; span: string; eager?: boolean }
             {[w.medium, w.year].filter(Boolean).join(" · ")}
             {w.edition?.total ? ` · Edition of ${w.edition.total}` : w.type === "original" ? " · 1 of 1" : ""}
           </p>
-          {w.storyExcerpt && <p className="mt-2 text-[13px] italic text-muted-foreground">“{w.storyExcerpt}”</p>}
           <p className="mt-2 text-sm font-medium">
             {w.availability === "sold" ? (
               <span className="text-[10px] uppercase tracking-[0.08em] text-muted-foreground">Sold</span>
