@@ -15,13 +15,20 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CreatorRouteImport } from './routes/creator'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as JoinRouteImport } from './routes/join'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SessionExpiredRouteImport } from './routes/session-expired'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicArtForSpacesRouteImport } from './routes/_public/art-for-spaces'
 import { Route as PublicBagRouteImport } from './routes/_public/bag'
 import { Route as PublicSearchRouteImport } from './routes/_public/search'
 import { Route as AccountIndexRouteImport } from './routes/account.index'
 import { Route as AccountSectionRouteImport } from './routes/account.$section'
+import { Route as AccountSecurityRouteImport } from './routes/account.security'
 import { Route as CheckoutContactRouteImport } from './routes/checkout.contact'
 import { Route as CheckoutDeliveryRouteImport } from './routes/checkout.delivery'
 import { Route as CheckoutPaymentRouteImport } from './routes/checkout.payment'
@@ -71,9 +78,39 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JoinRoute = JoinRouteImport.update({
   id: '/join',
   path: '/join',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SessionExpiredRoute = SessionExpiredRouteImport.update({
+  id: '/session-expired',
+  path: '/session-expired',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerifyEmailRoute = VerifyEmailRouteImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PublicIndexRoute = PublicIndexRouteImport.update({
@@ -104,6 +141,11 @@ const AccountIndexRoute = AccountIndexRouteImport.update({
 const AccountSectionRoute = AccountSectionRouteImport.update({
   id: '/$section',
   path: '/$section',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountSecurityRoute = AccountSecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
   getParentRoute: () => AccountRoute,
 } as any)
 const CheckoutContactRoute = CheckoutContactRouteImport.update({
@@ -209,11 +251,18 @@ export interface FileRoutesByFullPath {
   '/checkout': typeof CheckoutRouteWithChildren
   '/creator': typeof CreatorRouteWithChildren
   '/dashboard': typeof DashboardRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
   '/join': typeof JoinRoute
+  '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/session-expired': typeof SessionExpiredRoute
+  '/signup': typeof SignupRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/art-for-spaces': typeof PublicArtForSpacesRoute
   '/bag': typeof PublicBagRoute
   '/search': typeof PublicSearchRoute
   '/account/$section': typeof AccountSectionRoute
+  '/account/security': typeof AccountSecurityRoute
   '/checkout/contact': typeof CheckoutContactRoute
   '/checkout/delivery': typeof CheckoutDeliveryRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
@@ -238,11 +287,18 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
   '/join': typeof JoinRoute
+  '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/session-expired': typeof SessionExpiredRoute
+  '/signup': typeof SignupRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/art-for-spaces': typeof PublicArtForSpacesRoute
   '/bag': typeof PublicBagRoute
   '/search': typeof PublicSearchRoute
   '/account/$section': typeof AccountSectionRoute
+  '/account/security': typeof AccountSecurityRoute
   '/checkout/contact': typeof CheckoutContactRoute
   '/checkout/delivery': typeof CheckoutDeliveryRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
@@ -273,11 +329,18 @@ export interface FileRoutesById {
   '/checkout': typeof CheckoutRouteWithChildren
   '/creator': typeof CreatorRouteWithChildren
   '/dashboard': typeof DashboardRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
   '/join': typeof JoinRoute
+  '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/session-expired': typeof SessionExpiredRoute
+  '/signup': typeof SignupRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/_public/art-for-spaces': typeof PublicArtForSpacesRoute
   '/_public/bag': typeof PublicBagRoute
   '/_public/search': typeof PublicSearchRoute
   '/account/$section': typeof AccountSectionRoute
+  '/account/security': typeof AccountSecurityRoute
   '/checkout/contact': typeof CheckoutContactRoute
   '/checkout/delivery': typeof CheckoutDeliveryRoute
   '/checkout/payment': typeof CheckoutPaymentRoute
@@ -309,11 +372,18 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/creator'
     | '/dashboard'
+    | '/forgot-password'
     | '/join'
+    | '/login'
+    | '/reset-password'
+    | '/session-expired'
+    | '/signup'
+    | '/verify-email'
     | '/art-for-spaces'
     | '/bag'
     | '/search'
     | '/account/$section'
+    | '/account/security'
     | '/checkout/contact'
     | '/checkout/delivery'
     | '/checkout/payment'
@@ -338,11 +408,18 @@ export interface FileRouteTypes {
   to:
     | '/auth'
     | '/checkout'
+    | '/forgot-password'
     | '/join'
+    | '/login'
+    | '/reset-password'
+    | '/session-expired'
+    | '/signup'
+    | '/verify-email'
     | '/art-for-spaces'
     | '/bag'
     | '/search'
     | '/account/$section'
+    | '/account/security'
     | '/checkout/contact'
     | '/checkout/delivery'
     | '/checkout/payment'
@@ -372,11 +449,18 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/creator'
     | '/dashboard'
+    | '/forgot-password'
     | '/join'
+    | '/login'
+    | '/reset-password'
+    | '/session-expired'
+    | '/signup'
+    | '/verify-email'
     | '/_public/art-for-spaces'
     | '/_public/bag'
     | '/_public/search'
     | '/account/$section'
+    | '/account/security'
     | '/checkout/contact'
     | '/checkout/delivery'
     | '/checkout/payment'
@@ -407,7 +491,13 @@ export interface RootRouteChildren {
   CheckoutRoute: typeof CheckoutRouteWithChildren
   CreatorRoute: typeof CreatorRouteWithChildren
   DashboardRoute: typeof DashboardRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   JoinRoute: typeof JoinRoute
+  LoginRoute: typeof LoginRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  SessionExpiredRoute: typeof SessionExpiredRoute
+  SignupRoute: typeof SignupRoute
+  VerifyEmailRoute: typeof VerifyEmailRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -454,11 +544,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/join': {
       id: '/join'
       path: '/join'
       fullPath: '/join'
       preLoaderRoute: typeof JoinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/session-expired': {
+      id: '/session-expired'
+      path: '/session-expired'
+      fullPath: '/session-expired'
+      preLoaderRoute: typeof SessionExpiredRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verify-email': {
+      id: '/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof VerifyEmailRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_public/': {
@@ -501,6 +633,13 @@ declare module '@tanstack/react-router' {
       path: '/$section'
       fullPath: '/account/$section'
       preLoaderRoute: typeof AccountSectionRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/security': {
+      id: '/account/security'
+      path: '/security'
+      fullPath: '/account/security'
+      preLoaderRoute: typeof AccountSecurityRouteImport
       parentRoute: typeof AccountRoute
     }
     '/checkout/contact': {
@@ -673,6 +812,7 @@ const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
 
 interface AccountRouteChildren {
   AccountSectionRoute: typeof AccountSectionRoute
+  AccountSecurityRoute: typeof AccountSecurityRoute
   AccountIndexRoute: typeof AccountIndexRoute
   AccountOrdersIdRoute: typeof AccountOrdersIdRoute
   AccountProjectsIdRoute: typeof AccountProjectsIdRoute
@@ -680,6 +820,7 @@ interface AccountRouteChildren {
 
 const AccountRouteChildren: AccountRouteChildren = {
   AccountSectionRoute: AccountSectionRoute,
+  AccountSecurityRoute: AccountSecurityRoute,
   AccountIndexRoute: AccountIndexRoute,
   AccountOrdersIdRoute: AccountOrdersIdRoute,
   AccountProjectsIdRoute: AccountProjectsIdRoute,
@@ -744,7 +885,13 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutRoute: CheckoutRouteWithChildren,
   CreatorRoute: CreatorRouteWithChildren,
   DashboardRoute: DashboardRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   JoinRoute: JoinRoute,
+  LoginRoute: LoginRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  SessionExpiredRoute: SessionExpiredRoute,
+  SignupRoute: SignupRoute,
+  VerifyEmailRoute: VerifyEmailRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
