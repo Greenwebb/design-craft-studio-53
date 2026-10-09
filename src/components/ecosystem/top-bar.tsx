@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 export type PageHeaderProps = {
   title: string;
   eyebrow?: string;
-  back?: { visible: boolean; onClick?: () => void };
+  back?: { visible: boolean; onClick?: (() => void) | undefined };
   leading?: ReactNode;
   actions?: ReactNode;
   children?: ReactNode;
@@ -42,9 +42,9 @@ export const DashboardTopBar = MobilePageHeader;
 export const topBarIcon = "h-10 w-10 border-0 text-foreground/80 hover:text-foreground";
 const iconBtn = "relative grid h-10 w-10 shrink-0 place-items-center rounded-full text-foreground/80 transition-colors hover:bg-secondary hover:text-foreground active:bg-secondary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
-type BtnProps = { onClick?: () => void; label?: string; className?: string };
+type BtnProps = { onClick?: (() => void) | undefined; label?: string; className?: string | undefined };
 
-export function HeaderIconButton({ onClick, label, className, children, expanded }: BtnProps & { children: ReactNode; expanded?: boolean }) {
+export function HeaderIconButton({ onClick, label, className, children, expanded }: BtnProps & { children: ReactNode; expanded?: boolean | undefined }) {
   return <button type="button" aria-label={label} title={label} aria-expanded={expanded} onClick={onClick} className={cn(iconBtn, className)}>{children}</button>;
 }
 
