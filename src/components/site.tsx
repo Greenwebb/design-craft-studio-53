@@ -123,8 +123,9 @@ export function Nav() {
     window.addEventListener("scroll", f, { passive: true });
     return () => window.removeEventListener("scroll", f);
   }, []);
+  const pathname = typeof window !== "undefined" ? window.location.pathname : "";
   const links = [
-    ["Shop", `${SITE}/shop`],
+    ["Shop", "/shop"],
     ["View Artists", `${SITE}/artists`],
     ["Join as Artist", "/join"],
   ];
@@ -139,12 +140,12 @@ export function Nav() {
           <a href="/" className="text-[13px] font-semibold tracking-[0.14em]">I AM AN ARTIST</a>
           <nav className="hidden items-center gap-9 md:flex" aria-label="Main">
             {links.map(([l, h], i) => (
-              <a key={l} href={h} className={`link-line text-sm font-medium hover:opacity-70 ${i === 2 ? "inline-flex items-center gap-1" : ""}`}>
+              <a key={l} href={h} className={`link-line text-sm font-medium hover:opacity-70 ${i === 2 ? "inline-flex items-center gap-1" : ""} ${h === pathname ? "font-semibold underline underline-offset-8 decoration-1" : ""}`}>
                 {l}
                 {i === 2 && <ArrowUpRight className="h-3.5 w-3.5" />}
               </a>
             ))}
-            <button aria-label="Search" className="opacity-80 transition-opacity hover:opacity-100"><Search className="h-[18px] w-[18px]" /></button>
+            <button aria-label="Search" onClick={() => window.dispatchEvent(new Event("open-search"))} className="opacity-80 transition-opacity hover:opacity-100"><Search className="h-[18px] w-[18px]" /></button>
             <button aria-label="Account" className="opacity-80 transition-opacity hover:opacity-100"><User className="h-[18px] w-[18px]" /></button>
           </nav>
           <button className="md:hidden" aria-label="Open menu" onClick={() => setOpen(true)}><Menu className="h-6 w-6" /></button>
@@ -196,7 +197,7 @@ export function Footer() {
       <div className="container-x grid gap-12 py-20 md:grid-cols-4">
         <p className="text-[13px] font-semibold tracking-[0.14em]">I AM AN ARTIST</p>
         <nav className={col} aria-label="Footer">
-          <a className="link-line w-fit" href={`${SITE}/shop`}>Shop</a>
+          <a className="link-line w-fit" href="/shop">Shop</a>
           <a className="link-line w-fit" href={`${SITE}/artists`}>Artists</a>
           <a className="link-line w-fit" href={"/join"}>Join as Artist</a>
           <a className="link-line w-fit" href="#spaces">Art for Spaces</a>

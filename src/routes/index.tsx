@@ -61,7 +61,7 @@ function Hero() {
             Discover original works, the artists behind them, and the stories worth collecting.
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-8">
-            <SiteButton href={`${SITE}/shop`}>
+            <SiteButton href={"/shop"}>
               Explore the collection
               <ArrowUpRight className="h-4 w-4" />
             </SiteButton>
@@ -148,7 +148,7 @@ const works = [
 
 function Artwork({ w }: { w: (typeof works)[number] }) {
   return (
-    <a href={`${SITE}/shop`} data-cursor className="group block">
+    <a href={"/shop"} data-cursor className="group block">
       <div className="relative overflow-hidden rounded-sm">
         <img src={w.img} alt={`${w.t} by ${w.a}`} width={w.w} height={w.h} loading="lazy"
           className={`${w.ar} w-full object-cover transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.025]`} />
@@ -177,7 +177,7 @@ function Works() {
           <Reveal><p className="eyebrow text-muted-foreground"><span className="mr-3 text-foreground">02</span>Selected Works</p></Reveal>
           <Reveal delay={0.1}><h2 className="display-lg mt-6 max-w-3xl">Original works worth living with.</h2></Reveal>
         </div>
-        <Reveal delay={0.2}><TextLink href={`${SITE}/shop`}>View all works</TextLink></Reveal>
+        <Reveal delay={0.2}><TextLink href={"/shop"}>View all works</TextLink></Reveal>
       </div>
       <div className="grid grid-cols-1 gap-x-6 gap-y-16 md:grid-cols-12">
         {works.map((w, i) => (
@@ -281,7 +281,7 @@ function Collections() {
       <div className="grid gap-x-6 gap-y-14 md:grid-cols-2">
         {collections.map((c, i) => (
           <Reveal key={c.t} delay={(i % 2) * 0.1}>
-            <a href={`${SITE}/shop`} data-cursor className="group block">
+            <a href={"/shop"} data-cursor className="group block">
               <div className="overflow-hidden rounded-sm">
                 <img src={c.img} alt={`${c.t} collection`} loading="lazy"
                   className={`w-full object-cover transition-transform duration-700 group-hover:scale-[1.025] ${c.big ? "h-[420px] md:h-[600px]" : "h-[340px] md:h-[460px]"}`} />
@@ -296,7 +296,7 @@ function Collections() {
       </div>
       <Reveal className="mt-14 flex flex-wrap gap-x-8 gap-y-3 text-lg text-muted-foreground">
         {["Identity", "Home", "Movement", "Nature", "Portraits", "New Voices"].map((t) => (
-          <a key={t} href={`${SITE}/shop`} className="link-line hover:text-foreground">{t}</a>
+          <a key={t} href={"/shop"} className="link-line hover:text-foreground">{t}</a>
         ))}
       </Reveal>
       </div>
@@ -356,7 +356,7 @@ function Closing() {
     <section className="container-x flex min-h-[70vh] flex-col justify-center border-t border-border py-24">
       <Reveal><p className="note mb-6">from Zambia, with a story</p></Reveal>
       <Reveal><h2 className="display-xl max-w-5xl">Made here. Collected everywhere.</h2></Reveal>
-      <Reveal delay={0.15} className="mt-12"><TextLink href={`${SITE}/shop`} className="text-lg">Explore the collection</TextLink></Reveal>
+      <Reveal delay={0.15} className="mt-12"><TextLink href={"/shop"} className="text-lg">Explore the collection</TextLink></Reveal>
     </section>
   );
 }
