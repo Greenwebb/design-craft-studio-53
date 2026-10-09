@@ -76,6 +76,12 @@ export function StudioShell({ state }: { state: PreviewState }) {
     setNotifications(false);
     void navigate({ to: "/creator/$section", params: { section: s }, search: { artist: state } });
   };
+  const createNew = (section: string) => {
+    if (["portfolio","sell","services"].includes(section)) {
+      setCreate(false);
+      void navigate({to:"/creator/new/$kind", params:{kind:section==="sell"?"work":section==="services"?"service":"portfolio"}, search:{artist:state}});
+    } else go(section);
+  };
   const navBody = (
     <>
       <Link to="/" aria-label="I Am An Artist home">
@@ -275,7 +281,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
                   <SiteButton
                     key={o.section}
                     variant="outline"
-                    onClick={() => go(o.section)}
+                    onClick={() => createNew(o.section)}
                     className="w-full justify-start rounded-full border-0 px-0 py-5 text-left"
                   >
                     <Plus size={19} className="mr-2 text-studio-green" />
