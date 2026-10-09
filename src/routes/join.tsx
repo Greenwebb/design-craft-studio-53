@@ -379,13 +379,14 @@ function JoinPage() {
             )}
 
             {error && <p role="alert" className="mt-6 text-sm text-destructive">{error}</p>}
+            </div>
           </motion.div>
         </AnimatePresence>
       </main>
 
       {!["intro", "preview", "live"].includes(step) && (
         <footer className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-background/95 backdrop-blur-xl">
-          <div className="container-x mx-auto flex max-w-3xl items-center justify-between gap-4 py-4">
+          <div className="container-x mx-auto flex max-w-3xl items-center justify-between gap-4 py-4 lg:max-w-6xl lg:pl-[380px]">
             <button onClick={back} className="inline-flex items-center gap-2 text-sm font-medium opacity-70 hover:opacity-100"><ArrowLeft className="h-4 w-4" />Back</button>
             <div className="flex items-center gap-5">
               {step === "work" && <button onClick={() => { set("work", null); goTo(flow[idx + 1]!); }} className="link-line text-sm font-medium">I'll add this later</button>}
