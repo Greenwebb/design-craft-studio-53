@@ -64,12 +64,11 @@ function applyFilters(list: Work[], f: SearchState): Work[] {
   return sorted;
 }
 
-// Editorial 12-col spans: large/medium patterns, never chaotic
-const SPANS = ["md:col-span-6", "md:col-span-3", "md:col-span-3", "md:col-span-4", "md:col-span-8", "md:col-span-4", "md:col-span-4", "md:col-span-4"];
-
-function WorkCard({ w, span, eager }: { w: Work; span: string; eager?: boolean }) {
+// Consistent product grid: every card identical in width, image ratio and info order.
+// Marketplace scannability first — the editorial feel comes from typography and spacing.
+function WorkCard({ w, eager }: { w: Work; eager?: boolean }) {
   return (
-    <Reveal className={span}>
+    <Reveal>
       <a href={`/artists/${w.artist.slug}`} data-cursor className="group block" aria-label={`${w.title} by ${w.artist.name}`}>
         <div className="overflow-hidden rounded-sm bg-secondary/40">
           <img
@@ -77,8 +76,7 @@ function WorkCard({ w, span, eager }: { w: Work; span: string; eager?: boolean }
             alt={`${w.title} by ${w.artist.name}`}
             loading={eager ? "eager" : "lazy"}
             decoding="async"
-            style={{ aspectRatio: `${w.ratio}` }}
-            className="w-full object-cover transition-transform duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.025]"
+            className="aspect-[4/5] w-full object-cover transition-transform duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.025]"
           />
         </div>
         <div className="mt-4">
@@ -91,7 +89,6 @@ function WorkCard({ w, span, eager }: { w: Work; span: string; eager?: boolean }
             {[w.medium, w.year].filter(Boolean).join(" · ")}
             {w.edition?.total ? ` · Edition of ${w.edition.total}` : w.type === "original" ? " · 1 of 1" : ""}
           </p>
-          {w.storyExcerpt && <p className="mt-2 text-[13px] italic text-muted-foreground">“{w.storyExcerpt}”</p>}
           <p className="mt-2 text-sm font-medium">
             {w.availability === "sold" ? (
               <span className="text-[10px] uppercase tracking-[0.08em] text-muted-foreground">Sold</span>
@@ -294,12 +291,12 @@ function ShopPage() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-x-6 gap-y-16 md:grid-cols-12 md:gap-y-[72px]">
+          <div className="grid grid-cols-1 gap-x-6 gap-y-14 sm:grid-cols-2 md:gap-y-20 lg:grid-cols-3">
             {shown.map((w, i) => (
-              <WorkCard key={w.id} w={w} span={SPANS[i % SPANS.length]!} eager={i < 3} />
+              <WorkCard key={w.id} w={w} eager={i < 3} />
             ))}
             {loading && [0, 1, 2].map((i) => (
-              <div key={`sk-${i}`} className={`${SPANS[(shown.length + i) % SPANS.length]} animate-pulse`}>
+              <div key={`sk-${i}`} className="animate-pulse">
                 <div className="aspect-[4/5] w-full rounded-sm bg-secondary" />
                 <div className="mt-4 h-4 w-2/3 rounded-sm bg-secondary" />
                 <div className="mt-2 h-3 w-1/3 rounded-sm bg-secondary" />
