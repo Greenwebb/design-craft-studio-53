@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { EcosystemProvider } from "@/components/ecosystem/context";
 import { BagProvider } from "../lib/bag";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { supabase } from "@/integrations/supabase/client";
 
 function NotFoundComponent() {
   return (
