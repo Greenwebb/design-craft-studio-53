@@ -338,7 +338,7 @@ export function WalletDetail({ id }: { id: string }) {
   const ledger = walletLedger[wallet.id] ?? [];
   return (
     <AdminPage title={`Wallet ${wallet.id}`} back>
-      <SectionCard title="Balances" aside={<Link to={`/admin/creators/${wallet.creatorId}`} className="text-sm font-medium text-studio-green">{wallet.creator}<ArrowUpRight size={16} className="inline" /></Link>}>
+      <SectionCard title="Balances" aside={<Link to="/admin/creators/$id" params={{ id: wallet.creatorId }} className="text-sm font-medium text-studio-green">{wallet.creator}<ArrowUpRight size={16} className="inline" /></Link>}>
         <FactGrid cols={4}>
           <Fact label="Pending">{money(wallet.pending)}</Fact>
           <Fact label="Available">{money(wallet.available)}</Fact>
@@ -357,7 +357,7 @@ export function WalletDetail({ id }: { id: string }) {
             { key: 'date', label: 'Date' },
             { key: 'state', label: 'State', render: (r) => <StatusPill state={String(r.state)} /> },
           ]}
-          rows={ledger as unknown as (BaseRow & Record<string, unknown>)[]}
+          rows={ledger}
           hrefFor={() => `/admin/wallets/${wallet.id}`}
           emptyTitle="No ledger entries."
           emptyDetail="Balances appear once sales or payouts are recorded."

@@ -312,21 +312,24 @@ export function AdminTable<T extends { id: string }>({ columns, rows, hrefFor, e
       </div>
       {/* Phone / tablet cards */}
       <ul className="space-y-3 lg:hidden">
-        {rows.map((row) => (
+        {rows.map((row) => {
+          const last = columns[columns.length - 1];
+          return (
           <li key={row.id}>
             <Link to={hrefFor(row)} className="studio-panel studio-hover block p-5">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   {columns.slice(0, 2).map((c, i) => <div key={c.key} className={cn(i === 0 ? 'truncate text-[15px] font-medium' : 'mt-1 truncate text-sm text-muted-foreground', c.className)}>{c.render ? c.render(row) : String((row as Record<string, unknown>)[c.key] ?? '—')}</div>)}
                 </div>
-                {columns[columns.length - 1]?.render && <div className="shrink-0">{columns[columns.length - 1].render?.(row)}</div>}
+                {last?.render && <div className="shrink-0">{last.render(row)}</div>}
               </div>
               <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
                 {columns.slice(2, -1).map((c) => <span key={c.key} className="truncate">{c.render ? c.render(row) : String((row as Record<string, unknown>)[c.key] ?? '—')}</span>)}
               </div>
             </Link>
           </li>
-        ))}
+          );
+        })}
       </ul>
     </>
   );

@@ -3,6 +3,7 @@
 
 export type Priority = 'critical' | 'high' | 'normal' | 'low';
 export type Note = { id: string; author: string; at: string; body: string };
+export type AuditEvent = { id: string; at: string; actor: string; actorRole: string; action: string; resource: string; resourceId: string; reason?: string | undefined; };
 export type ThreadMessage = { id: string; from: string; body: string; at: string };
 
 export const money = (n: number) => `K${n.toLocaleString('en-US')}`;
@@ -477,5 +478,4 @@ export const searchIndex: { group: string; label: string; sub: string; to: strin
   ...workSeed.map((w) => ({ group: 'Works', label: w.title, sub: `${w.id} · ${w.artist}`, to: `/admin/works/${w.id}` })),
   ...disputeSeed.map((d) => ({ group: 'Disputes', label: `${d.id} · ${d.title}`, sub: `${money(d.amount)} · ${d.state.replaceAll('-', ' ')}`, to: `/admin/disputes/${d.id}` })),
   ...payoutSeed.map((p) => ({ group: 'Payouts', label: `${p.id} · ${money(p.amount)}`, sub: `${p.creator} · ${p.state.replaceAll('-', ' ')}`, to: `/admin/payouts/${p.id}` })),
-  { group: 'Users', label: 'Kabwe Hamaundu', sub: 'U-2303 · kabwe.h@example.com', to: '/admin/users/U-2303' },
 ];

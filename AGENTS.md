@@ -21,4 +21,6 @@
 - Global client state lives in Zustand stores (src/stores, plus the bag and account stores); avoid new React context for app state so state handling stays consistent.
 - Workflow state machines (commission, fulfilment, payouts, admin queues) are defined once in src/data/workflows.ts and rendered with the shared StageTracker, so every shell shows the same states.
 - /admin is a fourth, separate operations shell; it must be gated by a server-checked staff role before handling real data.
+- Admin list routes are layouts (`admin.x.tsx` returns `<Outlet />`) with lists in `admin.x.index.tsx` and records in `admin.x.$id.tsx`, because TanStack nests `$id` under the list route.
+- Admin operational state lives in the in-memory Zustand store `src/stores/admin-ops.ts` with seeded fixtures in `src/data/admin-data.ts`; sensitive actions require a reason and write an audit entry, payments stay immutable, and balances move only through ledger entries. No server gate or persistence yet — preview only.
 - Phone and tablet navigation in every dashboard shell uses the shared FloatingNav component below the lg breakpoint, with context-switch controls above it, so all shells remain consistent without obscuring navigation.
