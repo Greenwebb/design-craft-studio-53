@@ -39,6 +39,7 @@ import { StudioContext } from "./context";
 import { StudioLink } from "./controls";
 import { StudioNotifications } from "./notifications";
 import { StudioCommandSearch } from "./command-search";
+import { ContextSwitch } from "@/components/ecosystem/context-switch";
 export function StudioShell({ state }: { state: PreviewState }) {
   const { user, setContext } = useEcosystem();
   useEffect(() => { setContext("creator"); }, []);
@@ -315,6 +316,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
             </Dialog.Content>
           </Dialog.Portal>
         </Dialog.Root>
+        <ContextSwitch context="creator"/>
         <StudioCommandSearch open={search} onClose={()=>setSearch(false)} state={state}/>
         <StudioNotifications open={notifications} onClose={()=>setNotifications(false)} onNavigate={go}/>
       </div>
