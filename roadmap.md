@@ -10,3 +10,4 @@
 - [ ] Project workspace tabs (overview, messages, files, milestones, payments, timeline)
 - [ ] Order fulfilment + wallet state definitions
 - [ ] Admin / Operations dashboard as its own separate shell (/admin)
+- [ ] Move all shared state (bag, account context, dashboard context) to Zustand stores
