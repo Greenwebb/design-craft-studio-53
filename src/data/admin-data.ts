@@ -82,10 +82,13 @@ export const marketplaceSnapshot = [
 // ---------------- Shell navigation ----------------
 export type AdminNavItem = { id: string; label: string; to: string; count?: number };
 export const adminNav: { group: string | null; items: AdminNavItem[] }[] = [
-  { group: null, items: [{ id: 'overview', label: 'Overview', to: '/admin', count: 15 }] },
-  { group: 'Marketplace', items: [
+  { group: null, items: [
+    { id: 'overview', label: 'Overview', to: '/admin', count: 15 },
     { id: 'users', label: 'Users', to: '/admin/users' }, { id: 'creators', label: 'Creators', to: '/admin/creators', count: 2 },
+  ] },
+  { group: 'Marketplace', items: [
     { id: 'works', label: 'Works', to: '/admin/works', count: 3 }, { id: 'services', label: 'Services', to: '/admin/services' },
+    { id: 'collections', label: 'Collections', to: '/admin/collections' },
   ] },
   { group: 'Operations', items: [
     { id: 'orders', label: 'Orders', to: '/admin/orders', count: 4 }, { id: 'projects', label: 'Projects', to: '/admin/projects', count: 24 },
@@ -99,10 +102,9 @@ export const adminNav: { group: string | null; items: AdminNavItem[] }[] = [
     { id: 'disputes', label: 'Disputes', to: '/admin/disputes', count: 3 }, { id: 'moderation', label: 'Moderation', to: '/admin/moderation', count: 7 },
     { id: 'verification', label: 'Verification', to: '/admin/verification', count: 5 },
   ] },
-  { group: 'Content', items: [
-    { id: 'collections', label: 'Collections', to: '/admin/collections' }, { id: 'notifications', label: 'Notifications', to: '/admin/notifications' },
+  { group: 'System', items: [
+    { id: 'notifications', label: 'Notifications', to: '/admin/notifications' }, { id: 'settings', label: 'Settings', to: '/admin/settings' },
   ] },
-  { group: 'System', items: [{ id: 'settings', label: 'Settings', to: '/admin/settings' }] },
 ];
 
 // ---------------- Action rules (state machines) ----------------
