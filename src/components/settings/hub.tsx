@@ -129,7 +129,7 @@ function SaveBar() {
   );
 }
 
-function Body({ context, page, portrait, artistName }: { context: SettingsContext; page: SettingsPage; portrait?: string; artistName?: string }) {
+function Body({ context, page, portrait, artistName }: { context: SettingsContext; page: SettingsPage; portrait?: string | undefined; artistName?: string | undefined }) {
   const { user } = useEcosystem();
   const signOut = useSignOut();
   const [msg, setMsg] = useState<string | null>(null);
