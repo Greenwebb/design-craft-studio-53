@@ -116,7 +116,7 @@ function Hero() {
 function Story() {
   return (
     <section className="bg-cream">
-      <div>
+      <div className="container-x section-y grid items-center gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
         <Reveal><p className="eyebrow text-muted-foreground"><span className="mr-3 text-foreground">01</span>The Story</p></Reveal>
         <Reveal delay={0.1}>
           <blockquote className="display-quote mt-8">
@@ -134,6 +134,7 @@ function Story() {
       <Reveal delay={0.15}>
         <img src={artist1} alt="Mwansa Chileshe in her Lusaka studio" width={896} height={1120} loading="lazy" className="aspect-[4/5] w-full rounded-sm object-cover" />
       </Reveal>
+      </div>
     </section>
   );
 }
