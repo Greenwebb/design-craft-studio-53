@@ -275,7 +275,7 @@ export function DropdownFilter({ label, value, options, onChange }: {
 
 // ---------- operational table (desktop) that becomes cards on phones ----------
 export type Column<T> = { key: string; label: string; className?: string; render?: (row: T) => ReactNode };
-export function AdminTable<T extends BaseRow>({ columns, rows, hrefFor, emptyTitle, emptyDetail }: {
+export function AdminTable<T extends { id: string }>({ columns, rows, hrefFor, emptyTitle, emptyDetail }: {
   columns: Column<T>[]; rows: T[]; hrefFor: (row: T) => string; emptyTitle: string; emptyDetail?: string;
 }) {
   if (!rows.length) {
