@@ -9,6 +9,8 @@ export const Route = createFileRoute("/order/confirmed")({
   head: () => ({
     meta: [
       { title: "It's Yours — I Am An Artist" },
+      { property: "og:title", content: "It's Yours — I Am An Artist" },
+      { property: "og:description", content: "Your acquisition is confirmed. What happens next with your work." },
       { name: "description", content: "Your acquisition is confirmed. What happens next with your work." },
       { name: "robots", content: "noindex" },
     ],

@@ -9,6 +9,8 @@ export const Route = createFileRoute("/checkout")({
   head: () => ({
     meta: [
       { title: "Secure Checkout — I Am An Artist" },
+      { property: "og:title", content: "Secure Checkout — I Am An Artist" },
+      { property: "og:description", content: "Complete your acquisition securely with I Am An Artist." },
       { name: "description", content: "Complete your acquisition securely with I Am An Artist." },
       { name: "robots", content: "noindex" },
     ],

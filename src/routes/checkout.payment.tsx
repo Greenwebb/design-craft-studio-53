@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useBag, type PaymentMethod } from "@/lib/bag";
 
 export const Route = createFileRoute("/checkout/payment")({
-  head: () => ({ meta: [{ title: "Payment — Checkout — I Am An Artist" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Payment — Checkout — I Am An Artist" }, { name: "description", content: "Select a payment method for your artwork." }, { property: "og:title", content: "Payment — Checkout — I Am An Artist" }, { property: "og:description", content: "Select a payment method for your artwork." }, { name: "robots", content: "noindex" }] }),
   component: PaymentStep,
 });
 

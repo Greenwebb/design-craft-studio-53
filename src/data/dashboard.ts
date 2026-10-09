@@ -7,8 +7,8 @@ export type ActivityItem = { id: string; title: string; time: string; kind: 'wor
 export type DashboardHome = { greeting: { artistName: string }; attention: AttentionItem[]; profile: { completion: number; suggestions: string[] }; discovery: { profileViews: number; workViews: number; saves: number; enquiries: number }; earnings?: { available: number; pending: number; thisMonth: number; currency: 'ZMW' }; recentWork: CreativeWork[]; recentActivity: ActivityItem[]; recommendedNextAction: { title: string; description: string; href: string } };
 export const previewStates = ['painter', 'photographer', 'musician', 'dancer', 'designer', 'portfolio', 'new'] as const;
 export type PreviewState = typeof previewStates[number];
-const first = artistProfiles[0];
-if (!first) throw new Error('Artist preview is missing');
+function firstArtist(): Artist { const artist = artistProfiles[0]; if (!artist) throw new Error('Artist preview is missing'); return artist; }
+const first = firstArtist();
 const find = (discipline: string): Artist => artistProfiles.find(a => a.disciplines.includes(discipline)) ?? first;
 export function getStudio(state: PreviewState) {
  const base = state === 'musician' ? find('Musician') : state === 'photographer' ? find('Photographer') : first;
@@ -18,7 +18,7 @@ export function getStudio(state: PreviewState) {
  const capabilities: ArtistCapabilities = { portfolio: true, sellsWorks: state === 'painter', acceptsCommissions: ['painter','designer'].includes(state), offersServices: ['painter','photographer','musician','designer'].includes(state), acceptsBookings: ['photographer','musician','dancer'].includes(state) };
  const work = state === 'new' ? [] : base.portfolio.slice(0,3).map((p,i) => ({ id: String(i), title: p.title, image: p.img, category: state === 'painter' && i === 0 ? 'Original work' : 'Portfolio project', views: [218,142,96][i] ?? 0, status: 'Published' as const }));
  const attention: AttentionItem[] = [];
- if(capabilities.sellsWorks) attention.push({id:'sale',type:'purchase',title:'After the Rain',description:'Purchased · K18,500 · Ready to prepare',createdAt:'1 hour ago',priority:'high',action:{label:'Prepare order',href:'sell'},thumbnail:base.portfolio[0]?.img});
+ if(capabilities.sellsWorks) attention.push({id:'sale',type:'purchase',title:'After the Rain',description:'Purchased · K18,500 · Ready to prepare',createdAt:'1 hour ago',priority:'high',action:{label:'Prepare order',href:'sell'},thumbnail:base.portfolio[0]?.img ?? base.heroMedia});
  if(capabilities.acceptsCommissions) attention.push({id:'commission',type:'commission',title:state==='designer'?'Brand identity project':'Hotel mural project',description:state==='designer'?'New enquiry · Studio North':'New commission request · Latitude Hotel',createdAt:'2 hours ago',priority:'high',action:{label:'Review request',href:'projects'}});
  if(capabilities.acceptsBookings) attention.push({id:'booking',type:'booking',title:state==='dancer'?'Contemporary dance performance':state==='musician'?'Live acoustic performance':'Portrait photography session',description:'New booking request · Saturday, 24 October',createdAt:'3 hours ago',priority:'normal',action:{label:'Review booking',href:'projects'}});
  if(capabilities.offersServices && !capabilities.acceptsCommissions && !capabilities.acceptsBookings) attention.push({id:'service',type:'service-request',title:'Creative project enquiry',description:'A client would like to work with you',createdAt:'Yesterday',priority:'normal',action:{label:'Review enquiry',href:'projects'}});
