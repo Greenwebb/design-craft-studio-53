@@ -21,4 +21,4 @@
 - Global client state lives in Zustand stores (src/stores, plus the bag and account stores); avoid new React context for app state so state handling stays consistent.
 - Workflow state machines (commission, fulfilment, payouts, admin queues) are defined once in src/data/workflows.ts and rendered with the shared StageTracker, so every shell shows the same states.
 - /admin is a fourth, separate operations shell; it must be gated by a server-checked staff role before handling real data.
-- Phone navigation in every dashboard shell uses the shared FloatingNav component, so mobile menus look and behave the same everywhere.
+- Phone and tablet navigation in every dashboard shell uses the shared FloatingNav component below the lg breakpoint, with context-switch controls above it, so all shells remain consistent without obscuring navigation.
