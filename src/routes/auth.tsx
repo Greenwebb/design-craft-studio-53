@@ -10,7 +10,7 @@ import { pageHead } from "@/lib/page-head";
 export const Route = createFileRoute("/auth")({
   validateSearch: (search: Record<string, unknown>): { next?: string } => {
     const next = typeof search["next"] === "string" ? search["next"] : undefined;
-    return { next: next && next.startsWith("/") ? next : undefined };
+    return next && next.startsWith("/") ? { next } : {};
   },
   head: () => pageHead("Sign in", "Sign in to I Am An Artist with your Google account."),
   component: AuthPage,
