@@ -1,2 +1,2 @@
-import { createFileRoute, redirect } from '@tanstack/react-router';
-export const Route=createFileRoute('/dashboard')({beforeLoad:()=>{throw redirect({to:'/creator',search:{artist:'painter'},replace:true});}});
+import { createFileRoute,Outlet } from '@tanstack/react-router';
+export const Route=createFileRoute('/dashboard')({component:Outlet});

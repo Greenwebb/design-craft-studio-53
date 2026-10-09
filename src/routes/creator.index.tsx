@@ -14,6 +14,8 @@ export const Route = createFileRoute("/creator/")({
         content: "A personal studio for shaping your creative presence.",
       },
       { name: "robots", content: "noindex" },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: StudioHome,

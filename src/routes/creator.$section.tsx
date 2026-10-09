@@ -54,6 +54,8 @@ export const Route = createFileRoute("/creator/$section")({
         { property: "og:title", content: `${title} — I Am An Artist Studio` },
         { property: "og:description", content: description },
         { name: "robots", content: "noindex" },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
       ],
     };
   },
