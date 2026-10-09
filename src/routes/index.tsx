@@ -251,7 +251,7 @@ function Spaces() {
             <p className="mt-6 max-w-md text-sm leading-relaxed opacity-55">
               Tell us about your space. We’ll help curate works around its character, story and atmosphere.
             </p>
-            <div className="mt-10"><TextLink href={`${SITE}/join`}>Curate my space</TextLink></div>
+            <div className="mt-10"><TextLink href={"/join"}>Curate my space</TextLink></div>
           </Reveal>
         </div>
         <Reveal delay={0.15}>
@@ -311,10 +311,10 @@ function ForArtists() {
               Build your presence, tell the story behind your work and reach people who value what you create.
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-8">
-              <a href={`${SITE}/join`} className="group inline-flex items-center gap-3 bg-ink px-7 py-4 text-sm font-medium text-ink-foreground transition-opacity hover:opacity-85">
+              <a href={"/join"} className="group inline-flex items-center gap-3 bg-ink px-7 py-4 text-sm font-medium text-ink-foreground transition-opacity hover:opacity-85">
                 Join as an artist <ArrowUpRight className="h-4 w-4" />
               </a>
-              <TextLink href={`${SITE}/join`}>Learn how it works</TextLink>
+              <TextLink href={"/join"}>Learn how it works</TextLink>
             </div>
           </Reveal>
         </div>
