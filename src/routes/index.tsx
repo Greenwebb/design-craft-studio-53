@@ -271,7 +271,7 @@ const artists = [
 
 function Artists() {
   const [i, setI] = useState(0);
-  const a = artists[i];
+  const a = artists[i]!;
   const go = (d: number) => setI((i + d + artists.length) % artists.length);
   return (
     <section className="border-t border-border">
