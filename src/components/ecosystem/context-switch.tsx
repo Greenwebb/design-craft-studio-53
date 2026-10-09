@@ -44,13 +44,13 @@ export function ContextSwitch({ context }: { context: Ctx }) {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.25 }}
       whileHover="hover"
-      className={`group fixed bottom-[calc(92px+env(safe-area-inset-bottom))] right-4 z-[60] inline-flex h-12 min-w-12 items-center justify-center gap-2 rounded-full bg-ink px-3.5 text-[14px] font-medium text-paper shadow-[0_8px_28px_hsl(0_0%_7%/0.14)] transition-colors hover:bg-ink/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:px-[18px] ${toCreating ? 'lg:bottom-6 lg:right-6' : 'md:bottom-6 md:right-6'}`}
+      className="group fixed bottom-[calc(92px+env(safe-area-inset-bottom))] right-4 z-[60] inline-flex h-12 min-w-12 items-center justify-center gap-2 rounded-full bg-ink px-3.5 text-[14px] font-medium text-paper shadow-[0_8px_28px_hsl(0_0%_7%/0.14)] transition-colors hover:bg-ink/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:px-[18px] lg:bottom-6 lg:right-6"
     >
       <motion.span variants={{ hover: { x: 3 } }} transition={{ duration: 0.2 }} className="inline-flex">
         <Icon size={18} aria-hidden />
       </motion.span>
-      <span className={`hidden min-[400px]:inline ${toCreating ? 'lg:hidden' : 'md:hidden'}`}>{toCreating ? "Creating" : "Buying"}</span>
-      <span className={`hidden ${toCreating ? 'lg:inline' : 'md:inline'}`}>{label}</span>
+      <span className="hidden min-[400px]:inline lg:hidden">{toCreating ? "Creating" : "Buying"}</span>
+      <span className="hidden lg:inline">{label}</span>
     </motion.button>
   );
 }

@@ -226,7 +226,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
             <Outlet />
           </main>
         </div>
-        <FloatingNav label="Mobile studio navigation" className="md:hidden">
+        <FloatingNav label="Mobile studio navigation" className="lg:hidden">
           {[
             { id: "home", label: "Home", icon: Home },
             { id: "work", label: "Work", icon: Image },
