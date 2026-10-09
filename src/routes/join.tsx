@@ -1,20 +1,22 @@
-import { Logo } from "@/components/site";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { ArrowLeft, ArrowRight, Check, Plus, Image as ImageIcon, Video, Music, FolderOpen, ShoppingBag, Brush, Briefcase, CalendarCheck } from "lucide-react";
-import { EASE, SiteButton } from "@/components/site";
+import {
+  ArrowLeft, ArrowRight, Check, X, Palette, Camera, Music, Clapperboard, Shirt, Drama, PenTool, Feather, Sparkles,
+  Image as ImageIcon, Video, AudioLines, FolderOpen, LayoutGrid, ShoppingBag, Brush, Briefcase, CalendarCheck, MapPin,
+} from "lucide-react";
+import { EASE, Logo, SiteButton } from "@/components/site";
 import { HeroProfile } from "@/components/artist-hero";
 import type { Artist } from "@/data/artists";
-import onboardArt from "@/assets/artist-1.jpg";
+import placeholderArt from "@/assets/artist-1.jpg";
 
 export const Route = createFileRoute("/join")({
   head: () => ({
     meta: [
-      { title: "Join as an Artist — I Am An Artist" },
-      { name: "description", content: "Build your artist profile in minutes: show your work, tell your story, sell, and get hired." },
-      { property: "og:title", content: "Join as an Artist — I Am An Artist" },
-      { property: "og:description", content: "Create your professional creative presence on I Am An Artist." },
+      { title: "Create your creative space — I Am An Artist" },
+      { name: "description", content: "Show your work, tell your story and open new ways for people to discover, collect, commission or work with you." },
+      { property: "og:title", content: "Create your creative space — I Am An Artist" },
+      { property: "og:description", content: "Build your creative presence on I Am An Artist in a few easy steps." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -22,78 +24,71 @@ export const Route = createFileRoute("/join")({
   component: JoinPage,
 });
 
-/* ---------- data ---------- */
-const DISCIPLINES = ["Visual Artist", "Painter", "Illustrator", "Sculptor", "Photographer", "Graphic Designer", "Fashion Designer", "Stylist", "Musician", "Singer", "Songwriter", "Producer", "DJ", "Dancer", "Choreographer", "Actor", "Filmmaker", "Videographer", "Animator", "Writer", "Poet", "Muralist", "Creative Director", "Performer", "Digital Artist"];
-
-type Group = "visual" | "photo" | "music" | "movement" | "acting" | "film" | "design" | "fashion" | "writing";
-const GROUP_OF: Record<string, Group> = {
-  "Visual Artist": "visual", Painter: "visual", Sculptor: "visual", Muralist: "visual", "Digital Artist": "visual", Illustrator: "design",
-  Photographer: "photo", Musician: "music", Singer: "music", Songwriter: "music", Producer: "music", DJ: "music",
-  Dancer: "movement", Choreographer: "movement", Performer: "movement", Actor: "acting",
-  Filmmaker: "film", Videographer: "film", Animator: "film", "Graphic Designer": "design", "Creative Director": "design",
-  "Fashion Designer": "fashion", Stylist: "fashion", Writer: "writing", Poet: "writing",
-};
-const FOCUS: Record<Group, { q: string; opts: string[] }> = {
-  visual: { q: "What best describes your work?", opts: ["Painting", "Mixed media", "Drawing", "Sculpture", "Digital", "Mural", "Installation"] },
-  photo: { q: "What do you photograph?", opts: ["Portraits", "Fashion", "Events", "Hospitality", "Commercial", "Documentary", "Fine art"] },
-  music: { q: "What do you create or perform?", opts: ["Vocals", "Songwriting", "Production", "Live performance", "Instrumental", "Jingles", "Session work"] },
-  movement: { q: "What kind of movement work do you do?", opts: ["Live performance", "Choreography", "Workshops", "Music videos", "Contemporary", "Traditional"] },
-  acting: { q: "Where do you perform?", opts: ["Film", "Television", "Theatre", "Commercials", "Voice over"] },
-  film: { q: "What do you make?", opts: ["Short film", "Documentary", "Commercial", "Music video", "Animation", "Events"] },
-  design: { q: "What do you design?", opts: ["Brand identity", "Illustration", "Art direction", "Packaging", "Campaigns", "Editorial"] },
-  fashion: { q: "What is your fashion practice?", opts: ["Custom design", "Styling", "Creative direction", "Ready-to-wear", "Accessories"] },
-  writing: { q: "What do you write?", opts: ["Poetry", "Fiction", "Copywriting", "Scripts", "Spoken word", "Journalism"] },
-};
-const EARN = [
-  { k: "sellsWorks", t: "Sell my work", d: "Finished pieces, prints, editions or digital work.", I: ShoppingBag },
-  { k: "acceptsCommissions", t: "Accept commissions", d: "Custom pieces made for a client.", I: Brush },
-  { k: "offersServices", t: "Offer creative services", d: "Project-based skills like production, design or photography.", I: Briefcase },
-  { k: "acceptsBookings", t: "Accept bookings", d: "Performances, sessions and appearances.", I: CalendarCheck },
+/* ---------------- data ---------------- */
+const CATEGORIES = [
+  { k: "Visual Art", d: "Painting, illustration, sculpture, mixed media", I: Palette, label: "Visual Artist", subs: ["Painting", "Drawing", "Sculpture", "Mural", "Mixed media", "Digital art", "Installation"] },
+  { k: "Photography", d: "Portraits, fashion, documentary, commercial", I: Camera, label: "Photographer", subs: ["Portrait", "Fashion", "Events", "Hospitality", "Commercial", "Fine art", "Documentary"] },
+  { k: "Music", d: "Singing, production, songwriting, performance", I: Music, label: "Musician", subs: ["Singer", "Songwriter", "Producer", "Instrumentalist", "DJ", "Live performer", "Composer"] },
+  { k: "Film & Video", d: "Directing, cinematography, editing, animation", I: Clapperboard, label: "Filmmaker", subs: ["Director", "Cinematographer", "Editor", "Animator", "Music videos", "Documentary"] },
+  { k: "Fashion", d: "Design, styling, creative direction", I: Shirt, label: "Fashion Creative", subs: ["Designer", "Stylist", "Creative director", "Accessories", "Tailoring"] },
+  { k: "Performance", d: "Dance, choreography, acting, live performance", I: Drama, label: "Performer", subs: ["Dancer", "Choreographer", "Actor", "Spoken word", "MC / Host", "Theatre"] },
+  { k: "Design", d: "Graphic design, branding, digital design", I: PenTool, label: "Designer", subs: ["Brand identity", "Graphic design", "Illustration", "Digital / UI", "Packaging", "Art direction"] },
+  { k: "Writing", d: "Poetry, books, scripts, storytelling", I: Feather, label: "Writer", subs: ["Poet", "Author", "Scriptwriter", "Copywriter", "Journalist", "Storyteller"] },
+  { k: "Other", d: "Define your own creative discipline", I: Sparkles, label: "Creative", subs: [] },
 ] as const;
-type Caps = Artist["capabilities"];
-const AVAIL = ["Yes, I'm available", "Available for selected projects", "Not right now"];
+type Cat = (typeof CATEGORIES)[number]["k"];
 
+const OFFERS = [
+  { k: "portfolio", t: "My work", d: "Show my portfolio and projects", I: LayoutGrid, v: "The foundation of every profile — a place to show what you make." },
+  { k: "sell", t: "Work available to buy", d: "Sell finished work", I: ShoppingBag, v: "Perfect for original work, prints, photography, editions and collectible pieces." },
+  { k: "commission", t: "Custom commissions", d: "Create something specifically for a client", I: Brush, v: "Great for portraits, murals, custom songs, bespoke fashion and personal pieces." },
+  { k: "services", t: "Creative services", d: "Offer my skills for projects", I: Briefcase, v: "Ideal for photography, design, music production, styling, video, writing and other project-based work." },
+  { k: "bookings", t: "Bookings", d: "Let people book me for sessions, performances or events", I: CalendarCheck, v: "Useful for performers, musicians, photographers, dancers and other bookable creatives." },
+] as const;
+type Offer = (typeof OFFERS)[number]["k"];
+
+const EARN_BY: Record<Offer, string | null> = { portfolio: null, sell: "Sell finished work", commission: "Get commissioned", services: "Get hired for creative projects", bookings: "Get booked" };
+const CITIES = ["Lusaka", "Kitwe", "Ndola", "Livingstone", "Kabwe"];
+
+type Work = { kind: "image" | "video" | "audio" | "project"; title: string; desc: string; img: string };
 type Data = {
-  first: string; last: string; email: string; password: string;
-  disciplines: string[]; custom: string; focus: string[];
-  name: string; location: string; headline: string; bio: string;
-  portrait: string; hero: string; heroPos: number;
-  work: { kind: "image" | "video" | "audio" | "project"; title: string; year: string; type: string; img: string } | null;
-  caps: Caps; availability: string; response: string;
+  cats: Cat[]; custom: string; subs: string[]; name: string;
+  offers: Offer[]; work: Work | null; earn: string[];
+  city: string; country: string; bio: string; portrait: string; portraitPos: number;
+  email: string; password: string;
 };
-const EMPTY: Data = {
-  first: "", last: "", email: "", password: "", disciplines: [], custom: "", focus: [],
-  name: "", location: "", headline: "", bio: "", portrait: "", hero: "", heroPos: 50, work: null,
-  caps: { sellsWorks: false, acceptsCommissions: false, offersServices: false, acceptsBookings: false },
-  availability: AVAIL[0]!, response: "Within 2 days",
-};
-const KEY = "iaaa-onboarding";
+const EMPTY: Data = { cats: [], custom: "", subs: [], name: "", offers: ["portfolio"], work: null, earn: [], city: "", country: "Zambia", bio: "", portrait: "", portraitPos: 50, email: "", password: "" };
+const KEY = "iaaa-onboarding-v2";
 
-type StepId = "welcome" | "account" | "disciplines" | "focus" | "profile" | "media" | "work" | "earn" | "availability" | "preview" | "done";
+type StepId = "intro" | "create" | "refine" | "name" | "m1" | "discover" | "work" | "earn" | "m2" | "location" | "story" | "photo" | "preview" | "live";
+const STAGES = ["Your creative identity", "Your work & opportunities", "Your presence"];
 
-/* ---------- small UI ---------- */
-function Field({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
+/* ---------------- small UI ---------------- */
+function Card({ on, onClick, title, sub, I, children }: { on: boolean; onClick: () => void; title: string; sub?: string; I?: typeof Palette; children?: ReactNode }) {
   return (
-    <label className="block">
-      <span className="text-[13px] font-medium">{label}</span>
+    <motion.button type="button" role="checkbox" aria-checked={on} onClick={onClick} whileTap={{ scale: 0.98 }}
+      className={`relative flex w-full flex-col items-start gap-3 rounded-2xl border p-5 text-left transition-colors ${on ? "border-foreground bg-secondary shadow-[inset_0_0_0_1px_var(--color-foreground)]" : "border-border hover:border-foreground/40"}`}>
+      {I && <I className="h-6 w-6" strokeWidth={1.5} />}
+      <span>
+        <span className="block text-[16px] font-medium tracking-[-0.01em]">{title}</span>
+        {sub && <span className="mt-1 block text-[13px] leading-snug text-muted-foreground">{sub}</span>}
+      </span>
       {children}
-      {hint && <span className="mt-1.5 block text-[12px] text-muted-foreground">{hint}</span>}
-    </label>
+      <span className={`absolute right-4 top-4 grid h-5 w-5 place-items-center rounded-full border transition-colors ${on ? "border-foreground bg-foreground text-background" : "border-foreground/25"}`}>{on && <Check className="h-3 w-3" />}</span>
+    </motion.button>
   );
 }
-const inputCls = "mt-1 h-[52px] w-full border-0 border-b border-foreground/20 bg-transparent text-[17px] outline-none transition-colors focus:border-foreground";
-
-function Option({ on, onClick, children, sub }: { on: boolean; onClick: () => void; children: ReactNode; sub?: string }) {
+function Chip({ on, onClick, children }: { on: boolean; onClick: () => void; children: ReactNode }) {
   return (
     <button type="button" role="checkbox" aria-checked={on} onClick={onClick}
-      className={`flex w-full items-center justify-between gap-4 border px-5 py-4 text-left transition-colors ${on ? "border-foreground bg-ink text-ink-foreground" : "border-border hover:border-foreground/40"}`}>
-      <span><span className="block text-[15px] font-medium">{children}</span>{sub && <span className={`mt-1 block text-[13px] ${on ? "opacity-70" : "text-muted-foreground"}`}>{sub}</span>}</span>
-      <span className={`grid h-5 w-5 shrink-0 place-items-center rounded-full border ${on ? "border-ink-foreground bg-ink-foreground text-ink" : "border-foreground/30"}`}>{on && <Check className="h-3 w-3" />}</span>
+      className={`rounded-full border px-5 py-3 text-[15px] font-medium transition-colors ${on ? "border-foreground bg-ink text-ink-foreground" : "border-border hover:border-foreground/40"}`}>
+      {children}
     </button>
   );
 }
+const inputCls = "h-[60px] w-full border-0 border-b border-foreground/20 bg-transparent text-2xl tracking-[-0.02em] outline-none transition-colors placeholder:text-foreground/25 focus:border-foreground";
 
-function ImagePick({ value, onChange, label, aspect, pos }: { value: string; onChange: (v: string) => void; label: string; aspect: string; pos?: number }) {
+function usePicker(onChange: (v: string) => void) {
   const ref = useRef<HTMLInputElement>(null);
   const pick = (f?: File) => {
     if (!f) return;
@@ -101,292 +96,448 @@ function ImagePick({ value, onChange, label, aspect, pos }: { value: string; onC
     r.onload = () => {
       const img = new Image();
       img.onload = () => { // downscale so the draft fits in browser storage
-        const s = Math.min(1, 1200 / Math.max(img.width, img.height));
+        const s = Math.min(1, 1400 / Math.max(img.width, img.height));
         const c = document.createElement("canvas"); c.width = img.width * s; c.height = img.height * s;
         c.getContext("2d")!.drawImage(img, 0, 0, c.width, c.height);
-        onChange(c.toDataURL("image/jpeg", 0.8));
+        onChange(c.toDataURL("image/jpeg", 0.82));
       };
       img.src = r.result as string;
     };
     r.readAsDataURL(f);
   };
-  return (
-    <div>
-      <p className="text-[13px] font-medium">{label}</p>
-      <button type="button" onClick={() => ref.current?.click()} className={`group relative mt-2 block w-full overflow-hidden bg-secondary ${aspect}`}>
-        {value ? <img src={value} alt="" style={{ objectPosition: `50% ${pos ?? 50}%` }} className="h-full w-full object-cover" />
-          : <span className="absolute inset-0 grid place-items-center text-sm text-muted-foreground"><span className="flex flex-col items-center gap-2"><Plus className="h-5 w-5" />Choose image</span></span>}
-      </button>
-      <input ref={ref} type="file" accept="image/*" hidden onChange={(e) => pick(e.target.files?.[0])} />
-      {value && <button type="button" onClick={() => ref.current?.click()} className="link-line mt-3 text-sm font-medium">Change image</button>}
-    </div>
-  );
+  const input = <input ref={ref} type="file" accept="image/*" hidden onChange={(e) => pick(e.target.files?.[0])} />;
+  return { open: () => ref.current?.click(), input };
 }
 
-/* ---------- page ---------- */
+/* ---------------- page ---------------- */
 function JoinPage() {
   const [d, setD] = useState<Data>(EMPTY);
-  const [step, setStep] = useState<StepId>("welcome");
+  const [step, setStep] = useState<StepId>("intro");
+  const [hasDraft, setHasDraft] = useState<StepId | null>(null);
   const [loaded, setLoaded] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const [error, setError] = useState("");
   const [dir, setDir] = useState(1);
+  const [error, setError] = useState("");
+  const [saveOpen, setSaveOpen] = useState(false);
   const reduce = useReducedMotion();
 
   useEffect(() => {
-    try { const s = JSON.parse(localStorage.getItem(KEY) ?? "null"); if (s) { setD({ ...EMPTY, ...s.data }); setStep(s.step); } } catch {}
+    try { const s = JSON.parse(localStorage.getItem(KEY) ?? "null"); if (s?.data) { setD({ ...EMPTY, ...s.data }); if (s.step && s.step !== "intro" && s.step !== "live") setHasDraft(s.step); } } catch {}
     setLoaded(true);
   }, []);
   useEffect(() => {
-    if (!loaded) return;
-    try { localStorage.setItem(KEY, JSON.stringify({ step, data: { ...d, password: "" } })); setSaved(true); } catch { setSaved(false); }
-    const t = setTimeout(() => setSaved(false), 1600);
-    return () => clearTimeout(t);
+    if (!loaded || step === "intro") return;
+    try { localStorage.setItem(KEY, JSON.stringify({ step, data: { ...d, password: "" } })); } catch {}
   }, [d, step, loaded]);
 
   const set = <K extends keyof Data>(k: K, v: Data[K]) => { setD((p) => ({ ...p, [k]: v })); setError(""); };
-  const toggle = (k: "disciplines" | "focus", v: string) => set(k, d[k].includes(v) ? d[k].filter((x) => x !== v) : [...d[k], v]);
+  const tog = <T,>(arr: T[], v: T) => (arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
 
-  const groups = useMemo(() => [...new Set(d.disciplines.map((x) => GROUP_OF[x]).filter(Boolean))] as Group[], [d.disciplines]);
-  const isMusic = groups.includes("music") || groups.includes("movement") || groups.includes("acting");
-  const needsAvail = d.caps.acceptsCommissions || d.caps.offersServices || d.caps.acceptsBookings;
+  const cats = CATEGORIES.filter((c) => d.cats.includes(c.k));
+  const refinable = cats.filter((c) => c.subs.length);
+  const earnOpts = useMemo(() => [...d.offers.map((o) => EARN_BY[o]).filter(Boolean) as string[], "Grow my audience first", "I'm exploring"], [d.offers]);
+  const commercial = d.offers.some((o) => o !== "portfolio");
 
-  const flow: StepId[] = ["welcome", "account", "disciplines", ...(groups.length ? (["focus"] as StepId[]) : []), "profile", "media", "work", "earn", ...(needsAvail ? (["availability"] as StepId[]) : []), "preview", "done"];
-  const idx = Math.max(0, flow.indexOf(step));
-  const counted: StepId[] = flow.filter((s) => s !== "welcome" && s !== "done");
-  const pos = counted.indexOf(step) + 1;
+  const flow: StepId[] = [
+    "intro", "create", ...(refinable.length ? (["refine"] as StepId[]) : []), "name", "m1",
+    "discover", "work", ...(commercial ? (["earn"] as StepId[]) : []), "m2",
+    "location", "story", "photo", "preview", "live",
+  ];
+  const stageOf = (s: StepId) => (["create", "refine", "name", "m1"].includes(s) ? 0 : ["discover", "work", "earn", "m2"].includes(s) ? 1 : ["location", "story", "photo", "preview"].includes(s) ? 2 : -1);
+  const stage = stageOf(step);
+  const stageSteps = flow.filter((s) => stageOf(s) === stage && !s.startsWith("m") && s !== "preview");
+  const sub = stageSteps.indexOf(step) + 1;
+  const idx = flow.indexOf(step);
 
-  const validate = (): string => {
-    if (step === "account") {
-      if (!d.first.trim() || !d.last.trim()) return "Please add your first and last name.";
-      if (!/^\S+@\S+\.\S+$/.test(d.email)) return "Please enter a valid email address.";
-      if (d.password.length < 8) return "Password needs at least 8 characters.";
-    }
-    if (step === "disciplines" && !d.disciplines.length && !d.custom.trim()) return "Choose at least one discipline.";
-    if (step === "profile" && (!d.name.trim() || !d.location.trim() || !d.headline.trim())) return "Name, location and headline help people find you.";
-    if (step === "earn" && !Object.values(d.caps).some(Boolean)) return "Choose at least one way to work with people.";
+  // identity
+  const subsLabel = d.subs.slice(0, 2);
+  const primary = d.cats.includes("Other") && d.custom.trim() ? d.custom.trim() : cats.find((c) => c.k !== "Other")?.label ?? (d.custom.trim() || "Creative");
+  const disciplines = [primary, ...subsLabel].filter((v, i, a) => a.indexOf(v) === i);
+  const location = [d.city, d.country].filter(Boolean).join(", ");
+
+  const validate = () => {
+    if (step === "create" && !d.cats.length) return "Choose at least one — you can change this later.";
+    if (step === "create" && d.cats.length === 1 && d.cats[0] === "Other" && !d.custom.trim()) return "Tell us what you create.";
+    if (step === "name" && !d.name.trim()) return "Add the name people know you by.";
+    if (step === "discover" && !d.offers.length) return "Choose at least one.";
+    if (step === "location" && !d.city.trim()) return "Add the city you create from.";
     return "";
   };
-  const go = (n: number) => {
-    if (n > 0) { const e = validate(); if (e) return setError(e); }
-    setDir(n); setError("");
-    const next = flow[Math.min(flow.length - 1, Math.max(0, idx + n))]!;
-    setStep(next); window.scrollTo({ top: 0 });
-  };
-  const jump = (s: StepId) => { setDir(-1); setStep(s); };
+  const goTo = (s: StepId, k = 1) => { setDir(k); setError(""); setStep(s); window.scrollTo({ top: 0 }); };
+  const next = () => { const e = validate(); if (e) return setError(e); goTo(flow[Math.min(idx + 1, flow.length - 1)]!); };
+  const back = () => goTo(flow[Math.max(0, idx - 1)]!, -1);
 
-  const disciplines = [...d.disciplines, ...(d.custom.trim() ? [d.custom.trim()] : [])];
   const preview: Artist = {
-    slug: "preview", name: d.name || `${d.first} ${d.last}`.trim() || "Your name", location: d.location || "Your city",
-    disciplines: disciplines.length ? disciplines : ["Artist"], shortStatement: d.headline || "Your headline appears here.", voiceNote: "in my own words",
-    bio: [d.bio], portrait: d.portrait || onboardArt, heroMedia: d.hero || d.portrait || onboardArt,
-    primaryCta: d.caps.acceptsCommissions ? "Commission artist" : d.caps.acceptsBookings ? "Book artist" : d.caps.offersServices ? "Start a project" : "View works",
-    portfolio: [], services: needsAvail ? [{ title: "", description: "", delivery: "", cta: "" }] : [],
-    availability: { available: d.availability !== AVAIL[2], label: needsAvail ? d.availability : "New works available" },
-    capabilities: d.caps,
+    slug: "preview", name: d.name || "Your name", location: location || "Your city",
+    disciplines, shortStatement: d.bio.split(/(?<=[.!?])\s/)[0] || "A few words about your work will appear here.", voiceNote: "in my own words",
+    bio: [d.bio], portrait: d.portrait || placeholderArt, heroMedia: d.work?.img || d.portrait || placeholderArt,
+    primaryCta: d.offers.includes("commission") ? "Commission me" : d.offers.includes("bookings") ? "Book me" : d.offers.includes("services") ? "Start a project" : d.offers.includes("sell") ? "View works" : "View portfolio",
+    portfolio: [], services: d.offers.some((o) => o === "services" || o === "bookings" || o === "commission") ? [{ title: "", description: "", delivery: "", cta: "" }] : [],
+    availability: { available: commercial, label: d.offers.includes("commission") ? "Available for commissions" : d.offers.includes("bookings") ? "Open to bookings" : commercial ? "Open to new work" : "Portfolio" },
+    capabilities: { sellsWorks: d.offers.includes("sell"), acceptsCommissions: d.offers.includes("commission"), offersServices: d.offers.includes("services"), acceptsBookings: d.offers.includes("bookings") },
   };
 
-  const L = LEFT[step];
   const variants = reduce ? { enter: { opacity: 0 }, center: { opacity: 1 }, exit: { opacity: 0 } }
-    : { enter: (k: number) => ({ opacity: 0, x: 40 * k }), center: { opacity: 1, x: 0 }, exit: (k: number) => ({ opacity: 0, x: -40 * k }) };
+    : { enter: (k: number) => ({ opacity: 0, x: 32 * k }), center: { opacity: 1, x: 0 }, exit: (k: number) => ({ opacity: 0, x: -32 * k }) };
+
+  const wide = step === "preview" || step === "live";
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
-      <header className="sticky top-0 z-30 border-b border-border bg-background/90 backdrop-blur-xl">
+      <header className="sticky top-0 z-30 bg-background/90 backdrop-blur-xl">
         <div className="container-x flex h-[76px] items-center justify-between">
           <Link to="/" aria-label="I Am An Artist home"><Logo /></Link>
-          <div className="flex items-center gap-6 text-sm">
-            <span aria-live="polite" className={`text-[12px] text-muted-foreground transition-opacity ${saved && step !== "welcome" ? "opacity-100" : "opacity-0"}`}>Saved</span>
-            {step !== "done" && <Link to="/" className="link-line font-medium">Save &amp; exit</Link>}
-          </div>
+          {step !== "live" && step !== "intro" && <Link to="/" className="rounded-full border border-border px-5 py-2.5 text-sm font-medium transition-colors hover:border-foreground">Save &amp; exit</Link>}
         </div>
-        {pos > 0 && <div className="h-[2px] bg-border"><motion.div className="h-full bg-foreground" animate={{ width: `${(pos / counted.length) * 100}%` }} transition={{ duration: 0.5, ease: EASE }} /></div>}
+        {stage >= 0 && <StageBar stage={stage} sub={sub} total={stageSteps.length} milestone={step === "m1" || step === "m2" || step === "preview"} />}
       </header>
 
-      {step === "preview" || step === "done" ? (
-        <main className="flex-1">
-          <div className="container-x pt-14">
-            <p className="note -rotate-1">{step === "done" ? "welcome home" : "looks like you"}</p>
-            <h1 className="display-lg mt-3 max-w-3xl">{step === "done" ? "You're in." : "Here's how people will meet you."}</h1>
-            {step === "done" && <p className="mt-5 max-w-xl text-lg text-muted-foreground">Your creative home is live. Keep building it whenever you're ready.</p>}
-          </div>
-          <div className="mt-6 border-y border-border"><HeroProfile a={preview} preview /></div>
-          {d.work?.title && (
-            <div className="container-x py-12">
-              <p className="eyebrow text-muted-foreground">First project</p>
-              <div className="mt-4 flex items-center gap-5">
-                {d.work.img && <img src={d.work.img} alt="" className="h-24 w-20 object-cover" />}
-                <div><p className="note-title">{d.work.title}</p><p className="text-[13px] text-muted-foreground">{[d.work.type, d.work.year].filter(Boolean).join(" · ")}</p></div>
-              </div>
-            </div>
-          )}
-          <div className="container-x flex flex-wrap gap-3 pb-24 pt-6">
-            {step === "preview" ? (
-              <>
-                <SiteButton onClick={() => { setDir(1); setStep("done"); window.scrollTo({ top: 0 }); }}>Publish profile <ArrowRight className="h-4 w-4" /></SiteButton>
-                <SiteButton variant="outline" onClick={() => jump("profile")}>Edit</SiteButton>
-              </>
-            ) : (
-              <>
-                <SiteButton href="#top" onClick={() => window.scrollTo({ top: 300, behavior: "smooth" })}>View my profile <ArrowRight className="h-4 w-4" /></SiteButton>
-                <SiteButton variant="outline" onClick={() => jump("work")}>Add more work</SiteButton>
-                {(d.caps.offersServices || d.caps.acceptsBookings || d.caps.acceptsCommissions) && <SiteButton variant="outline" onClick={() => jump("earn")}>Add a service</SiteButton>}
-                {d.caps.sellsWorks && <SiteButton variant="outline" onClick={() => jump("work")}>List your first work</SiteButton>}
-              </>
+      <main className="flex-1">
+        <AnimatePresence mode="wait" custom={dir}>
+          <motion.div key={step} custom={dir} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.45, ease: EASE }}
+            className={wide ? "" : "container-x mx-auto max-w-3xl pb-40 pt-10 md:pt-16"}>
+
+            {step === "intro" && (
+              <section className="grid min-h-[calc(100vh-76px)] items-center gap-12 py-10 lg:grid-cols-[1.1fr_0.9fr]">
+                <div>
+                  <p className="note -rotate-2">your work deserves a place of its own</p>
+                  <h1 className="display-lg mt-4 max-w-xl">Let's create your space on I Am An Artist.</h1>
+                  <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">Show your work, tell your story and open new ways for people to discover, collect, commission or work with you.</p>
+                  <div className="mt-10 flex flex-wrap items-center gap-6">
+                    <SiteButton onClick={() => goTo("create")} className="px-10">Start <ArrowRight className="h-4 w-4" /></SiteButton>
+                    {hasDraft && <button onClick={() => goTo(hasDraft)} className="link-line text-sm font-medium">Already started? Continue</button>}
+                  </div>
+                  <p className="mt-8 text-[13px] text-muted-foreground">Three short stages · about 5 minutes</p>
+                </div>
+                <motion.img initial={{ opacity: 0, scale: 1.03 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.1, ease: EASE }}
+                  src={placeholderArt} alt="A creative at work in the studio" className="hidden aspect-[4/5] w-full rounded-sm object-cover lg:block" />
+              </section>
             )}
+
+            {step === "create" && (
+              <Q title="What do you create?" sub="Choose everything that feels like you.">
+                <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+                  {CATEGORIES.map((c) => <Card key={c.k} I={c.I} title={c.k} sub={c.d} on={d.cats.includes(c.k)} onClick={() => set("cats", tog(d.cats, c.k))} />)}
+                </div>
+                <AnimatePresence>
+                  {d.cats.includes("Other") && (
+                    <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
+                      <label className="mt-8 block"><span className="text-[13px] font-medium">Your creative discipline</span>
+                        <input autoFocus className={inputCls} value={d.custom} onChange={(e) => set("custom", e.target.value)} placeholder="e.g. Ceramicist" /></label>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </Q>
+            )}
+
+            {step === "refine" && (
+              <Q title={refinable.length === 1 ? "What best describes what you do?" : "Tell us a little more."} sub="Pick as many as you like.">
+                <div className="space-y-10">
+                  {refinable.map((c) => (
+                    <fieldset key={c.k}>
+                      {refinable.length > 1 && <legend className="mb-4 flex items-center gap-2 text-[15px] font-medium"><c.I className="h-4 w-4" strokeWidth={1.5} />{c.k}</legend>}
+                      <div className="flex flex-wrap gap-2">
+                        {c.subs.map((s) => <Chip key={s} on={d.subs.includes(s)} onClick={() => set("subs", tog(d.subs, s))}>{s}</Chip>)}
+                      </div>
+                    </fieldset>
+                  ))}
+                </div>
+              </Q>
+            )}
+
+            {step === "name" && (
+              <Q title="What should people know you as?">
+                <label className="block"><span className="sr-only">Artist or creative name</span>
+                  <input autoFocus className={inputCls} value={d.name} onChange={(e) => set("name", e.target.value)} placeholder="Artist / creative name" onKeyDown={(e) => e.key === "Enter" && next()} /></label>
+                <p className="mt-4 text-[14px] text-muted-foreground">This can be your real name, stage name, studio name or professional identity.</p>
+              </Q>
+            )}
+
+            {step === "m1" && (
+              <Milestone note="that's you" title="Your creative identity is taking shape.">
+                <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7, ease: EASE }} className="rounded-2xl border border-border p-8">
+                  <p className="text-[22px] font-semibold uppercase tracking-[0.08em]">{d.name}</p>
+                  <p className="mt-2 text-muted-foreground">{disciplines.join(" · ")}</p>
+                </motion.div>
+              </Milestone>
+            )}
+
+            {step === "discover" && (
+              <Q title="What should people discover when they visit you?" sub="Choose everything that fits today. You can add more later.">
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {OFFERS.map((o) => (
+                    <Card key={o.k} I={o.I} title={o.t} sub={o.d} on={d.offers.includes(o.k)} onClick={() => set("offers", tog(d.offers, o.k))}>
+                      <AnimatePresence>
+                        {d.offers.includes(o.k) && (
+                          <motion.span initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="block overflow-hidden">
+                            <span className="note-sm block pt-1 text-[15px] leading-snug text-foreground/80">{o.v}</span>
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </Card>
+                  ))}
+                </div>
+              </Q>
+            )}
+
+            {step === "work" && <WorkStep d={d} set={set} />}
+
+            {step === "earn" && (
+              <Q title="How would you most like I Am An Artist to help you earn?" sub="This helps us bring the right opportunities to you.">
+                <div className="flex flex-wrap gap-2">
+                  {earnOpts.map((o) => <Chip key={o} on={d.earn.includes(o)} onClick={() => set("earn", tog(d.earn, o))}>{o}</Chip>)}
+                </div>
+              </Q>
+            )}
+
+            {step === "m2" && (
+              <Milestone note="now there's something to discover" title="Your work has a home.">
+                <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7, ease: EASE }} className="grid overflow-hidden rounded-2xl border border-border sm:grid-cols-[0.9fr_1.1fr]">
+                  <div className="aspect-[4/5] bg-secondary">
+                    {d.work?.img ? <img src={d.work.img} alt={d.work.title || "Your first work"} className="h-full w-full object-cover" />
+                      : <div className="grid h-full place-items-center p-6 text-center text-sm text-muted-foreground">Your first work will appear here</div>}
+                  </div>
+                  <div className="flex flex-col justify-end p-7">
+                    <p className="eyebrow text-muted-foreground">{disciplines.join(" · ")}</p>
+                    <p className="mt-3 text-3xl font-semibold tracking-[-0.03em]">{d.name}</p>
+                    {d.work?.title && <p className="note-title mt-3">{d.work.title}</p>}
+                    <div className="mt-6 flex flex-wrap gap-2">
+                      {OFFERS.filter((o) => d.offers.includes(o.k)).map((o) => <span key={o.k} className="rounded-full border border-border px-3 py-1 text-[12px]">{o.t}</span>)}
+                    </div>
+                  </div>
+                </motion.div>
+              </Milestone>
+            )}
+
+            {step === "location" && (
+              <Q title="Where do you create from?" sub="It helps people nearby find you — no street address needed.">
+                <div className="flex flex-wrap gap-2">
+                  {CITIES.map((c) => <Chip key={c} on={d.city === c} onClick={() => setD((p) => ({ ...p, city: c, country: "Zambia" }))}>{c}</Chip>)}
+                  <Chip on={!!d.city && !CITIES.includes(d.city)} onClick={() => set("city", CITIES.includes(d.city) || !d.city ? " " : d.city)}>Other</Chip>
+                </div>
+                {d.city && !CITIES.includes(d.city) && (
+                  <div className="mt-8 grid gap-8 sm:grid-cols-2">
+                    <label><span className="text-[13px] font-medium">City</span><input autoFocus className={inputCls} value={d.city.trimStart()} onChange={(e) => set("city", e.target.value || " ")} placeholder="Your city" /></label>
+                    <label><span className="text-[13px] font-medium">Country</span><input className={inputCls} value={d.country} onChange={(e) => set("country", e.target.value)} /></label>
+                  </div>
+                )}
+              </Q>
+            )}
+
+            {step === "story" && (
+              <Q title="Tell people a little about you." sub="What do you create, what inspires you, and what would you like people to know about your work?">
+                <textarea autoFocus maxLength={700} rows={6} value={d.bio} onChange={(e) => set("bio", e.target.value)}
+                  placeholder="I create… I'm inspired by… I'd love people to know…"
+                  className="w-full resize-none rounded-2xl border border-border bg-transparent p-5 text-lg leading-relaxed outline-none transition-colors placeholder:text-foreground/25 focus:border-foreground" />
+                <p className="mt-2 text-right text-[12px] text-muted-foreground">{d.bio.length} / 700</p>
+                {d.bio.trim() && (
+                  <div className="mt-6 border-l-2 border-foreground/15 pl-5">
+                    <p className="eyebrow text-muted-foreground">On your profile</p>
+                    <p className="mt-2 text-xl leading-snug tracking-[-0.015em]">{preview.shortStatement}</p>
+                  </div>
+                )}
+              </Q>
+            )}
+
+            {step === "photo" && <PhotoStep d={d} set={set} />}
+
+            {(step === "preview" || step === "live") && (
+              <section>
+                <div className="container-x pt-12">
+                  <p className="note -rotate-1">{step === "live" ? "welcome in" : "this is you"}</p>
+                  <h1 className="display-lg mt-3 max-w-3xl">{step === "live" ? "Your creative space is live." : "This is how people will meet you."}</h1>
+                </div>
+                <div className="mt-8 border-y border-border"><HeroProfile a={preview} preview /></div>
+                {d.work?.img && (
+                  <div className="container-x py-14">
+                    <p className="eyebrow text-muted-foreground">Portfolio</p>
+                    <figure className="mt-5 max-w-md">
+                      <img src={d.work.img} alt={d.work.title} className="aspect-[4/5] w-full object-cover" />
+                      {d.work.title && <figcaption className="note-title mt-3">{d.work.title}</figcaption>}
+                    </figure>
+                  </div>
+                )}
+                <div className="container-x flex flex-wrap gap-3 pb-24 pt-6">
+                  {step === "preview" ? (
+                    <>
+                      <SiteButton onClick={() => setSaveOpen(true)}>Publish my profile <ArrowRight className="h-4 w-4" /></SiteButton>
+                      <SiteButton variant="outline" onClick={() => goTo("create", -1)}>Go back and edit</SiteButton>
+                    </>
+                  ) : (
+                    <>
+                      <SiteButton onClick={() => window.scrollTo({ top: 200, behavior: "smooth" })}>View my profile <ArrowRight className="h-4 w-4" /></SiteButton>
+                      <SiteButton variant="outline" onClick={() => goTo("work", -1)}>Add another project</SiteButton>
+                      {d.offers.includes("sell") && <SiteButton variant="outline" href="/shop">List something for sale</SiteButton>}
+                      {d.offers.some((o) => o === "services" || o === "bookings" || o === "commission") && <SiteButton variant="outline" onClick={() => goTo("discover", -1)}>Add a service</SiteButton>}
+                      <SiteButton variant="outline" onClick={() => navigator.clipboard?.writeText(location)}>Invite someone to view it</SiteButton>
+                    </>
+                  )}
+                </div>
+              </section>
+            )}
+
+            {error && <p role="alert" className="mt-6 text-sm text-destructive">{error}</p>}
+          </motion.div>
+        </AnimatePresence>
+      </main>
+
+      {!["intro", "preview", "live"].includes(step) && (
+        <footer className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-background/95 backdrop-blur-xl">
+          <div className="container-x mx-auto flex max-w-3xl items-center justify-between gap-4 py-4">
+            <button onClick={back} className="inline-flex items-center gap-2 text-sm font-medium opacity-70 hover:opacity-100"><ArrowLeft className="h-4 w-4" />Back</button>
+            <div className="flex items-center gap-5">
+              {step === "work" && <button onClick={() => { set("work", null); goTo(flow[idx + 1]!); }} className="link-line text-sm font-medium">I'll add this later</button>}
+              {step === "photo" && !d.portrait && <button onClick={() => goTo("preview")} className="link-line text-sm font-medium">Skip for now</button>}
+              <SiteButton onClick={next}>
+                {step === "m2" ? "Build my presence" : step === "work" && d.work?.img ? "Looks good" : step === "photo" ? "See my profile" : "Continue"} <ArrowRight className="h-4 w-4" />
+              </SiteButton>
+            </div>
           </div>
-        </main>
-      ) : (
-        <main className="grid flex-1 lg:grid-cols-[40%_60%]">
-          <aside className="border-border px-[18px] pb-4 pt-10 sm:px-7 lg:sticky lg:top-[78px] lg:h-[calc(100vh-78px)] lg:border-r lg:px-14 lg:pt-16">
-            <AnimatePresence mode="wait">
-              <motion.div key={step} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5, ease: EASE }} className="flex h-full flex-col">
-                {pos > 0 && <p className="eyebrow text-muted-foreground">{String(pos).padStart(2, "0")} / {String(counted.length).padStart(2, "0")}</p>}
-                <p className="note mt-6 -rotate-1">{L.note}</p>
-                <h1 className={`mt-3 max-w-md font-semibold tracking-[-0.045em] ${step === "welcome" ? "display-lg" : "text-4xl leading-[1] md:text-5xl"}`}>{L.title(groups, isMusic)}</h1>
-                <p className="mt-5 max-w-md text-[16px] leading-relaxed text-muted-foreground">{L.copy}</p>
-                {step === "welcome" && <img src={onboardArt} alt="An artist in her studio" className="mt-10 hidden aspect-[4/3] w-full max-w-md object-cover lg:block" />}
-              </motion.div>
-            </AnimatePresence>
-          </aside>
-
-          <section className="px-[18px] pb-32 pt-6 sm:px-7 lg:px-16 lg:pt-16">
-            <AnimatePresence mode="wait" custom={dir}>
-              <motion.div key={step} custom={dir} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.45, ease: EASE }} className="max-w-2xl">
-                {step === "welcome" && (
-                  <div className="flex flex-col gap-4 lg:pt-24">
-                    <SiteButton onClick={() => go(1)} className="px-8">Get started <ArrowRight className="h-4 w-4" /></SiteButton>
-                    <a href="/" className="link-line w-fit text-sm font-medium">I already have an account</a>
-                    <p className="mt-6 text-[13px] text-muted-foreground">Takes about 5 minutes. You can finish later.</p>
-                  </div>
-                )}
-
-                {step === "account" && (
-                  <div className="grid gap-8 sm:grid-cols-2">
-                    <Field label="First name"><input autoFocus className={inputCls} value={d.first} onChange={(e) => set("first", e.target.value)} autoComplete="given-name" /></Field>
-                    <Field label="Last name"><input className={inputCls} value={d.last} onChange={(e) => set("last", e.target.value)} autoComplete="family-name" /></Field>
-                    <div className="sm:col-span-2"><Field label="Email"><input type="email" className={inputCls} value={d.email} onChange={(e) => set("email", e.target.value)} autoComplete="email" /></Field></div>
-                    <div className="sm:col-span-2"><Field label="Password" hint="At least 8 characters."><input type="password" className={inputCls} value={d.password} onChange={(e) => set("password", e.target.value)} autoComplete="new-password" /></Field></div>
-                  </div>
-                )}
-
-                {step === "disciplines" && (
-                  <div>
-                    <div className="grid gap-2 sm:grid-cols-2">
-                      {DISCIPLINES.map((x) => <Option key={x} on={d.disciplines.includes(x)} onClick={() => toggle("disciplines", x)}>{x}</Option>)}
-                    </div>
-                    <div className="mt-8"><Field label="Add another discipline" hint="Optional — for anything not listed."><input className={inputCls} value={d.custom} onChange={(e) => set("custom", e.target.value)} placeholder="e.g. Ceramicist" /></Field></div>
-                  </div>
-                )}
-
-                {step === "focus" && (
-                  <div className="space-y-12">
-                    {groups.map((g) => (
-                      <fieldset key={g}>
-                        {groups.length > 1 && <legend className="mb-4 text-lg font-semibold tracking-[-0.02em]">{FOCUS[g].q}</legend>}
-                        <div className="grid gap-2 sm:grid-cols-2">
-                          {FOCUS[g].opts.map((o) => <Option key={o} on={d.focus.includes(o)} onClick={() => toggle("focus", o)}>{o}</Option>)}
-                        </div>
-                      </fieldset>
-                    ))}
-                  </div>
-                )}
-
-                {step === "profile" && (
-                  <div className="space-y-8">
-                    <Field label="Artist or professional name"><input className={inputCls} value={d.name} onChange={(e) => set("name", e.target.value)} placeholder={`${d.first} ${d.last}`.trim()} /></Field>
-                    <Field label="Location"><input className={inputCls} value={d.location} onChange={(e) => set("location", e.target.value)} placeholder="Lusaka, Zambia" /></Field>
-                    <Field label="Short headline" hint={`${d.headline.length} / 120`}><input maxLength={120} className={inputCls} value={d.headline} onChange={(e) => set("headline", e.target.value)} placeholder={isMusic ? "Singer, songwriter and producer based in Lusaka." : "Painter exploring memory, place and everyday life."} /></Field>
-                    <Field label="Short bio" hint={`${d.bio.length} / 800 · optional for now`}><textarea maxLength={800} rows={5} className={`${inputCls} h-auto resize-none py-3`} value={d.bio} onChange={(e) => set("bio", e.target.value)} /></Field>
-                  </div>
-                )}
-
-                {step === "media" && (
-                  <div className="grid gap-10 sm:grid-cols-[0.7fr_1.3fr]">
-                    <ImagePick label="Profile photo" aspect="aspect-[4/5]" value={d.portrait} onChange={(v) => set("portrait", v)} />
-                    <div>
-                      <ImagePick label={isMusic ? "Hero image — a performance shot" : groups.includes("photo") ? "Hero image — a portfolio favourite" : "Hero image — your strongest work"} aspect="aspect-[4/5]" value={d.hero} pos={d.heroPos} onChange={(v) => set("hero", v)} />
-                      {d.hero && <Field label="Reposition"><input type="range" min={0} max={100} value={d.heroPos} onChange={(e) => set("heroPos", +e.target.value)} className="mt-3 w-full accent-foreground" /></Field>}
-                    </div>
-                  </div>
-                )}
-
-                {step === "work" && (
-                  <div className="space-y-8">
-                    <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-                      {([["image", "Image", ImageIcon], ["video", "Video", Video], ["audio", "Audio", Music], ["project", "Project", FolderOpen]] as const).map(([k, t, I]) => (
-                        <button key={k} type="button" aria-pressed={d.work?.kind === k} onClick={() => set("work", { title: "", year: "2026", type: "", img: "", ...d.work, kind: k })}
-                          className={`flex flex-col items-start gap-6 border p-4 text-sm font-medium transition-colors ${d.work?.kind === k ? "border-foreground bg-ink text-ink-foreground" : "border-border hover:border-foreground/40"}`}>
-                          <I className="h-5 w-5" />{t}
-                        </button>
-                      ))}
-                    </div>
-                    {d.work && (
-                      <>
-                        <div className="grid gap-8 sm:grid-cols-[1fr_120px]">
-                          <Field label="Title"><input className={inputCls} value={d.work.title} onChange={(e) => set("work", { ...d.work!, title: e.target.value })} placeholder={isMusic ? "Stay" : "After the Rain"} /></Field>
-                          <Field label="Year"><input inputMode="numeric" className={inputCls} value={d.work.year} onChange={(e) => set("work", { ...d.work!, year: e.target.value })} /></Field>
-                        </div>
-                        <Field label={d.work.kind === "audio" ? "Release type" : d.work.kind === "image" && !isMusic ? "Medium" : "Project type"}>
-                          <input className={inputCls} value={d.work.type} onChange={(e) => set("work", { ...d.work!, type: e.target.value })} placeholder={d.work.kind === "audio" ? "Single" : isMusic ? "Live performance" : "Oil on canvas"} />
-                        </Field>
-                        <ImagePick label={d.work.kind === "image" ? "Image" : "Cover image"} aspect="aspect-[4/3]" value={d.work.img} onChange={(v) => set("work", { ...d.work!, img: v })} />
-                      </>
-                    )}
-                  </div>
-                )}
-
-                {step === "earn" && (
-                  <div className="space-y-2">
-                    {EARN.map(({ k, t, d: desc }) => <Option key={k} on={d.caps[k]} sub={desc} onClick={() => set("caps", { ...d.caps, [k]: !d.caps[k] })}>{t}</Option>)}
-                  </div>
-                )}
-
-                {step === "availability" && (
-                  <div className="space-y-10">
-                    <div role="radiogroup" className="space-y-2">
-                      {AVAIL.map((a) => <Option key={a} on={d.availability === a} onClick={() => set("availability", a)}>{a}</Option>)}
-                    </div>
-                    <Field label="Typical response time">
-                      <select className={inputCls} value={d.response} onChange={(e) => set("response", e.target.value)}>
-                        {["Within a day", "Within 2 days", "Within a week"].map((r) => <option key={r}>{r}</option>)}
-                      </select>
-                    </Field>
-                  </div>
-                )}
-
-                {error && <p role="alert" className="mt-6 text-sm text-destructive">{error}</p>}
-
-                {step !== "welcome" && (
-                  <div className="fixed inset-x-0 bottom-0 z-20 flex items-center justify-between gap-4 border-t border-border bg-background/95 px-[18px] py-4 backdrop-blur-xl sm:px-7 lg:static lg:mt-14 lg:border-0 lg:bg-transparent lg:p-0">
-                    <button onClick={() => go(-1)} className="inline-flex items-center gap-2 text-sm font-medium opacity-70 hover:opacity-100"><ArrowLeft className="h-4 w-4" />Back</button>
-                    <div className="flex items-center gap-5">
-                      {step === "work" && <button onClick={() => { set("work", null); setDir(1); setStep(flow[idx + 1]!); }} className="link-line text-sm font-medium">Skip for now</button>}
-                      <SiteButton onClick={() => go(1)}>
-                        {flow[idx + 1] === "preview" ? "Preview profile" : "Continue"} <ArrowRight className="h-4 w-4" />
-                      </SiteButton>
-                    </div>
-                  </div>
-                )}
-              </motion.div>
-            </AnimatePresence>
-          </section>
-        </main>
+        </footer>
       )}
+
+      <AnimatePresence>
+        {saveOpen && <SaveModal d={d} set={set} onClose={() => setSaveOpen(false)} onDone={() => { setSaveOpen(false); goTo("live"); }} />}
+      </AnimatePresence>
     </div>
   );
 }
 
-const LEFT: Record<StepId, { note: string; title: (g: Group[], music: boolean) => string; copy: string }> = {
-  welcome: { note: "your work deserves a home", title: () => "Let's build your artist profile.", copy: "Create a professional space to show your work, tell your story, sell what you create and connect with people who want to work with you." },
-  account: { note: "your story starts here", title: () => "First, the basics.", copy: "We'll use this to set up your account. Your email stays private." },
-  disciplines: { note: "your work, your way", title: () => "What kind of artist are you?", copy: "Choose everything that describes your work. You can change this later." },
-  focus: { note: "the details matter", title: (g) => (g.length === 1 ? FOCUS[g[0]!].q : "Tell us more about your focus."), copy: "This helps the right people find you." },
-  profile: { note: "in your own words", title: () => "Let people meet the person behind the work.", copy: "A clear headline and a few honest lines go a long way." },
-  media: { note: "a face to the work", title: () => "Show us who you are.", copy: "Choose an image that feels like you. This will be one of the first things people see on your profile." },
-  work: { note: "start with one", title: (_g, m) => (m ? "Share something people can hear or see." : "Give people something to discover."), copy: "Add a first project now, or skip and add it later." },
-  earn: { note: "on your terms", title: () => "How would you like people to work with you?", copy: "Choose what applies today. You can enable more options later." },
-  availability: { note: "no calendars yet", title: () => "Are you currently available?", copy: "Just a simple signal for now. You can change it anytime." },
-  preview: { note: "", title: () => "", copy: "" },
-  done: { note: "", title: () => "", copy: "" },
-};
+/* ---------------- pieces ---------------- */
+function StageBar({ stage, sub, total, milestone }: { stage: number; sub: number; total: number; milestone: boolean }) {
+  return (
+    <div className="border-b border-border">
+      <div className="container-x pb-4">
+        <div className="grid grid-cols-3 gap-3">
+          {STAGES.map((s, i) => {
+            const fill = i < stage ? 1 : i > stage ? 0 : milestone ? 1 : Math.max(0.08, (sub - 1) / total + 0.5 / total);
+            return (
+              <div key={s}>
+                <p className={`mb-2 flex items-center gap-1.5 truncate text-[12px] ${i === stage ? "font-medium text-foreground" : "text-muted-foreground"}`}>
+                  {i < stage || (i === stage && milestone) ? <Check className="h-3 w-3 shrink-0" /> : <span className="shrink-0">{i + 1}</span>}
+                  <span className="truncate">{s}</span>
+                  {i === stage && !milestone && sub > 0 && <span className="ml-auto hidden shrink-0 text-muted-foreground sm:inline">{sub} of {total}</span>}
+                </p>
+                <div className="h-[3px] overflow-hidden rounded-full bg-border">
+                  <motion.div className="h-full rounded-full bg-foreground" initial={false} animate={{ width: `${fill * 100}%` }} transition={{ duration: 0.6, ease: EASE }} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Q({ title, sub, children }: { title: string; sub?: string; children: ReactNode }) {
+  return (
+    <section>
+      <h1 className="max-w-2xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] md:text-5xl">{title}</h1>
+      {sub && <p className="mt-4 max-w-xl text-[17px] leading-relaxed text-muted-foreground">{sub}</p>}
+      <div className="mt-10">{children}</div>
+    </section>
+  );
+}
+
+function Milestone({ note, title, children }: { note: string; title: string; children: ReactNode }) {
+  return (
+    <section className="pt-6">
+      <p className="note -rotate-2">{note}</p>
+      <h1 className="display-lg mt-3 max-w-2xl">{title}</h1>
+      <div className="mt-10 max-w-xl">{children}</div>
+    </section>
+  );
+}
+
+type SetFn = <K extends keyof Data>(k: K, v: Data[K]) => void;
+
+function WorkStep({ d, set }: { d: Data; set: SetFn }) {
+  const w = d.work;
+  const { open, input } = usePicker((img) => set("work", { kind: "image", title: "", desc: "", ...w, img }));
+  const kinds = [["image", "Image", ImageIcon], ["video", "Video", Video], ["audio", "Audio", AudioLines], ["project", "Project", FolderOpen]] as const;
+  return (
+    <Q title="Show us something you're proud of." sub="It doesn't have to be for sale. This is simply the beginning of your portfolio.">
+      {input}
+      <div className="grid grid-cols-4 gap-2">
+        {kinds.map(([k, t, I]) => (
+          <button key={k} type="button" aria-pressed={w?.kind === k} onClick={() => set("work", { title: "", desc: "", img: "", ...w, kind: k })}
+            className={`flex flex-col items-center gap-2 rounded-2xl border py-5 text-sm font-medium transition-colors ${w?.kind === k ? "border-foreground bg-ink text-ink-foreground" : "border-border hover:border-foreground/40"}`}>
+            <I className="h-5 w-5" strokeWidth={1.5} />{t}
+          </button>
+        ))}
+      </div>
+      <button type="button" onClick={open} className="group relative mt-6 block aspect-[4/3] w-full overflow-hidden rounded-2xl bg-secondary">
+        {w?.img ? (
+          <>
+            <motion.img initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: EASE }} src={w.img} alt={w.title || "Your work"} className="h-full w-full object-cover" />
+            <span className="absolute bottom-4 right-4 rounded-full bg-background/90 px-4 py-2 text-[13px] font-medium opacity-0 transition-opacity group-hover:opacity-100">Replace</span>
+          </>
+        ) : (
+          <span className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center">
+            <span className="grid h-14 w-14 place-items-center rounded-full bg-background"><ImageIcon className="h-5 w-5" strokeWidth={1.5} /></span>
+            <span className="text-[15px] font-medium">{w?.kind === "audio" ? "Add cover art" : w?.kind === "video" ? "Add a still or poster" : "Add an image of your work"}</span>
+            <span className="text-[13px] text-muted-foreground">It'll appear large on your profile</span>
+          </span>
+        )}
+      </button>
+      {w?.img && (
+        <div className="mt-8 space-y-6">
+          <label className="block"><span className="text-[13px] font-medium">Title</span><input className={inputCls} value={w.title} onChange={(e) => set("work", { ...w, title: e.target.value })} placeholder="Give it a name" /></label>
+          <label className="block"><span className="text-[13px] font-medium">Short description <span className="text-muted-foreground">· optional</span></span>
+            <input className={`${inputCls} text-lg`} value={w.desc} onChange={(e) => set("work", { ...w, desc: e.target.value })} placeholder="A line about it" /></label>
+        </div>
+      )}
+    </Q>
+  );
+}
+
+function PhotoStep({ d, set }: { d: Data; set: SetFn }) {
+  const { open, input } = usePicker((v) => set("portrait", v));
+  return (
+    <Q title="Put a face to the work." sub="Choose an image that represents you — a portrait, studio photo or professional creative image.">
+      {input}
+      <div className="grid items-end gap-8 sm:grid-cols-[minmax(0,320px)_1fr]">
+        <button type="button" onClick={open} className="relative block aspect-[4/5] w-full overflow-hidden rounded-2xl bg-secondary">
+          {d.portrait ? <img src={d.portrait} alt="Your profile" style={{ objectPosition: `50% ${d.portraitPos}%` }} className="h-full w-full object-cover" />
+            : <span className="absolute inset-0 flex flex-col items-center justify-center gap-3"><span className="grid h-14 w-14 place-items-center rounded-full bg-background"><Camera className="h-5 w-5" strokeWidth={1.5} /></span><span className="text-[15px] font-medium">Upload a photo</span></span>}
+        </button>
+        <div className="space-y-5">
+          {d.portrait ? (
+            <>
+              <SiteButton variant="outline" onClick={open}>Replace</SiteButton>
+              <label className="block max-w-xs"><span className="text-[13px] font-medium">Reposition</span>
+                <input type="range" min={0} max={100} value={d.portraitPos} onChange={(e) => set("portraitPos", +e.target.value)} className="mt-3 w-full accent-foreground" /></label>
+            </>
+          ) : <SiteButton onClick={open}>Upload</SiteButton>}
+          <p className="flex items-center gap-1.5 text-[13px] text-muted-foreground"><MapPin className="h-3.5 w-3.5" />{[d.city.trim(), d.country].filter(Boolean).join(", ")}</p>
+        </div>
+      </div>
+    </Q>
+  );
+}
+
+function SaveModal({ d, set, onClose, onDone }: { d: Data; set: SetFn; onClose: () => void; onDone: () => void }) {
+  const [err, setErr] = useState("");
+  const submit = () => {
+    if (!/^\S+@\S+\.\S+$/.test(d.email)) return setErr("Please enter a valid email address.");
+    if (d.password.length < 8) return setErr("Password needs at least 8 characters.");
+    onDone();
+  };
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 grid place-items-end bg-foreground/40 sm:place-items-center" onClick={onClose}>
+      <motion.div role="dialog" aria-modal="true" aria-labelledby="save-title" initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 40, opacity: 0 }} transition={{ duration: 0.4, ease: EASE }}
+        onClick={(e) => e.stopPropagation()} className="relative w-full max-w-md rounded-t-3xl bg-background p-8 sm:rounded-3xl">
+        <button onClick={onClose} aria-label="Close" className="absolute right-5 top-5 grid h-9 w-9 place-items-center rounded-full hover:bg-secondary"><X className="h-4 w-4" /></button>
+        <p className="note -rotate-1">almost there</p>
+        <h2 id="save-title" className="mt-2 text-3xl font-semibold tracking-[-0.04em]">Save your profile</h2>
+        <p className="mt-3 text-[15px] text-muted-foreground">Create your account so we can save and publish everything you've built.</p>
+        <form className="mt-6 space-y-5" onSubmit={(e) => { e.preventDefault(); submit(); }}>
+          <label className="block"><span className="text-[13px] font-medium">Email</span><input autoFocus type="email" autoComplete="email" className={`${inputCls} text-lg`} value={d.email} onChange={(e) => { set("email", e.target.value); setErr(""); }} /></label>
+          <label className="block"><span className="text-[13px] font-medium">Password</span><input type="password" autoComplete="new-password" className={`${inputCls} text-lg`} value={d.password} onChange={(e) => { set("password", e.target.value); setErr(""); }} placeholder="At least 8 characters" /></label>
+          {err && <p role="alert" className="text-sm text-destructive">{err}</p>}
+          <SiteButton type="submit" className="w-full justify-center">Save &amp; publish <ArrowRight className="h-4 w-4" /></SiteButton>
+        </form>
+      </motion.div>
+    </motion.div>
+  );
+}
