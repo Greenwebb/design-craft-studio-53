@@ -6,7 +6,7 @@
 - [ ] Collector account area (home, orders, saved works, collaborations)
 - [ ] Shopping & checkout polish (bag, checkout steps, confirmation)
 - [x] Bigger text and icons site-wide
-- [x] Commission / hire workflow with proposal states (Request → Project created)
+- [x] Commission / hire workflow: discipline questions, references, drafts, creator proposal builder, history, cancel/decline, payment failure
 - [x] Project workspace tabs (overview, messages, files, milestones, payments, timeline)
 - [x] Order fulfilment + wallet state definitions
 - [x] Admin / Operations dashboard as its own separate shell (/admin)
