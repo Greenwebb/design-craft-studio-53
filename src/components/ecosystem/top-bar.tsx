@@ -19,19 +19,19 @@ export type PageHeaderProps = {
   sticky?: boolean;
 };
 
-export function MobilePageHeader({ title, eyebrow, back, leading, actions, children, secondaryContent, sticky = true }: PageHeaderProps) {
+export function MobilePageHeader({ title, eyebrow, back, leading, actions, children, secondaryContent }: PageHeaderProps) {
   return (
-    <header className={cn("z-40 border-b border-foreground/[0.07] bg-background/95 pt-[env(safe-area-inset-top)] backdrop-blur-md", sticky && "sticky top-0")}>
-      <div className="flex min-h-[60px] items-center gap-3 px-4 sm:min-h-[72px] sm:px-7 xl:px-9">
+    <div className="mx-auto max-w-[1360px] px-[18px] pt-8 sm:px-7 sm:pt-10 lg:px-10">
+      <div className="flex min-h-[48px] items-center gap-3">
         {back?.visible ? <BackButton onClick={back.onClick} /> : leading}
         <div className="min-w-0 flex-1">
           {eyebrow && <p className="hidden truncate text-[11px] uppercase tracking-[0.14em] text-muted-foreground sm:block">{eyebrow}</p>}
-          <p className="truncate text-[21px] font-[560] leading-[1.1] tracking-[-0.025em] sm:text-xl sm:font-semibold">{title}</p>
+          <p className="truncate text-[24px] font-[560] leading-[1.1] tracking-[-0.025em] sm:text-2xl sm:font-semibold">{title}</p>
         </div>
         <div className="flex shrink-0 items-center gap-1 sm:gap-2">{actions}{children}</div>
       </div>
-      {secondaryContent && <div className="overflow-x-auto px-4 pb-2 sm:px-7 xl:px-9">{secondaryContent}</div>}
-    </header>
+      {secondaryContent && <div className="mt-3 overflow-x-auto">{secondaryContent}</div>}
+    </div>
   );
 }
 
