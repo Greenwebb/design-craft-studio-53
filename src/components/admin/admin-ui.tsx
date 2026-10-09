@@ -72,7 +72,8 @@ export function ActionDialog({ resource, id, action, record, open, onClose }: {
 }) {
   const act = useAdminOps((s) => s.act);
   const [reason, setReason] = useState('');
-  const amount = typeof record.amount === 'number' ? record.amount : typeof record.total === 'number' ? (record.total as number) : undefined;
+  const rec = record as Record<string, unknown>;
+  const amount = typeof rec['amount'] === 'number' ? (rec['amount'] as number) : typeof rec['total'] === 'number' ? (rec['total'] as number) : undefined;
   const blocked = action.requiresReason && reason.trim().length < 4;
   return (
     <AdminDialog open={open} onOpenChange={(v) => { if (!v) { setReason(''); onClose(); } }} title={action.label}
@@ -97,7 +98,7 @@ export function ActionDialog({ resource, id, action, record, open, onClose }: {
           <Dialog.Close asChild>
             <button className="rounded-full border border-border px-6 py-3 text-base font-medium hover:bg-secondary">Cancel</button>
           </Dialog.Close>
-          <button disabled={blocked} onClick={() => { act(resource, id, action, { reason: reason.trim() || undefined }); setReason(''); onClose(); }}
+          <button disabled={blocked} onClick={() => { act(resource, id, action, reason.trim() ? { reason: reason.trim() } : undefined); setReason(''); onClose(); }}
             className={cn('rounded-full px-6 py-3 text-base font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-40',
               action.tone === 'danger' ? 'bg-studio-danger text-white hover:bg-studio-danger/90'
                 : action.tone === 'primary' ? 'bg-ink text-ink-foreground hover:bg-ink/90' : 'border border-border hover:bg-secondary')}>
@@ -216,10 +217,10 @@ export function ThreadSection({ resource, id, thread, replyAs }: {
 
 // ---------- page header (shared with every admin page) ----------
 export function AdminPageHeader({ title, back, actions, children, secondaryContent }: {
-  title: string; back?: boolean; actions?: ReactNode; children?: ReactNode; secondaryContent?: ReactNode;
+  title: string; back?: boolean | undefined; actions?: ReactNode; children?: ReactNode; secondaryContent?: ReactNode;
 }) {
   return (
-    <MobilePageHeader title={title} back={back ? { visible: true } : undefined} secondaryContent={secondaryContent}
+    <MobilePageHeader title={title} {...(back ? { back: { visible: true } } : {})} {...(secondaryContent ? { secondaryContent } : {})}
       actions={<>
         {actions}
         <SearchButton onClick={() => useAdminSearch.getState().setOpen(true)} label="Search operations" />
@@ -232,7 +233,7 @@ export function AdminPageHeader({ title, back, actions, children, secondaryConte
 }
 
 export function AdminPage({ title, back, actions, children, className }: {
-  title: string; back?: boolean; actions?: ReactNode; children: ReactNode; className?: string;
+  title: string; back?: boolean | undefined; actions?: ReactNode; children: ReactNode; className?: string;
 }) {
   return (
     <div className={className}>

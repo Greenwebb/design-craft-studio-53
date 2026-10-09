@@ -15,10 +15,11 @@ const ops: Record<string, { agreed: number; paid: number; dispute?: string; next
 
 function ProjectsQueue() {
   const [tab, setTab] = useState('all');
+  const awaiting = sharedProjects.filter((x) => x.status === 'awaiting-review').length;
   const tabs = [
     { value: 'all', label: 'All', count: sharedProjects.length },
     { value: 'attention', label: 'Needs attention', count: sharedProjects.filter((p) => ops[p.id]?.dispute).length },
-    { value: p(sharedProjects, 'awaiting-review'), label: 'Awaiting review' },
+    { value: 'awaiting-review', label: 'Awaiting review', count: awaiting },
   ];
   return (
     <AdminPage title="Projects">
@@ -29,7 +30,7 @@ function ProjectsQueue() {
           { key: 'agreed', label: 'Agreed', render: (p) => ops[p.id] ? money(ops[p.id].agreed) : '—' },
           { key: 'paid', label: 'Paid in', render: (p) => ops[p.id] ? money(ops[p.id].paid) : '—' },
           { key: 'nextMilestone', label: 'Next step', render: (p) => ops[p.id]?.nextAction ?? p.nextMilestone },
-          { key: 'status', label: 'Status', render: (p) => <div className="flex flex-col items-start gap-1.5"><StatusPill state={p.status} />{ops[p.id]?.dispute && <span className="text-[13px] text-studio-copper">Dispute {ops[p.id].dispute}</span>}</div> },
+          { key: 'status', label: 'Status', render: (p) => <div className="flex flex-col items-start gap-1.5"><StatusPill state={p.status} />{ops[p.id]?.dispute && <span className="text-[13px] text-studio-copper">Dispute {ops[p.id]?.dispute}</span>}</div> },
         ]}
         rows={sharedProjects.filter((p) => tab === 'all' || (tab === 'attention' ? !!ops[p.id]?.dispute : p.status === tab))}
         hrefFor={(p) => `/admin/projects/${p.id}`}
@@ -46,4 +47,4 @@ function ProjectsQueue() {
     </AdminPage>
   );
 }
-const p = (list: { status: string }[], status: string) => list.filter((x) => x.status === status).length;
+
