@@ -19,7 +19,7 @@ export const Route = createFileRoute("/bag")({
 });
 
 function BagPage() {
-  const { items, remove } = useBag();
+  const { hydrated, items, remove } = useBag();
   const navigate = useNavigate();
   const selected = items.map((s) => works.find((w) => w.slug === s)).filter((w) => w != null);
   const total = selected.reduce((sum, w) => sum + w.price, 0);
@@ -33,7 +33,7 @@ function BagPage() {
           <h1 className="mt-3 text-[clamp(40px,6vw,72px)] font-semibold tracking-[-0.035em]">Your selection</h1>
         </Reveal>
 
-        {selected.length === 0 ? (
+        {!hydrated ? null : selected.length === 0 ? (
           <Reveal delay={0.1}>
             <div className="mt-16 max-w-md">
               <p className="text-[17px] leading-relaxed text-muted-foreground">
