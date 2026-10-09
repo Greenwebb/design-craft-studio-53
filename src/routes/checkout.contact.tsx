@@ -61,7 +61,7 @@ function ContactStep() {
             <input id="lastName" autoComplete="family-name" value={draft.lastName} onChange={(e) => setDraft({ lastName: e.target.value })} className={inputCls} />
           </div>
         </div>
-        <label className="flex w-fit cursor-pointer items-center gap-3 text-[15px]">
+        <label className="flex w-fit cursor-pointer items-center gap-3 text-[16px]">
           <input
             type="checkbox" checked={draft.updates} onChange={(e) => setDraft({ updates: e.target.checked })}
             className="h-4 w-4 accent-ink"

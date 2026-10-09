@@ -64,7 +64,7 @@ function BagPage() {
                           <Link to="/work/$slug" params={{ slug: w.slug }} className="link-line text-xl font-medium">
                             {w.title}
                           </Link>
-                          <p className="mt-1 text-[15px] text-muted-foreground">{w.artist.name}</p>
+                          <p className="mt-1 text-[16px] text-muted-foreground">{w.artist.name}</p>
                         </div>
                         <button
                           type="button"
@@ -97,7 +97,7 @@ function BagPage() {
             <Reveal delay={0.15}>
               <aside className="h-fit border border-border p-8 lg:sticky lg:top-32">
                 <p className="eyebrow">Summary</p>
-                <dl className="mt-6 space-y-3 text-[15px]">
+                <dl className="mt-6 space-y-3 text-[16px]">
                   <div className="flex justify-between">
                     <dt className="text-muted-foreground">Artwork{selected.length > 1 ? "s" : ""}</dt>
                     <dd>{formatPrice(total)}</dd>

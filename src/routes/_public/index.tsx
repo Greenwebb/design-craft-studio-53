@@ -88,7 +88,7 @@ function Hero() {
           />
         </motion.div>
         <p className="note mt-4 -rotate-1">a story worth keeping</p>
-        <figcaption className="mt-1 flex items-baseline justify-between gap-4 text-[13px]">
+        <figcaption className="mt-1 flex items-baseline justify-between gap-4 text-[14px]">
           <span><span className="font-medium">Mwansa Chileshe</span> — <em className="not-italic text-muted-foreground">After the Rain</em></span>
           <span className="text-muted-foreground">Lusaka, Zambia · 2026</span>
         </figcaption>
@@ -102,7 +102,7 @@ function Hero() {
             <defs>
               <path id="stamp-circle" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" />
             </defs>
-            <text className="fill-foreground text-[8px] font-medium uppercase" style={{ letterSpacing: "0.24em" }}>
+            <text className="fill-foreground text-[10px] font-medium uppercase" style={{ letterSpacing: "0.24em" }}>
               <textPath href="#stamp-circle">Original works · Lusaka, Zambia · Est. 2026 ·</textPath>
             </text>
             <circle cx="50" cy="50" r="2.5" className="fill-current" />
@@ -162,7 +162,7 @@ function Artwork({ w }: { w: (typeof works)[number] }) {
         <div className="min-w-0">
           <h3 className="note-title">{w.t}</h3>
           <p className="text-sm">{w.a}</p>
-          <p className="text-[13px] text-muted-foreground">{w.m}</p>
+          <p className="text-[14px] text-muted-foreground">{w.m}</p>
         </div>
         <p className="text-sm font-medium">{w.p}</p>
       </div>
@@ -224,7 +224,7 @@ function Artists() {
                 <p className="mt-2 text-muted-foreground">{a.role}</p>
                 <p className="note mt-10">in their own words</p>
                 <p className="mt-3 max-w-xl text-2xl leading-snug tracking-[-0.02em] md:text-3xl">“{a.quote}”</p>
-                <div className="mt-10"><Link to="/artists/$slug" params={{ slug: a.slug }} className="group inline-flex items-center gap-2 text-[15px] font-medium"><span className="link-line pb-0.5">View artist</span><ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" /></Link></div>
+                <div className="mt-10"><Link to="/artists/$slug" params={{ slug: a.slug }} className="group inline-flex items-center gap-2 text-[16px] font-medium"><span className="link-line pb-0.5">View artist</span><ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" /></Link></div>
               </div>
               <div className="grid grid-cols-2 gap-6">
                 {a.works.map((w, k) => (
@@ -290,7 +290,7 @@ function Collections() {
               </div>
               <div className="mt-4 flex items-baseline justify-between">
                 <h3 className="text-2xl font-medium tracking-[-0.03em] md:text-3xl">{c.t}</h3>
-                <span className="text-[13px] text-muted-foreground">{c.n}</span>
+                <span className="text-[14px] text-muted-foreground">{c.n}</span>
               </div>
             </a>
           </Reveal>

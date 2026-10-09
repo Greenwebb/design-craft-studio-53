@@ -72,7 +72,7 @@ function Card({ on, onClick, title, sub, I, children }: { on: boolean; onClick: 
       {I && <I className="h-6 w-6" strokeWidth={1.5} />}
       <span>
         <span className="block text-[16px] font-medium tracking-[-0.01em]">{title}</span>
-        {sub && <span className="mt-1 block text-[13px] leading-snug text-muted-foreground">{sub}</span>}
+        {sub && <span className="mt-1 block text-[14px] leading-snug text-muted-foreground">{sub}</span>}
       </span>
       {children}
       <span className={`absolute right-4 top-4 grid h-5 w-5 place-items-center rounded-full border transition-colors ${on ? "border-foreground bg-foreground text-background" : "border-foreground/25"}`}>{on && <Check className="h-3 w-3" />}</span>
@@ -82,7 +82,7 @@ function Card({ on, onClick, title, sub, I, children }: { on: boolean; onClick: 
 function Chip({ on, onClick, children }: { on: boolean; onClick: () => void; children: ReactNode }) {
   return (
     <button type="button" role="checkbox" aria-checked={on} onClick={onClick}
-      className={`rounded-full border px-5 py-3 text-[15px] font-medium transition-colors ${on ? "border-foreground bg-ink text-ink-foreground" : "border-border hover:border-foreground/40"}`}>
+      className={`rounded-full border px-5 py-3 text-[16px] font-medium transition-colors ${on ? "border-foreground bg-ink text-ink-foreground" : "border-border hover:border-foreground/40"}`}>
       {children}
     </button>
   );
@@ -212,7 +212,7 @@ function JoinPage() {
                     <SiteButton onClick={() => goTo("create")} className="px-10">Start <ArrowRight className="h-4 w-4" /></SiteButton>
                     {hasDraft && <button onClick={() => goTo(hasDraft)} className="link-line text-sm font-medium">Already started? Continue</button>}
                   </div>
-                  <p className="mt-8 text-[13px] text-muted-foreground">Three short stages · about 5 minutes</p>
+                  <p className="mt-8 text-[14px] text-muted-foreground">Three short stages · about 5 minutes</p>
                 </div>
                 <motion.img initial={{ opacity: 0, scale: 1.03 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.1, ease: EASE }}
                   src={placeholderArt} alt="A creative at work in the studio" className="hidden aspect-[4/5] w-full rounded-sm object-cover lg:block" />
@@ -227,7 +227,7 @@ function JoinPage() {
                 <AnimatePresence>
                   {d.cats.includes("Other") && (
                     <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
-                      <label className="mt-8 block"><span className="text-[13px] font-medium">Your creative discipline</span>
+                      <label className="mt-8 block"><span className="text-[14px] font-medium">Your creative discipline</span>
                         <input autoFocus className={inputCls} value={d.custom} onChange={(e) => set("custom", e.target.value)} placeholder="e.g. Ceramicist" /></label>
                     </motion.div>
                   )}
@@ -240,7 +240,7 @@ function JoinPage() {
                 <div className="space-y-10">
                   {refinable.map((c) => (
                     <fieldset key={c.k}>
-                      {refinable.length > 1 && <legend className="mb-4 flex items-center gap-2 text-[15px] font-medium"><c.I className="h-4 w-4" strokeWidth={1.5} />{c.k}</legend>}
+                      {refinable.length > 1 && <legend className="mb-4 flex items-center gap-2 text-[16px] font-medium"><c.I className="h-4 w-4" strokeWidth={1.5} />{c.k}</legend>}
                       <div className="flex flex-wrap gap-2">
                         {c.subs.map((s) => <Chip key={s} on={d.subs.includes(s)} onClick={() => set("subs", tog(d.subs, s))}>{s}</Chip>)}
                       </div>
@@ -275,7 +275,7 @@ function JoinPage() {
                       <AnimatePresence>
                         {d.offers.includes(o.k) && (
                           <motion.span initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="block overflow-hidden">
-                            <span className="block pt-1 text-[13px] leading-snug text-foreground/80">{o.v}</span>
+                            <span className="block pt-1 text-[14px] leading-snug text-foreground/80">{o.v}</span>
                           </motion.span>
                         )}
                       </AnimatePresence>
@@ -307,7 +307,7 @@ function JoinPage() {
                     <p className="mt-3 text-3xl font-semibold tracking-[-0.03em]">{d.name}</p>
                     {d.work?.title && <p className="note-title mt-3">{d.work.title}</p>}
                     <div className="mt-6 flex flex-wrap gap-2">
-                      {OFFERS.filter((o) => d.offers.includes(o.k)).map((o) => <span key={o.k} className="rounded-full border border-border px-3 py-1 text-[12px]">{o.t}</span>)}
+                      {OFFERS.filter((o) => d.offers.includes(o.k)).map((o) => <span key={o.k} className="rounded-full border border-border px-3 py-1 text-[13px]">{o.t}</span>)}
                     </div>
                   </div>
                 </motion.div>
@@ -322,8 +322,8 @@ function JoinPage() {
                 </div>
                 {d.city && !CITIES.includes(d.city) && (
                   <div className="mt-8 grid gap-8 sm:grid-cols-2">
-                    <label><span className="text-[13px] font-medium">City</span><input autoFocus className={inputCls} value={d.city.trimStart()} onChange={(e) => set("city", e.target.value || " ")} placeholder="Your city" /></label>
-                    <label><span className="text-[13px] font-medium">Country</span><input className={inputCls} value={d.country} onChange={(e) => set("country", e.target.value)} /></label>
+                    <label><span className="text-[14px] font-medium">City</span><input autoFocus className={inputCls} value={d.city.trimStart()} onChange={(e) => set("city", e.target.value || " ")} placeholder="Your city" /></label>
+                    <label><span className="text-[14px] font-medium">Country</span><input className={inputCls} value={d.country} onChange={(e) => set("country", e.target.value)} /></label>
                   </div>
                 )}
               </Q>
@@ -334,7 +334,7 @@ function JoinPage() {
                 <textarea autoFocus maxLength={700} rows={6} value={d.bio} onChange={(e) => set("bio", e.target.value)}
                   placeholder="I create… I'm inspired by… I'd love people to know…"
                   className="w-full resize-none rounded-2xl border border-border bg-transparent p-5 text-lg leading-relaxed outline-none transition-colors placeholder:text-foreground/25 focus:border-foreground" />
-                <p className="mt-2 text-right text-[12px] text-muted-foreground">{d.bio.length} / 700</p>
+                <p className="mt-2 text-right text-[13px] text-muted-foreground">{d.bio.length} / 700</p>
                 {d.bio.trim() && (
                   <div className="mt-6 border-l-2 border-foreground/15 pl-5">
                     <p className="eyebrow text-muted-foreground">On your profile</p>
@@ -417,12 +417,12 @@ function SideRail({ stage, name, disciplines, location }: { stage: number; name:
         <ol className="space-y-6">
           {STAGES.map((s, i) => (
             <li key={s} className="flex items-start gap-4">
-              <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border text-[13px] ${i < stage ? "border-foreground bg-foreground text-background" : i === stage ? "border-foreground" : "border-border text-muted-foreground"}`}>
+              <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border text-[14px] ${i < stage ? "border-foreground bg-foreground text-background" : i === stage ? "border-foreground" : "border-border text-muted-foreground"}`}>
                 {i < stage ? <Check className="h-3.5 w-3.5" /> : i + 1}
               </span>
               <div className="min-w-0 pt-1">
-                <p className={`text-[15px] leading-snug ${i === stage ? "font-medium" : i < stage ? "text-muted-foreground line-through decoration-foreground/30" : "text-muted-foreground"}`}>{s}</p>
-                {i === stage && <p className="mt-1 text-[12px] text-muted-foreground">In progress</p>}
+                <p className={`text-[16px] leading-snug ${i === stage ? "font-medium" : i < stage ? "text-muted-foreground line-through decoration-foreground/30" : "text-muted-foreground"}`}>{s}</p>
+                {i === stage && <p className="mt-1 text-[13px] text-muted-foreground">In progress</p>}
               </div>
             </li>
           ))}
@@ -431,8 +431,8 @@ function SideRail({ stage, name, disciplines, location }: { stage: number; name:
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: EASE }} className="rounded-2xl border border-border p-6">
             <p className="note -rotate-2">that's you</p>
             <p className="mt-3 text-[17px] font-semibold uppercase tracking-[0.06em]">{name}</p>
-            <p className="mt-1.5 text-[13px] leading-snug text-muted-foreground">{disciplines.join(" · ")}</p>
-            {location && <p className="mt-1 text-[13px] text-muted-foreground">{location}</p>}
+            <p className="mt-1.5 text-[14px] leading-snug text-muted-foreground">{disciplines.join(" · ")}</p>
+            {location && <p className="mt-1 text-[14px] text-muted-foreground">{location}</p>}
           </motion.div>
         )}
       </div>
@@ -449,7 +449,7 @@ function StageBar({ stage, sub, total, milestone }: { stage: number; sub: number
             const fill = i < stage ? 1 : i > stage ? 0 : milestone ? 1 : Math.max(0.08, (sub - 1) / total + 0.5 / total);
             return (
               <div key={s}>
-                <p className={`mb-2 flex items-center gap-1.5 truncate text-[12px] ${i === stage ? "font-medium text-foreground" : "text-muted-foreground"}`}>
+                <p className={`mb-2 flex items-center gap-1.5 truncate text-[13px] ${i === stage ? "font-medium text-foreground" : "text-muted-foreground"}`}>
                   {i < stage || (i === stage && milestone) ? <Check className="h-3 w-3 shrink-0" /> : <span className="shrink-0">{i + 1}</span>}
                   <span className="truncate">{s}</span>
                   {i === stage && !milestone && sub > 0 && <span className="ml-auto hidden shrink-0 text-muted-foreground sm:inline">{sub} of {total}</span>}
@@ -507,20 +507,20 @@ function WorkStep({ d, set }: { d: Data; set: SetFn }) {
         {w?.img ? (
           <>
             <motion.img initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: EASE }} src={w.img} alt={w.title || "Your work"} className="h-full w-full object-cover" />
-            <span className="absolute bottom-4 right-4 rounded-full bg-background/90 px-4 py-2 text-[13px] font-medium opacity-0 transition-opacity group-hover:opacity-100">Replace</span>
+            <span className="absolute bottom-4 right-4 rounded-full bg-background/90 px-4 py-2 text-[14px] font-medium opacity-0 transition-opacity group-hover:opacity-100">Replace</span>
           </>
         ) : (
           <span className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center">
             <span className="grid h-14 w-14 place-items-center rounded-full bg-background"><ImageIcon className="h-5 w-5" strokeWidth={1.5} /></span>
-            <span className="text-[15px] font-medium">{w?.kind === "audio" ? "Add cover art" : w?.kind === "video" ? "Add a still or poster" : "Add an image of your work"}</span>
-            <span className="text-[13px] text-muted-foreground">It'll appear large on your profile</span>
+            <span className="text-[16px] font-medium">{w?.kind === "audio" ? "Add cover art" : w?.kind === "video" ? "Add a still or poster" : "Add an image of your work"}</span>
+            <span className="text-[14px] text-muted-foreground">It'll appear large on your profile</span>
           </span>
         )}
       </button>
       {w?.img && (
         <div className="mt-8 space-y-6">
-          <label className="block"><span className="text-[13px] font-medium">Title</span><input className={inputCls} value={w.title} onChange={(e) => set("work", { ...w, title: e.target.value })} placeholder="Give it a name" /></label>
-          <label className="block"><span className="text-[13px] font-medium">Short description <span className="text-muted-foreground">· optional</span></span>
+          <label className="block"><span className="text-[14px] font-medium">Title</span><input className={inputCls} value={w.title} onChange={(e) => set("work", { ...w, title: e.target.value })} placeholder="Give it a name" /></label>
+          <label className="block"><span className="text-[14px] font-medium">Short description <span className="text-muted-foreground">· optional</span></span>
             <input className={`${inputCls} text-lg`} value={w.desc} onChange={(e) => set("work", { ...w, desc: e.target.value })} placeholder="A line about it" /></label>
         </div>
       )}
@@ -536,17 +536,17 @@ function PhotoStep({ d, set }: { d: Data; set: SetFn }) {
       <div className="grid items-end gap-8 sm:grid-cols-[minmax(0,320px)_1fr]">
         <button type="button" onClick={open} className="relative block aspect-[4/5] w-full overflow-hidden rounded-2xl bg-secondary">
           {d.portrait ? <img src={d.portrait} alt="Your profile" style={{ objectPosition: `50% ${d.portraitPos}%` }} className="h-full w-full object-cover" />
-            : <span className="absolute inset-0 flex flex-col items-center justify-center gap-3"><span className="grid h-14 w-14 place-items-center rounded-full bg-background"><Camera className="h-5 w-5" strokeWidth={1.5} /></span><span className="text-[15px] font-medium">Upload a photo</span></span>}
+            : <span className="absolute inset-0 flex flex-col items-center justify-center gap-3"><span className="grid h-14 w-14 place-items-center rounded-full bg-background"><Camera className="h-5 w-5" strokeWidth={1.5} /></span><span className="text-[16px] font-medium">Upload a photo</span></span>}
         </button>
         <div className="space-y-5">
           {d.portrait ? (
             <>
               <SiteButton variant="outline" onClick={open}>Replace</SiteButton>
-              <label className="block max-w-xs"><span className="text-[13px] font-medium">Reposition</span>
+              <label className="block max-w-xs"><span className="text-[14px] font-medium">Reposition</span>
                 <input type="range" min={0} max={100} value={d.portraitPos} onChange={(e) => set("portraitPos", +e.target.value)} className="mt-3 w-full accent-foreground" /></label>
             </>
           ) : <SiteButton onClick={open}>Upload</SiteButton>}
-          <p className="flex items-center gap-1.5 text-[13px] text-muted-foreground"><MapPin className="h-3.5 w-3.5" />{[d.city.trim(), d.country].filter(Boolean).join(", ")}</p>
+          <p className="flex items-center gap-1.5 text-[14px] text-muted-foreground"><MapPin className="h-3.5 w-3.5" />{[d.city.trim(), d.country].filter(Boolean).join(", ")}</p>
         </div>
       </div>
     </Q>
@@ -567,10 +567,10 @@ function SaveModal({ d, set, onClose, onDone }: { d: Data; set: SetFn; onClose: 
         <button onClick={onClose} aria-label="Close" className="absolute right-5 top-5 grid h-9 w-9 place-items-center rounded-full hover:bg-secondary"><X className="h-4 w-4" /></button>
         <p className="note -rotate-1">almost there</p>
         <h2 id="save-title" className="mt-2 text-3xl font-semibold tracking-[-0.04em]">Save your profile</h2>
-        <p className="mt-3 text-[15px] text-muted-foreground">Create your account so we can save and publish everything you've built.</p>
+        <p className="mt-3 text-[16px] text-muted-foreground">Create your account so we can save and publish everything you've built.</p>
         <form className="mt-6 space-y-5" onSubmit={(e) => { e.preventDefault(); submit(); }}>
-          <label className="block"><span className="text-[13px] font-medium">Email</span><input autoFocus type="email" autoComplete="email" className={`${inputCls} text-lg`} value={d.email} onChange={(e) => { set("email", e.target.value); setErr(""); }} /></label>
-          <label className="block"><span className="text-[13px] font-medium">Password</span><input type="password" autoComplete="new-password" className={`${inputCls} text-lg`} value={d.password} onChange={(e) => { set("password", e.target.value); setErr(""); }} placeholder="At least 8 characters" /></label>
+          <label className="block"><span className="text-[14px] font-medium">Email</span><input autoFocus type="email" autoComplete="email" className={`${inputCls} text-lg`} value={d.email} onChange={(e) => { set("email", e.target.value); setErr(""); }} /></label>
+          <label className="block"><span className="text-[14px] font-medium">Password</span><input type="password" autoComplete="new-password" className={`${inputCls} text-lg`} value={d.password} onChange={(e) => { set("password", e.target.value); setErr(""); }} placeholder="At least 8 characters" /></label>
           {err && <p role="alert" className="text-sm text-destructive">{err}</p>}
           <SiteButton onClick={submit} className="w-full">Save &amp; publish <ArrowRight className="h-4 w-4" /></SiteButton>
         </form>

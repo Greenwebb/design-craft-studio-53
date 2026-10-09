@@ -30,7 +30,7 @@ export function StudioLink({
       )}
     >
       {children}
-      {arrow && <ArrowRight size={16} />}
+      {arrow && <ArrowRight size={18} />}
     </Link>
   );
 }

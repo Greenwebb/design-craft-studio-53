@@ -117,9 +117,9 @@ function MediaItem({ p, big }: { p: PortfolioProject; big?: boolean }) {
       <div className="mt-4 flex items-start justify-between gap-4">
         <div>
           <h3 className="note-title">{p.title}</h3>
-          <p className="text-[13px] text-muted-foreground">{p.meta}</p>
+          <p className="text-[14px] text-muted-foreground">{p.meta}</p>
         </div>
-        <p className="shrink-0 text-[13px] text-muted-foreground">{p.duration ? `${p.duration} · ` : ""}{p.year}</p>
+        <p className="shrink-0 text-[14px] text-muted-foreground">{p.duration ? `${p.duration} · ` : ""}{p.year}</p>
       </div>
     </div>
   );
@@ -154,7 +154,7 @@ function Works({ a, n }: { a: Artist; n: number }) {
                 <div className="mt-4 grid grid-cols-[1fr_auto] gap-4">
                   <div>
                     <h3 className="note-title">{w.title}</h3>
-                    <p className="text-[13px] text-muted-foreground">{w.medium} · {w.size}</p>
+                    <p className="text-[14px] text-muted-foreground">{w.medium} · {w.size}</p>
                   </div>
                   <p className={`text-sm font-medium ${w.sold ? "text-muted-foreground line-through" : ""}`}>{w.price}</p>
                 </div>
@@ -184,7 +184,7 @@ function Services({ a, n }: { a: Artist; n: number }) {
                 <h3 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">{s.title}</h3>
                 <div>
                   <p className="opacity-70">{s.description}</p>
-                  <p className="mt-3 text-[13px] opacity-60">{s.delivery} · <span className="font-medium opacity-100">{s.price ?? "Custom pricing"}</span></p>
+                  <p className="mt-3 text-[14px] opacity-60">{s.delivery} · <span className="font-medium opacity-100">{s.price ?? "Custom pricing"}</span></p>
                 </div>
                 <SiteButton variant="outline-light" href="#services" className="px-6 py-3 group-hover:bg-ink-foreground group-hover:text-ink">
                   {s.cta} <ArrowUpRight className="h-4 w-4" />
@@ -275,7 +275,7 @@ function Related({ a }: { a: Artist }) {
                   <img src={o.portrait} alt={`Portrait of ${o.name}`} loading="lazy" className="aspect-[4/5] w-full object-cover transition-transform duration-700 group-hover:scale-[1.025]" />
                 </div>
                 <h3 className="mt-4 text-xl font-semibold tracking-[-0.03em]">{o.name}</h3>
-                <p className="text-[13px] text-muted-foreground">{o.disciplines.join(" · ")} — {o.location}</p>
+                <p className="text-[14px] text-muted-foreground">{o.disciplines.join(" · ")} — {o.location}</p>
               </Link>
             </Reveal>
           ))}
@@ -297,7 +297,7 @@ function MobileCta({ a }: { a: Artist }) {
       className="fixed inset-x-3 bottom-3 z-50 flex items-center justify-between gap-4 rounded-full border border-border bg-background/95 py-2 pl-5 pr-2 shadow-lg backdrop-blur-xl md:inset-x-auto md:right-6 md:bottom-6 md:pl-6">
       <div className="min-w-0">
         <p className="truncate text-sm font-semibold">{a.name}</p>
-        <p className="truncate text-[12px] text-muted-foreground">{a.availability.label}</p>
+        <p className="truncate text-[13px] text-muted-foreground">{a.availability.label}</p>
       </div>
       <SiteButton href={a.services?.length ? "#services" : "#works"} className="shrink-0 px-5 py-3">{a.primaryCta}</SiteButton>
     </motion.div>

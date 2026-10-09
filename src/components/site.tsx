@@ -55,7 +55,7 @@ export function Cursor() {
       <motion.div
         animate={{ scale: active ? 1 : 0, opacity: active ? 1 : 0 }}
         transition={{ duration: 0.3, ease: EASE }}
-        className="grid h-20 w-20 place-items-center rounded-full bg-ink text-[11px] font-medium uppercase tracking-[0.12em] text-ink-foreground mix-blend-difference"
+        className="grid h-20 w-20 place-items-center rounded-full bg-ink text-[13px] font-medium uppercase tracking-[0.12em] text-ink-foreground mix-blend-difference"
       >
         View
       </motion.div>
@@ -118,7 +118,7 @@ export function IconButton({
 
 export function TextLink({ href, children, className = "" }: { href: string; children: ReactNode; className?: string }) {
   return (
-    <a href={href} className={`group inline-flex items-center gap-2 text-[15px] font-medium ${className}`}>
+    <a href={href} className={`group inline-flex items-center gap-2 text-[16px] font-medium ${className}`}>
       <span className="link-line pb-0.5">{children}</span>
       <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
     </a>

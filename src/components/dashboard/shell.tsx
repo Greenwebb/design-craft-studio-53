@@ -108,7 +108,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
             aria-current={section === n.id ? "page" : undefined}
             className={`flex h-[42px] items-center gap-3 rounded-full px-3 text-sm font-medium ${section === n.id ? "bg-ink text-paper" : "hover:bg-foreground/[0.035]"}`}
           >
-            {n.id === "home" ? <Home size={17} /> : n.id === "profile" ? <User size={17}/> : n.id === "projects" ? <Briefcase size={17}/> : n.id === "earnings" ? <Layers size={17}/> : n.id === "services" ? <Calendar size={17}/> : <Image size={17}/>}
+            {n.id === "home" ? <Home size={19} /> : n.id === "profile" ? <User size={19}/> : n.id === "projects" ? <Briefcase size={19}/> : n.id === "earnings" ? <Layers size={19}/> : n.id === "services" ? <Calendar size={19}/> : <Image size={19}/>}
             {n.label}
           </Link>
         ))}
@@ -126,7 +126,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
             onClick={() => setDrawer(false)}
             className={`flex h-[42px] items-center gap-3 rounded-full px-3 text-sm ${section === n.id ? "bg-ink text-paper" : "hover:bg-foreground/[0.035]"}`}
           >
-            <n.icon size={17} />
+            <n.icon size={19} />
             {n.label}
           </Link>
         ))}
@@ -136,7 +136,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
           className="mt-6 flex items-center gap-2 px-3 py-4 text-xs text-muted-foreground"
         >
           View public profile
-          <ArrowUpRight size={14} />
+          <ArrowUpRight size={16} />
         </Link>
       </nav>
     </>
@@ -155,7 +155,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
                 onClick={() => setDrawer(true)}
                 className="h-9 w-9 border-0 lg:hidden"
               >
-                <Menu size={18} />
+                <Menu size={20} />
               </IconButton>
               <span className="text-sm font-medium">{title}</span>
             </div>
@@ -166,7 +166,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
                 onClick={() => setSearch(true)}
                 className="h-9 w-9 border-0"
               >
-                <Search size={18} />
+                <Search size={20} />
               </IconButton>
               <IconButton
                 ariaLabel="Notifications"
@@ -177,7 +177,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
                 }}
                 className="relative h-9 w-9 border-0"
               >
-                <Bell size={18} />
+                <Bell size={20} />
                 {studio.data.attention.length > 0 && !read && (
                   <span className="absolute right-2 top-1 h-1.5 w-1.5 rounded-full bg-studio-copper" />
                 )}
@@ -215,7 +215,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
-              <div className="hidden md:block"><SiteButton onClick={() => setCreate(true)} className="h-10 px-4 py-0"><Plus size={17}/>Create<ChevronDown size={13}/></SiteButton></div>
+              <div className="hidden md:block"><SiteButton onClick={() => setCreate(true)} className="h-10 px-4 py-0"><Plus size={19}/>Create<ChevronDown size={15}/></SiteButton></div>
             </div>
           </header>
           <main
@@ -253,7 +253,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
                 params={{ section: n.id }}
                 search={{ artist: state }}
                 aria-current={section === n.id ? "page" : undefined}
-                className={`flex min-h-[68px] flex-col items-center justify-center gap-1 text-[10px] ${section === n.id ? "text-foreground" : "text-muted-foreground"}`}
+                className={`flex min-h-[68px] flex-col items-center justify-center gap-1 text-[12px] ${section === n.id ? "text-foreground" : "text-muted-foreground"}`}
               >
                 <n.icon size={19} />
                 {n.label}
@@ -274,7 +274,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
                   ariaLabel="Close Create"
                   className="absolute right-4 top-3 h-8 w-8 border-0"
                 >
-                  <X size={17} />
+                  <X size={19} />
                 </IconButton>
               </Dialog.Close>
               <div className="mt-5 divide-y divide-border">
@@ -309,7 +309,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
                   ariaLabel="Close navigation"
                   className="absolute right-3 top-3 h-8 w-8 border-0"
                 >
-                  <X size={16} />
+                  <X size={18} />
                 </IconButton>
               </Dialog.Close>
               {navBody}
