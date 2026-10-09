@@ -194,7 +194,10 @@ function JoinPage() {
       <main className="flex-1">
         <AnimatePresence mode="wait" custom={dir}>
           <motion.div key={step} custom={dir} variants={variants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.45, ease: EASE }}
-            className={wide ? "" : "container-x mx-auto max-w-3xl pb-40 pt-10 md:pt-16"}>
+            className={wide ? "" : `container-x mx-auto max-w-3xl pb-40 pt-10 md:pt-16 ${stage >= 0 ? "lg:grid lg:max-w-6xl lg:grid-cols-[300px_minmax(0,1fr)] lg:gap-20" : ""}`}>
+
+            {stage >= 0 && !wide && <SideRail stage={stage} name={d.name} disciplines={disciplines} location={location} />}
+            <div className="min-w-0 max-w-2xl">
 
             {step === "intro" && (
               <section className="grid min-h-[calc(100vh-76px)] items-center gap-12 py-10 lg:grid-cols-[1.1fr_0.9fr]">
