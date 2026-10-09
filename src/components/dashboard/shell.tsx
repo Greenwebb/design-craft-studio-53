@@ -225,10 +225,7 @@ export function StudioShell({ state }: { state: PreviewState }) {
             <Outlet />
           </main>
         </div>
-        <nav
-          aria-label="Mobile studio navigation"
-          className="fixed inset-x-0 bottom-0 z-40 grid grid-flow-col auto-cols-fr border-t border-border bg-studio-surface pb-[env(safe-area-inset-bottom)] md:hidden"
-        >
+        <FloatingNav label="Mobile studio navigation" className="md:hidden">
           {[
             { id: "home", label: "Home", icon: Home },
             { id: "work", label: "Work", icon: Image },
@@ -237,15 +234,16 @@ export function StudioShell({ state }: { state: PreviewState }) {
             { id: "profile", label: "Profile", icon: User },
           ].filter(n => n.id !== "projects" || nav.some(item => item.id === "projects")).map((n) =>
             n.id === "create" ? (
-              <IconButton
+              <button
                 key={n.id}
-                ariaLabel="Create"
+                type="button"
+                aria-label="Create"
                 aria-expanded={create}
                 onClick={() => setCreate(true)}
-                className="my-2 h-12 w-12 justify-self-center border-0 bg-ink text-paper"
+                className={floatingNavAction}
               >
-                <Plus size={23} />
-              </IconButton>
+                <Plus size={24} />
+              </button>
             ) : (
               <Link
                 key={n.id}
@@ -253,9 +251,9 @@ export function StudioShell({ state }: { state: PreviewState }) {
                 params={{ section: n.id }}
                 search={{ artist: state }}
                 aria-current={section === n.id ? "page" : undefined}
-                className={`flex min-h-[68px] flex-col items-center justify-center gap-1 text-[12px] ${section === n.id ? "text-foreground" : "text-muted-foreground"}`}
+                className={floatingNavItem(section === n.id)}
               >
-                <n.icon size={19} />
+                <n.icon size={20} />
                 {n.label}
               </Link>
             ),
