@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode, type ButtonHTMLAttributes } from "react";
 import { ArrowRight, ArrowUpRight, Search, User, Menu, X } from "lucide-react";
 import logoAsset from "@/assets/logo.png.asset.json";
 
@@ -74,6 +74,7 @@ export function SiteButton({
   children,
   className = "",
   ariaLabel,
+  ...props
 }: {
   variant?: ButtonVariant;
   href?: string;
@@ -81,10 +82,10 @@ export function SiteButton({
   children: ReactNode;
   className?: string;
   ariaLabel?: string;
-}) {
+} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick" | "children">) {
   const cls = `inline-flex w-fit items-center justify-center gap-2 rounded-full px-7 py-4 text-sm font-medium ${buttonVariants[variant]} ${className}`;
   if (href) return <a href={href} onClick={onClick} aria-label={ariaLabel} className={cls}>{children}</a>;
-  return <button type="button" onClick={onClick} aria-label={ariaLabel} className={cls}>{children}</button>;
+  return <button type="button" {...props} onClick={onClick} aria-label={ariaLabel} className={cls}>{children}</button>;
 }
 
 export function IconButton({
@@ -92,15 +93,17 @@ export function IconButton({
   ariaLabel,
   children,
   className = "",
+  ...props
 }: {
   onClick?: () => void;
   ariaLabel: string;
   children: ReactNode;
   className?: string;
-}) {
+} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick" | "children">) {
   return (
     <button
       type="button"
+      {...props}
       onClick={onClick}
       aria-label={ariaLabel}
       className={`grid h-11 w-11 place-items-center rounded-full border border-border transition-colors hover:bg-ink hover:text-ink-foreground ${className}`}
