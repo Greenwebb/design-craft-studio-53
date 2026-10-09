@@ -1,4 +1,5 @@
 # Creative dashboard
+- [x] Standardize rounded buttons, cards, image frames, menus and dialogs across public, creator and collector experiences; verify representative flows.
 - [x] Capability-aware shell, navigation, Create, search and notifications.
 - [x] Home attention, profile, discovery, earnings, work, activity and contextual next action.
 - [x] Management placeholders, empty/loading states and seven artist previews.

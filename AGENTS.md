@@ -15,3 +15,4 @@
 
 - UI-only ecosystem previews use a single in-memory account context and shared project/conversation fixtures; no frontend state authorizes private data or claims live transactions.
 - Global CSS is the sole source of color tokens; all three shells reuse shared controls, typography, motion constants and artwork data.
+- Global radius tokens define surface rounding, and shared button controls apply their radius after caller classes, so all shells stay consistent without page-specific overrides.
