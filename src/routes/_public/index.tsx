@@ -65,7 +65,7 @@ function Hero() {
               Explore the collection
               <ArrowUpRight className="h-4 w-4" />
             </SiteButton>
-            <TextLink href={`${SITE}/artists`}>Meet the artists</TextLink>
+            <TextLink href="/artists">Meet the artists</TextLink>
           </div>
         </motion.div>
       </motion.div>
@@ -130,7 +130,7 @@ function Story() {
           <p className="text-muted-foreground">Oil on canvas</p>
           <p className="text-muted-foreground">Lusaka, Zambia</p>
         </Reveal>
-        <Reveal delay={0.3} className="mt-10"><TextLink href={`${SITE}/artists`}>Discover the story</TextLink></Reveal>
+        <Reveal delay={0.3} className="mt-10"><TextLink href="/artists">Discover the story</TextLink></Reveal>
       </div>
       <Reveal delay={0.15}>
         <img src={artist1} alt="Mwansa Chileshe in her Lusaka studio" width={896} height={1120} loading="lazy" className="aspect-[4/5] w-full rounded-sm object-cover" />

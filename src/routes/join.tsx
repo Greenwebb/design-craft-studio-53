@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
@@ -112,7 +112,8 @@ function usePicker(onChange: (v: string) => void) {
 
 /* ---------------- page ---------------- */
 function JoinPage() {
-  const { user, becomeCreator } = useEcosystem();
+  const { becomeCreator } = useEcosystem();
+  const navigate = useNavigate();
   const [d, setD] = useState<Data>(EMPTY);
   const [step, setStep] = useState<StepId>("intro");
   const [hasDraft, setHasDraft] = useState<StepId | null>(null);
@@ -369,7 +370,7 @@ function JoinPage() {
                     </>
                   ) : (
                     <>
-                      <SiteButton href="/creator?artist=new">Enter your studio <ArrowRight className="h-4 w-4" /></SiteButton>
+                      <SiteButton onClick={() => { void navigate({to:"/creator",search:{artist:"new"}}); }}>Enter your studio <ArrowRight className="h-4 w-4" /></SiteButton>
                       <SiteButton variant="outline" onClick={() => goTo("work", -1)}>Add another project</SiteButton>
                       {d.offers.includes("sell") && <SiteButton variant="outline" href="/shop">List something for sale</SiteButton>}
                       {d.offers.some((o) => o === "services" || o === "bookings" || o === "commission") && <SiteButton variant="outline" onClick={() => goTo("discover", -1)}>Add a service</SiteButton>}

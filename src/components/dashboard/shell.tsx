@@ -1,5 +1,5 @@
 import { Link, Outlet, useRouterState, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Home,
   Image,
@@ -38,7 +38,8 @@ import { useEcosystem } from "@/components/ecosystem/context";
 import { StudioContext } from "./context";
 import { StudioLink } from "./controls";
 export function StudioShell({ state }: { state: PreviewState }) {
-  const { user } = useEcosystem();
+  const { user, setContext } = useEcosystem();
+  useEffect(() => { setContext("creator"); }, []);
   const studio = getStudio(state);
   const nav = navigation(studio.capabilities);
   const navigate = useNavigate();
