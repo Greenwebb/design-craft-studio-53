@@ -18,7 +18,7 @@ export function AdminSearch() {
         <Dialog.Content className="studio fixed left-1/2 top-[8%] z-50 w-[calc(100%-36px)] max-w-xl -translate-x-1/2 overflow-hidden rounded-2xl border border-border bg-studio-surface shadow-lg focus:outline-none">
           <Dialog.Title className="sr-only">Search operations</Dialog.Title>
           <Dialog.Description className="sr-only">Search users, orders, projects, payments, works and disputes.</Dialog.Description>
-          <Command label="Operations search">
+          <Command label="Operations search" filter={(value, search) => { const v = value.toLowerCase(), q = search.toLowerCase().trim(); if (v.startsWith(q)) return 1; return v.includes(q) ? 0.5 : 0; }}>
             <div className="flex items-center gap-3 border-b border-border px-5">
               <Search size={20} className="text-studio-green" />
               <Command.Input autoFocus placeholder="Search users, orders, payments, works, disputes…" aria-label="Search operations"
@@ -27,7 +27,7 @@ export function AdminSearch() {
             </div>
             <Command.List className="max-h-[60svh] overflow-y-auto p-3">
               <Command.Empty className="p-8 text-center text-sm text-muted-foreground">No matching records. Try an ID, name, email or artwork title.</Command.Empty>
-              {['Users', 'Creators', 'Orders', 'Payments', 'Works', 'Disputes', 'Payouts'].map((group) => {
+              {['Users', 'Creators', 'Orders', 'Payments', 'Works', 'Disputes', 'Payouts', 'Services', 'Bookings', 'Certificates'].map((group) => {
                 const items = searchIndex.filter((i) => i.group === group);
                 if (!items.length) return null;
                 return (

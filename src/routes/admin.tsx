@@ -9,7 +9,26 @@ import { useAdminSearch } from '@/components/admin/admin-ui';
 import { AdminSearch } from '@/components/admin/admin-search';
 import { AdminDialog } from '@/components/admin/admin-ui';
 
-export const Route = createFileRoute('/admin')({ component: AdminShell });
+export const Route = createFileRoute('/admin')({
+  component: AdminShell,
+  pendingComponent: AdminLoading,
+  errorComponent: ({ error, reset }) => (
+    <div role="alert" className="mx-auto max-w-lg p-10 text-center">
+      <p className="text-xl font-medium">This page couldn't load.</p>
+      <p className="mt-2 text-[15px] text-muted-foreground">{error instanceof Error && error.message ? error.message : 'Something went wrong.'} Nothing was changed.</p>
+      <button type="button" onClick={reset} className="mt-5 rounded-full bg-primary px-6 py-3 text-[15px] font-medium text-primary-foreground">Try again</button>
+    </div>
+  ),
+});
+
+function AdminLoading() {
+  return (
+    <div className="space-y-4 p-6 lg:p-10" aria-busy="true" aria-label="Loading">
+      <div className="h-10 w-56 animate-pulse rounded-full bg-secondary" />
+      {[0, 1, 2, 3, 4].map((i) => <div key={i} className="h-16 animate-pulse rounded-xl bg-secondary" />)}
+    </div>
+  );
+}
 
 const mobileIcons = { disputes: Scale, payouts: Undo2, support: LifeBuoy } as const;
 
