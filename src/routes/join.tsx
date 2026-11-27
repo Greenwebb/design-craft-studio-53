@@ -370,7 +370,7 @@ function JoinPage() {
                     </>
                   ) : (
                     <>
-                      <SiteButton onClick={() => { void navigate({to:"/creator",search:{artist:"new"}}); }}>Enter your studio <ArrowRight className="h-4 w-4" /></SiteButton>
+                      <SiteButton onClick={() => { void navigate({ to: "/artist-verification", search: {} }); }}>Continue to verification <ArrowRight className="h-4 w-4" /></SiteButton>
                       <SiteButton variant="outline" onClick={() => goTo("work", -1)}>Add another project</SiteButton>
                       {d.offers.includes("sell") && <SiteButton variant="outline" href="/shop">List something for sale</SiteButton>}
                       {d.offers.some((o) => o === "services" || o === "bookings" || o === "commission") && <SiteButton variant="outline" onClick={() => goTo("discover", -1)}>Add a service</SiteButton>}

@@ -15,6 +15,7 @@
 - [x] Move all shared state (bag, account context, dashboard context) to Zustand stores
 
 ## Frontend-only phase (mock data everywhere; external APIs wired later)
+- [x] Artist KYC verification: status page, all four states, corrections, appeals and new-artist dashboard gating
 - [x] Earnings / Wallet full UI: pending → available → withdraw → processing → paid, fees, reversals, failed payouts (creator)
 - [x] Order fulfilment tracking UI: paid → confirmed → preparing → dispatch → delivered → completed (collector view; creator sell-side view still open)
 - [ ] Notifications center: grouped purchases, enquiries, bookings, profile updates across shells

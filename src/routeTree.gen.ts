@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PublicRouteRouteImport } from './routes/_public/route'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as ArtistVerificationRouteImport } from './routes/artist-verification'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CreatorRouteImport } from './routes/creator'
@@ -137,6 +138,11 @@ const AccountRoute = AccountRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArtistVerificationRoute = ArtistVerificationRouteImport.update({
+  id: '/artist-verification',
+  path: '/artist-verification',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -705,6 +711,7 @@ export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
   '/account': typeof AccountRouteWithChildren
   '/admin': typeof AdminRouteWithChildren
+  '/artist-verification': typeof ArtistVerificationRoute
   '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRouteWithChildren
   '/creator': typeof CreatorRouteWithChildren
@@ -818,6 +825,7 @@ export interface FileRoutesByFullPath {
   '/creator/settings/': typeof CreatorSettingsIndexRoute
 }
 export interface FileRoutesByTo {
+  '/artist-verification': typeof ArtistVerificationRoute
   '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
@@ -916,6 +924,7 @@ export interface FileRoutesById {
   '/_public': typeof PublicRouteRouteWithChildren
   '/account': typeof AccountRouteWithChildren
   '/admin': typeof AdminRouteWithChildren
+  '/artist-verification': typeof ArtistVerificationRoute
   '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRouteWithChildren
   '/creator': typeof CreatorRouteWithChildren
@@ -1035,6 +1044,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/admin'
+    | '/artist-verification'
     | '/auth'
     | '/checkout'
     | '/creator'
@@ -1148,6 +1158,7 @@ export interface FileRouteTypes {
     | '/creator/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/artist-verification'
     | '/auth'
     | '/checkout'
     | '/forgot-password'
@@ -1245,6 +1256,7 @@ export interface FileRouteTypes {
     | '/_public'
     | '/account'
     | '/admin'
+    | '/artist-verification'
     | '/auth'
     | '/checkout'
     | '/creator'
@@ -1363,6 +1375,7 @@ export interface RootRouteChildren {
   PublicRouteRoute: typeof PublicRouteRouteWithChildren
   AccountRoute: typeof AccountRouteWithChildren
   AdminRoute: typeof AdminRouteWithChildren
+  ArtistVerificationRoute: typeof ArtistVerificationRoute
   AuthRoute: typeof AuthRoute
   CheckoutRoute: typeof CheckoutRouteWithChildren
   CreatorRoute: typeof CreatorRouteWithChildren
@@ -1397,6 +1410,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/artist-verification': {
+      id: '/artist-verification'
+      path: '/artist-verification'
+      fullPath: '/artist-verification'
+      preLoaderRoute: typeof ArtistVerificationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -2627,6 +2647,7 @@ const rootRouteChildren: RootRouteChildren = {
   PublicRouteRoute: PublicRouteRouteWithChildren,
   AccountRoute: AccountRouteWithChildren,
   AdminRoute: AdminRouteWithChildren,
+  ArtistVerificationRoute: ArtistVerificationRoute,
   AuthRoute: AuthRoute,
   CheckoutRoute: CheckoutRouteWithChildren,
   CreatorRoute: CreatorRouteWithChildren,
