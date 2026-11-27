@@ -118,15 +118,15 @@ export function ArtistVerificationPage({ mode }: { mode: "update" | undefined })
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="border-b border-border bg-background">
-        <div className="container-x flex min-h-[80px] items-center justify-between gap-3 py-3">
-          <Link to="/" aria-label="I Am An Artist home"><Logo className="h-10 sm:h-11" /></Link>
-          <div className="flex items-center gap-1.5 sm:gap-3">
+        <div className="container-x grid min-h-[80px] grid-cols-[auto_minmax(0,1fr)] items-center gap-3 py-3">
+          <Link to="/" aria-label="I Am An Artist home" className="shrink-0"><Logo className="h-10 sm:h-11" /></Link>
+          <div className="flex min-w-0 items-center justify-end gap-1.5 sm:gap-3">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="inline-flex h-11 items-center gap-2 rounded-full border border-border px-3 text-[13px] font-medium transition-colors hover:bg-secondary sm:px-4 sm:text-sm" aria-label="Choose application preview state">
-                  <span className="hidden text-muted-foreground md:inline">Preview:</span>
-                  {previewLabels[application.status]}
-                  <ChevronDown className="h-4 w-4" />
+                <button className="inline-flex h-11 min-w-0 max-w-[150px] items-center gap-2 rounded-full border border-border px-3 text-[13px] font-medium transition-colors hover:bg-secondary sm:max-w-none sm:px-4 sm:text-sm" aria-label="Choose application preview state">
+                  <span className="hidden shrink-0 text-muted-foreground md:inline">Preview:</span>
+                  <span className="min-w-0 truncate">{previewLabels[application.status]}</span>
+                  <ChevronDown className="h-4 w-4 shrink-0" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" sideOffset={10} className="w-64 rounded-2xl bg-background p-2">
@@ -144,7 +144,7 @@ export function ArtistVerificationPage({ mode }: { mode: "update" | undefined })
             <a href="mailto:support@iamanartist.art" className="hidden h-11 items-center gap-2 rounded-full px-3 text-sm font-medium transition-colors hover:bg-secondary sm:inline-flex">
               <HelpCircle className="h-[18px] w-[18px]" /> Support
             </a>
-            <button onClick={signOut} disabled={signingOut} aria-label="Sign out of artist application" className="inline-flex h-11 items-center gap-2 rounded-full px-3 text-sm font-medium transition-colors hover:bg-secondary disabled:opacity-50">
+            <button onClick={signOut} disabled={signingOut} aria-label="Sign out of artist application" className="inline-flex h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-3 text-sm font-medium transition-colors hover:bg-secondary disabled:opacity-50">
               {signingOut ? <LoaderCircle className="h-[18px] w-[18px] animate-spin" /> : <LogOut className="h-[18px] w-[18px]" />}
               <span className="hidden min-[360px]:inline">{signingOut ? "Signing out…" : "Sign out"}</span>
             </button>
@@ -156,15 +156,16 @@ export function ArtistVerificationPage({ mode }: { mode: "update" | undefined })
         <CorrectionForm application={application} onCancel={() => void navigate({ to: "/artist-verification", search: {} })} />
       ) : (
         <main>
-          <section className="container-x grid gap-10 py-12 sm:py-16 lg:grid-cols-[minmax(0,1fr)_400px] lg:items-center lg:gap-20 lg:py-20">
-            <div className="max-w-3xl">
-              <div className={`grid h-16 w-16 place-items-center rounded-2xl ${content.tone}`}>
-                <StatusIcon className="h-8 w-8" strokeWidth={1.5} />
+          <section className="container-x grid gap-8 py-8 sm:py-12 min-[900px]:grid-cols-[minmax(0,1fr)_340px] min-[900px]:items-center min-[900px]:gap-10 min-[900px]:py-14 lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-20 lg:py-20">
+            <div className="min-w-0 max-w-3xl">
+              <div className={`grid h-14 w-14 place-items-center rounded-2xl sm:h-16 sm:w-16 ${content.tone}`}>
+                <StatusIcon className="h-7 w-7 sm:h-8 sm:w-8" strokeWidth={1.5} />
               </div>
-              <p className="note mt-7 -rotate-1">{content.note}</p>
-              <h1 className="mt-3 max-w-3xl text-[42px] font-semibold leading-[1.02] tracking-[-0.045em] sm:text-[54px] lg:text-[64px]">{content.title}</h1>
-              <p className="mt-6 max-w-2xl text-[17px] leading-relaxed text-muted-foreground sm:text-lg">{content.lede}</p>
-              <div className="mt-8 flex flex-wrap gap-3">
+              <p className="note mt-5 -rotate-1 sm:mt-7">{content.note}</p>
+              <h1 className="mt-3 max-w-3xl text-[38px] font-semibold leading-[1.02] tracking-[-0.045em] sm:text-[50px] lg:text-[64px]">{content.title}</h1>
+              <p className="mt-4 max-w-2xl text-[16px] leading-relaxed text-muted-foreground sm:mt-6 sm:text-lg">{content.lede}</p>
+              <MobileApplicationSummary application={application} />
+              <div className={`mt-6 flex-wrap gap-3 sm:mt-8 ${application.status === "pending" ? "flex" : "hidden sm:flex"}`}>
                 {application.status === "approved" && (
                   <SiteButton onClick={() => void navigate({ to: "/creator", search: { artist: "new" } })}>
                     Go to Artist Dashboard <ArrowRight className="h-[18px] w-[18px]" />
@@ -244,7 +245,11 @@ export function ArtistVerificationPage({ mode }: { mode: "update" | undefined })
         </main>
       )}
 
-      <footer className="border-t border-border">
+      {!correcting && application.status !== "pending" && (
+        <MobileActionBar status={application.status} onAppeal={() => setAppealOpen(true)} />
+      )}
+
+      <footer className={`border-t border-border ${!correcting && application.status !== "pending" ? "pb-20 sm:pb-0" : ""}`}>
         <div className="container-x flex flex-col gap-2 py-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>Frontend preview · Sample application data</p>
           <p>Files and decisions are not sent to a server.</p>
@@ -256,10 +261,43 @@ export function ArtistVerificationPage({ mode }: { mode: "update" | undefined })
   );
 }
 
+function MobileApplicationSummary({ application }: { application: ArtistApplication }) {
+  const content = statusContent[application.status];
+  const nextLabel = application.status === "requires_action" ? "Next step" : application.status === "approved" ? "Dashboard access" : application.status === "rejected" ? "Available option" : "Review timeframe";
+  const nextValue = application.status === "requires_action" ? "2 updates needed" : application.status === "approved" ? "Unlocked" : application.status === "rejected" ? "Appeal or support" : application.reviewTimeframe;
+  return (
+    <aside className="mt-6 rounded-2xl border border-border bg-studio-surface p-4 sm:hidden" aria-label="Application summary">
+      <div className="flex items-center justify-between gap-3">
+        <span className="min-w-0 truncate text-sm text-muted-foreground">{application.reference}</span>
+        <span className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${content.tone}`}>{content.label}</span>
+      </div>
+      <dl className="mt-4 grid grid-cols-2 gap-3 border-t border-border pt-4">
+        <Detail label="Submitted" value={application.submittedAt} />
+        <Detail label={nextLabel} value={nextValue} />
+      </dl>
+    </aside>
+  );
+}
+
+function MobileActionBar({ status, onAppeal }: { status: ArtistVerificationStatus; onAppeal: () => void }) {
+  const navigate = useNavigate();
+  const action = () => {
+    if (status === "approved") void navigate({ to: "/creator", search: { artist: "new" } });
+    else if (status === "requires_action") void navigate({ to: "/artist-verification", search: { mode: "update" } });
+    else onAppeal();
+  };
+  const label = status === "approved" ? "Go to Artist Dashboard" : status === "requires_action" ? "Update My Information" : "Appeal this decision";
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur-xl sm:hidden">
+      <SiteButton onClick={action} className="w-full">{label}<ArrowRight className="h-[18px] w-[18px]" /></SiteButton>
+    </div>
+  );
+}
+
 function ApplicationCard({ application }: { application: ArtistApplication }) {
   const content = statusContent[application.status];
   return (
-    <aside className="overflow-hidden rounded-3xl border border-border bg-studio-surface shadow-sm" aria-label="Application details">
+    <aside className="hidden overflow-hidden rounded-3xl border border-border bg-studio-surface shadow-sm sm:block" aria-label="Application details">
       <div className="flex items-center justify-between gap-4 border-b border-border p-6 sm:p-7">
         <div><p className="eyebrow text-muted-foreground">Artist application</p><p className="mt-2 text-xl font-semibold">{application.artistName}</p></div>
         <span className={`rounded-full px-3 py-1.5 text-xs font-semibold ${content.tone}`}>{content.label}</span>
@@ -419,7 +457,7 @@ function AppealDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (op
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-ink/40" />
-        <Dialog.Content className="fixed inset-x-0 bottom-0 z-50 max-h-[90svh] overflow-y-auto rounded-t-3xl bg-background p-6 outline-none sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:w-[min(560px,calc(100vw-3rem))] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-3xl sm:p-8 sm:shadow-2xl">
+        <Dialog.Content className="fixed inset-x-0 bottom-0 z-50 max-h-[90svh] overflow-y-auto rounded-t-3xl bg-background p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] outline-none sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:w-[min(560px,calc(100vw-3rem))] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-3xl sm:p-8 sm:shadow-2xl">
           <Dialog.Close className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-full transition-colors hover:bg-secondary" aria-label="Close appeal form"><X className="h-5 w-5" /></Dialog.Close>
           <div className="grid h-12 w-12 place-items-center rounded-2xl bg-studio-copper/10 text-studio-copper"><FileCheck2 className="h-6 w-6" /></div>
           <Dialog.Title className="mt-5 pr-10 text-3xl font-semibold tracking-[-0.035em]">Ask for another look.</Dialog.Title>

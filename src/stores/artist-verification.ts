@@ -73,7 +73,7 @@ export const useArtistVerificationStore = create<ArtistVerificationState>()((set
         artistName: details.legalName,
         status: "pending",
         submittedAt: "Just now",
-        lastUpdate: `Corrections preview submitted with ${details.documentName}; address confirmed as ${details.address}`,
+        lastUpdate: "Corrections submitted for another review",
       },
     }));
     return true;
