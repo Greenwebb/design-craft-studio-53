@@ -28,8 +28,9 @@ import { Logo, SiteButton } from "@/components/site";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -116,14 +117,15 @@ export function ArtistVerificationPage({ mode }: { mode: "update" | undefined })
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="artist-verification min-h-screen bg-background text-foreground">
+      <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">Application preview state: {content.label}</p>
       <header className="border-b border-border bg-background">
         <div className="container-x grid min-h-[80px] grid-cols-[auto_minmax(0,1fr)] items-center gap-3 py-3">
           <Link to="/" aria-label="I Am An Artist home" className="shrink-0"><Logo className="h-10 sm:h-11" /></Link>
           <div className="flex min-w-0 items-center justify-end gap-1.5 sm:gap-3">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="inline-flex h-11 min-w-0 max-w-[150px] items-center gap-2 rounded-full border border-border px-3 text-[13px] font-medium transition-colors hover:bg-secondary sm:max-w-none sm:px-4 sm:text-sm" aria-label="Choose application preview state">
+                <button className="inline-flex h-11 min-w-0 max-w-[150px] items-center gap-2 rounded-full border border-border px-3 text-[13px] font-medium transition-colors hover:bg-secondary sm:max-w-none sm:px-4 sm:text-sm" aria-label={`Change application preview state. Current state: ${previewLabels[application.status]}`}>
                   <span className="hidden shrink-0 text-muted-foreground md:inline">Preview:</span>
                   <span className="min-w-0 truncate">{previewLabels[application.status]}</span>
                   <ChevronDown className="h-4 w-4 shrink-0" />
@@ -133,12 +135,13 @@ export function ArtistVerificationPage({ mode }: { mode: "update" | undefined })
                 <DropdownMenuLabel className="px-3 py-2">Design preview</DropdownMenuLabel>
                 <p className="px-3 pb-2 text-xs leading-relaxed text-muted-foreground">Sample states only. No real verification decision is made here.</p>
                 <DropdownMenuSeparator />
-                {artistVerificationStatuses.map((status) => (
-                  <DropdownMenuItem key={status} onSelect={() => chooseStatus(status)} className="min-h-11 px-3">
-                    {previewLabels[status]}
-                    {application.status === status && <Check className="ml-auto" />}
-                  </DropdownMenuItem>
-                ))}
+                <DropdownMenuRadioGroup value={application.status} onValueChange={(value) => chooseStatus(value as ArtistVerificationStatus)}>
+                  {artistVerificationStatuses.map((status) => (
+                    <DropdownMenuRadioItem key={status} value={status} className="min-h-11 px-3">
+                      {previewLabels[status]}
+                    </DropdownMenuRadioItem>
+                  ))}
+                </DropdownMenuRadioGroup>
               </DropdownMenuContent>
             </DropdownMenu>
             <a href="mailto:support@iamanartist.art" className="hidden h-11 items-center gap-2 rounded-full px-3 text-sm font-medium transition-colors hover:bg-secondary sm:inline-flex">
@@ -178,7 +181,7 @@ export function ArtistVerificationPage({ mode }: { mode: "update" | undefined })
                 )}
                 {application.status === "rejected" && (
                   <>
-                    <SiteButton onClick={() => setAppealOpen(true)}>Submit an appeal <ArrowRight className="h-[18px] w-[18px]" /></SiteButton>
+                    <SiteButton id="artist-appeal-trigger" onClick={() => setAppealOpen(true)}>Submit an appeal <ArrowRight className="h-[18px] w-[18px]" /></SiteButton>
                     <SiteButton variant="outline" href="mailto:support@iamanartist.art?subject=Artist%20application%20support">Contact support</SiteButton>
                   </>
                 )}
@@ -288,8 +291,8 @@ function MobileActionBar({ status, onAppeal }: { status: ArtistVerificationStatu
   };
   const label = status === "approved" ? "Go to Artist Dashboard" : status === "requires_action" ? "Update My Information" : "Appeal this decision";
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur-xl sm:hidden">
-      <SiteButton onClick={action} className="w-full">{label}<ArrowRight className="h-[18px] w-[18px]" /></SiteButton>
+    <div role="group" aria-label="Application next step" className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur-xl sm:hidden">
+      <SiteButton id="artist-mobile-application-action" onClick={action} className="w-full">{label}<ArrowRight className="h-[18px] w-[18px]" /></SiteButton>
     </div>
   );
 }
@@ -353,6 +356,9 @@ function CorrectionForm({ application, onCancel }: { application: ArtistApplicat
   const [documentName, setDocumentName] = useState("");
   const [errors, setErrors] = useState<{ legalName?: string; address?: string; document?: string }>({});
   const [busy, setBusy] = useState(false);
+  const nameId = useId();
+  const addressId = useId();
+  const documentId = useId();
   const clearError = (key: keyof typeof errors) => setErrors((current) => {
     const next = { ...current };
     delete next[key];
@@ -380,7 +386,9 @@ function CorrectionForm({ application, onCancel }: { application: ArtistApplicat
     if (address.trim().length < 8) next.address = "Enter your street, city and country.";
     if (!documentName) next.document = "Upload a clearer identity document.";
     setErrors(next);
-    if (Object.keys(next).length) return;
+    if (next.legalName) return document.getElementById(nameId)?.focus();
+    if (next.address) return document.getElementById(addressId)?.focus();
+    if (next.document) return document.getElementById(documentId)?.focus();
     setBusy(true);
     await simulate(650);
     submitCorrection({ legalName: legalName.trim(), address: address.trim(), documentName });
@@ -391,7 +399,7 @@ function CorrectionForm({ application, onCancel }: { application: ArtistApplicat
 
   return (
     <main className="container-x py-10 sm:py-14">
-      <button onClick={onCancel} className="inline-flex items-center gap-2 rounded-full text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"><ArrowLeft className="h-[18px] w-[18px]" /> Back to application</button>
+      <button onClick={onCancel} className="-ml-3 inline-flex min-h-11 items-center gap-2 rounded-full px-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"><ArrowLeft className="h-[18px] w-[18px]" /> Back to application</button>
       <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] lg:gap-20">
         <aside>
           <p className="note -rotate-1">let’s get this sorted</p>
@@ -400,16 +408,15 @@ function CorrectionForm({ application, onCancel }: { application: ArtistApplicat
           <div className="mt-8 rounded-2xl bg-secondary p-5"><p className="eyebrow text-studio-copper">Application</p><p className="mt-2 font-medium">{application.reference}</p><p className="mt-1 text-sm text-muted-foreground">{application.reviewTimeframe} after resubmission</p></div>
           <p className="mt-5 flex items-start gap-2 text-sm leading-relaxed text-muted-foreground"><LockKeyhole className="mt-0.5 h-4 w-4" /> Preview only: your file stays on this device and is not uploaded.</p>
         </aside>
-        <form onSubmit={submit} noValidate className="rounded-3xl border border-border bg-studio-surface p-5 sm:p-8">
+        <form onSubmit={submit} noValidate aria-busy={busy} className="rounded-3xl border border-border bg-studio-surface p-5 sm:p-8">
           <div className="border-b border-border pb-7"><p className="eyebrow text-muted-foreground">01 · Identity details</p><h2 className="mt-2 text-2xl font-semibold tracking-[-0.025em]">Confirm your legal information</h2></div>
           <div className="mt-7 space-y-6">
-            <Field label="Full legal name" error={errors.legalName}><input value={legalName} onChange={(event) => { setLegalName(event.target.value); clearError("legalName"); }} autoComplete="name" className="studio-input bg-background" aria-invalid={!!errors.legalName} /></Field>
-            <Field label="Current residential address" hint="Street, city and country" error={errors.address}><div className="relative"><MapPin className="pointer-events-none absolute left-4 top-4 h-5 w-5 text-muted-foreground" /><input value={address} onChange={(event) => { setAddress(event.target.value); clearError("address"); }} autoComplete="street-address" placeholder="e.g. 12 Kabulonga Road, Lusaka, Zambia" className="studio-input bg-background pl-12" aria-invalid={!!errors.address} /></div></Field>
+            <Field id={nameId} label="Full legal name" error={errors.legalName}><input id={nameId} required value={legalName} onChange={(event) => { setLegalName(event.target.value); clearError("legalName"); }} autoComplete="name" className="studio-input bg-background" aria-invalid={!!errors.legalName} aria-describedby={errors.legalName ? `${nameId}-error` : undefined} /></Field>
+            <Field id={addressId} label="Current residential address" hint="Street, city and country" error={errors.address}><div className="relative"><MapPin aria-hidden="true" className="pointer-events-none absolute left-4 top-4 h-5 w-5 text-muted-foreground" /><input id={addressId} required value={address} onChange={(event) => { setAddress(event.target.value); clearError("address"); }} autoComplete="street-address" placeholder="e.g. 12 Kabulonga Road, Lusaka, Zambia" className="studio-input bg-background pl-12" aria-invalid={!!errors.address} aria-describedby={errors.address ? `${addressId}-error` : `${addressId}-hint`} /></div></Field>
           </div>
           <div className="mt-9 border-b border-border pb-7"><p className="eyebrow text-muted-foreground">02 · Supporting document</p><h2 className="mt-2 text-2xl font-semibold tracking-[-0.025em]">Replace the unclear document</h2><p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">Use good light, avoid glare and make sure all four corners are visible.</p></div>
-          <DocumentPicker fileName={documentName} error={errors.document} onFile={chooseFile} />
-          <div className="mt-8 flex flex-col-reverse gap-3 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-muted-foreground">JPG, PNG or PDF · maximum 10 MB</p>
+          <DocumentPicker id={documentId} fileName={documentName} error={errors.document} onFile={chooseFile} />
+          <div className="mt-8 flex flex-col-reverse gap-3 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-end">
             <SiteButton type="submit" disabled={busy} className="w-full sm:w-auto">{busy ? <LoaderCircle className="h-[18px] w-[18px] animate-spin" /> : <RefreshCw className="h-[18px] w-[18px]" />}{busy ? "Submitting preview…" : "Resubmit for review"}</SiteButton>
           </div>
         </form>
@@ -418,22 +425,22 @@ function CorrectionForm({ application, onCancel }: { application: ArtistApplicat
   );
 }
 
-function Field({ label, hint, error, children }: { label: string; hint?: string; error: string | undefined; children: ReactNode }) {
-  return <label className="block"><span className="mb-2 block text-[15px] font-medium">{label}</span>{children}{error ? <span role="alert" className="mt-2 block text-sm text-destructive">{error}</span> : hint ? <span className="mt-2 block text-sm text-muted-foreground">{hint}</span> : null}</label>;
+function Field({ id, label, hint, error, children }: { id: string; label: string; hint?: string; error: string | undefined; children: ReactNode }) {
+  return <div><label htmlFor={id} className="mb-2 block text-[15px] font-medium">{label}</label>{children}{error ? <span id={`${id}-error`} role="alert" className="mt-2 block text-sm text-destructive">{error}</span> : hint ? <span id={`${id}-hint`} className="mt-2 block text-sm text-muted-foreground">{hint}</span> : null}</div>;
 }
 
-function DocumentPicker({ fileName, error, onFile }: { fileName: string; error: string | undefined; onFile: (file: File | undefined) => void }) {
-  const id = useId();
+function DocumentPicker({ id, fileName, error, onFile }: { id: string; fileName: string; error: string | undefined; onFile: (file: File | undefined) => void }) {
   return (
     <div className="mt-7">
-      <input id={id} type="file" accept="image/jpeg,image/png,application/pdf" className="sr-only" onChange={(event) => onFile(event.target.files?.[0])} />
-      <label htmlFor={id} className={`flex min-h-40 cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed bg-background p-6 text-center transition-colors hover:border-studio-green ${error ? "border-destructive" : "border-foreground/25"}`}>
+      <input id={id} type="file" required accept="image/jpeg,image/png,application/pdf" aria-invalid={!!error} aria-describedby={error ? `${id}-error` : `${id}-hint`} className="peer sr-only" onChange={(event) => onFile(event.target.files?.[0])} />
+      <label htmlFor={id} className={`flex min-h-40 cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed bg-background p-6 text-center transition-colors hover:border-studio-green peer-focus:outline-2 peer-focus:outline-solid peer-focus:outline-studio-green peer-focus:outline-offset-4 ${error ? "border-destructive" : "border-foreground/25"}`}>
         <span className="grid h-12 w-12 place-items-center rounded-full bg-secondary text-studio-green">{fileName ? <FileCheck2 className="h-6 w-6" /> : <Upload className="h-6 w-6" />}</span>
         <span className="mt-4 text-[16px] font-medium">{fileName || "Choose a clearer document"}</span>
         <span className="mt-1 text-sm text-muted-foreground">{fileName ? "Choose another file to replace it" : "Tap to browse your files"}</span>
       </label>
-      {error && <p role="alert" className="mt-2 text-sm text-destructive">{error}</p>}
-      {fileName && <p className="mt-3 flex items-center gap-2 text-sm text-studio-success"><FileImage className="h-4 w-4" /> Ready for preview submission</p>}
+      <p id={`${id}-hint`} className="mt-3 text-sm text-muted-foreground">JPG, PNG or PDF · maximum 10 MB</p>
+      {error && <p id={`${id}-error`} role="alert" className="mt-2 text-sm text-destructive">{error}</p>}
+      {fileName && <p role="status" className="mt-3 flex items-center gap-2 text-sm text-studio-success"><FileImage aria-hidden="true" className="h-4 w-4" /> Ready for preview submission</p>}
     </div>
   );
 }
@@ -446,7 +453,11 @@ function AppealDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (op
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
-    if (reason.trim().length < 20) return setError("Tell us a little more — use at least 20 characters.");
+    if (reason.trim().length < 20) {
+      setError("Tell us a little more — use at least 20 characters.");
+      document.getElementById("appeal-reason")?.focus();
+      return;
+    }
     setBusy(true);
     await simulate(650);
     if (submitAppeal(reason)) onOpenChange(false);
@@ -457,15 +468,22 @@ function AppealDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (op
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-ink/40" />
-        <Dialog.Content className="fixed inset-x-0 bottom-0 z-50 max-h-[90svh] overflow-y-auto rounded-t-3xl bg-background p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] outline-none sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:w-[min(560px,calc(100vw-3rem))] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-3xl sm:p-8 sm:shadow-2xl">
-          <Dialog.Close className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-full transition-colors hover:bg-secondary" aria-label="Close appeal form"><X className="h-5 w-5" /></Dialog.Close>
+        <Dialog.Content onCloseAutoFocus={(event) => {
+          const selector = window.matchMedia("(max-width: 639px)").matches ? "#artist-mobile-application-action" : "#artist-appeal-trigger";
+          const trigger = document.querySelector<HTMLElement>(selector);
+          if (trigger) {
+            event.preventDefault();
+            trigger.focus();
+          }
+        }} className="fixed inset-x-0 bottom-0 z-50 max-h-[90svh] overflow-y-auto rounded-t-3xl bg-background p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] outline-none sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:w-[min(560px,calc(100vw-3rem))] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-3xl sm:p-8 sm:shadow-2xl">
+          <Dialog.Close className="absolute right-5 top-5 grid h-11 w-11 place-items-center rounded-full transition-colors hover:bg-secondary" aria-label="Close appeal form"><X className="h-5 w-5" /></Dialog.Close>
           <div className="grid h-12 w-12 place-items-center rounded-2xl bg-studio-copper/10 text-studio-copper"><FileCheck2 className="h-6 w-6" /></div>
           <Dialog.Title className="mt-5 pr-10 text-3xl font-semibold tracking-[-0.035em]">Ask for another look.</Dialog.Title>
           <Dialog.Description className="mt-3 text-[16px] leading-relaxed text-muted-foreground">Tell the verification team what they should reconsider. This preview does not send a real appeal.</Dialog.Description>
-          <form onSubmit={submit} className="mt-6">
+          <form onSubmit={submit} noValidate aria-busy={busy} className="mt-6">
             <label htmlFor="appeal-reason" className="text-[15px] font-medium">Why should we review this decision?</label>
-            <textarea id="appeal-reason" value={reason} onChange={(event) => { setReason(event.target.value); setError(""); }} rows={5} maxLength={800} placeholder="Share any context or details that may help…" className="studio-input mt-2 min-h-32 resize-none bg-background" />
-            <div className="mt-2 flex justify-between gap-4 text-sm"><span role="alert" className="text-destructive">{error}</span><span className="ml-auto text-muted-foreground">{reason.length}/800</span></div>
+            <textarea id="appeal-reason" required value={reason} onChange={(event) => { setReason(event.target.value); setError(""); }} rows={5} maxLength={800} aria-invalid={!!error} aria-describedby={error ? "appeal-error appeal-count" : "appeal-count"} placeholder="Share any context or details that may help…" className="studio-input mt-2 min-h-32 resize-none bg-background" />
+            <div className="mt-2 flex justify-between gap-4 text-sm"><span id="appeal-error" role="alert" className="text-destructive">{error}</span><span id="appeal-count" className="ml-auto text-muted-foreground">{reason.length}/800 characters</span></div>
             <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end"><Dialog.Close asChild><SiteButton variant="outline">Cancel</SiteButton></Dialog.Close><SiteButton type="submit" disabled={busy}>{busy ? "Submitting preview…" : "Submit appeal preview"}<ArrowRight className="h-[18px] w-[18px]" /></SiteButton></div>
           </form>
         </Dialog.Content>

@@ -166,6 +166,8 @@ svg.lucide { flex-shrink: 0; }
 .studio-hover { transition: transform .2s ease, border-color .2s ease; }
 .studio-hover:hover { transform: translateY(-2px); border-color: color-mix(in oklab, var(--studio-green) 25%, transparent); }
 .studio :is(a, button, input, select):focus-visible { outline: 2px solid var(--studio-green); outline-offset: 4px; }
+.artist-verification :is(a, button, input, textarea, select, [role="menuitem"], [role="menuitemradio"]):focus-visible { outline: 3px solid var(--studio-green); outline-offset: 3px; }
+.artist-verification .bg-ink a:focus-visible { outline-color: var(--ink-foreground); }
 .studio-pattern { background-image: repeating-linear-gradient(45deg, transparent, transparent 9px, var(--studio-green) 9px, var(--studio-green) 10px); }
 @media (prefers-reduced-motion: reduce) { .studio *, .studio *::before, .studio *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }

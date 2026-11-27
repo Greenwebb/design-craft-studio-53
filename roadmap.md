@@ -17,6 +17,7 @@
 ## Frontend-only phase (mock data everywhere; external APIs wired later)
 - [x] Artist KYC verification: status page, all four states, corrections, appeals and new-artist dashboard gating
 - [x] Refine artist verification responsive UX: compact mobile summary and actions, earlier tablet/desktop two-column layout, safer small-screen header
+- [ ] Artist verification accessibility: complete labels, keyboard navigation and visible focus states for every interactive control
 - [x] Earnings / Wallet full UI: pending → available → withdraw → processing → paid, fees, reversals, failed payouts (creator)
 - [x] Order fulfilment tracking UI: paid → confirmed → preparing → dispatch → delivered → completed (collector view; creator sell-side view still open)
 - [ ] Notifications center: grouped purchases, enquiries, bookings, profile updates across shells
